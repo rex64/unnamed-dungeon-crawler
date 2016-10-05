@@ -1,0 +1,3 @@
+http://headerphile.com/
+http://lazyfoo.net/tutorials/SDL/
+http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
