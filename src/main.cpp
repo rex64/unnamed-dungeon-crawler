@@ -10,13 +10,26 @@
 
 int main(int argc, char* argv[]) {
 
+    SDL_version compiled;
+    SDL_version linked;
+    
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    
+    printf("We compiled against SDL version %d.%d.%d ...\n",
+           compiled.major, compiled.minor, compiled.patch);
+    printf("We are linking against SDL version %d.%d.%d.\n",
+           linked.major, linked.minor, linked.patch);
+    
+    
+    
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow(
        "unamed-dungeon-crawler",
        SDL_WINDOWPOS_UNDEFINED,
        SDL_WINDOWPOS_UNDEFINED,
-       SCREEN_WIDTH,
-       SCREEN_HEIGHT,
+       SCREEN_WIDTH*2,
+       SCREEN_HEIGHT*2,
        0
     );
     
@@ -28,8 +41,8 @@ int main(int argc, char* argv[]) {
     SrcR.h = 100;
     SrcR.w = 100;
     
-    DestR.x = 100;
-    DestR.y = 100;
+    DestR.x = 0;
+    DestR.y = 0;
     DestR.h = 100;
     DestR.w = 100;
     
@@ -72,31 +85,40 @@ int main(int argc, char* argv[]) {
             }
 
             if (state[SDL_SCANCODE_LEFT]) {
-                DestR.x -= 1;
+                //DestR.x -= 1;
             }
             
             if (state[SDL_SCANCODE_RIGHT]) {
-                DestR.x += 1;
+                //DestR.x += 1;
             }
             
+            DestR.x =-1;
     
             //clear screen surface
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
             SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
 
+            SDL_Rect pos = {-50,40,100,100};
             
-            SDL_BlitSurface( borderSurface, 0, screen, 0);
+            int i = SDL_BlitSurface(testSurface, 0, game, &DestR );
+                            
+//            printf("%i", i);
+            
+            
+            SDL_BlitSurface(borderSurface, 0, screen, 0);
             
             SDL_Rect location = {72,40,100,100};
             SDL_BlitSurface( game, 0, screen, &location);
             
             
-            SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
-            SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, texture, 0, 0);
-            SDL_RenderPresent(renderer);
         }
-
+        
+        SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, 0, 0);
+        SDL_RenderPresent(renderer);
+        
+        SDL_Delay(16);
     }
 
     SDL_FreeSurface(testSurface);
