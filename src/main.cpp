@@ -47,7 +47,11 @@ int main(int argc, char* argv[]) {
     
     //SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR", SDL_GetError(), window);
     
+    SDL_Surface *screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
+    SDL_Surface *game   = SDL_CreateRGBSurface(0, 256, 144, 32, 0, 0, 0, 0);
+
     SDL_Surface *testSurface = SDL_LoadBMP("test.bmp");
+    SDL_Surface *borderSurface = SDL_LoadBMP("border.bmp");
 
     bool quit = false;
 
@@ -75,9 +79,21 @@ int main(int argc, char* argv[]) {
                 DestR.x += 1;
             }
             
-            SDL_UpdateTexture(texture, NULL, testSurface->pixels, testSurface->pitch);
+    
+            //clear screen surface
+            SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
+            SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
+
+            
+            SDL_BlitSurface( borderSurface, 0, screen, 0);
+            
+            SDL_Rect location = {72,40,100,100};
+            SDL_BlitSurface( game, 0, screen, &location);
+            
+            
+            SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
             SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, texture, &SrcR, &DestR);
+            SDL_RenderCopy(renderer, texture, 0, 0);
             SDL_RenderPresent(renderer);
         }
 
