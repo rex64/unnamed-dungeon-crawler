@@ -1,8 +1,12 @@
+#ifdef __APPLE__
 #include <SDL2/SDL.h>
+#elif _WIN32
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+#endif
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-
 
 int main(int argc, char* argv[]) {
 
