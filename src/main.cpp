@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
     SDL_Surface *borderSurface = SDL_LoadBMP("border.bmp");
 	SDL_Surface *tile00Surface = SDL_LoadBMP("tile00.bmp");
 	SDL_Surface *tile01Surface = SDL_LoadBMP("tile01.bmp");
+	SDL_Surface *player = SDL_LoadBMP("player.bmp");
 
     bool quit = false;
 
@@ -74,13 +75,12 @@ int main(int argc, char* argv[]) {
 		1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 		1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-
-
-
 	};
 
 	int arrayWidth  = 16;
 	int arrayHeight = 9;
+
+	int playerPos = 0;
 	 
     while (!quit)
     {
@@ -97,12 +97,46 @@ int main(int argc, char* argv[]) {
             }
 
             if (state[SDL_SCANCODE_LEFT]) {
-                //DestR.x -= 1;
-            }
+                
+				//int oldPos = playerPos;
+
+				int x = playerPos % arrayWidth;
+				int y = (playerPos / arrayWidth) % arrayHeight;
+
+				x -= 1;
+
+				playerPos = x + arrayWidth*y;
+            } else
             
             if (state[SDL_SCANCODE_RIGHT]) {
-                //DestR.x += 1;
-            }
+               
+				int x = playerPos % arrayWidth;
+				int y = (playerPos / arrayWidth) % arrayHeight;
+
+				x += 1;
+
+				playerPos = x + arrayWidth*y;
+            } else
+
+			if (state[SDL_SCANCODE_UP]) {
+
+				int x = playerPos % arrayWidth;
+				int y = (playerPos / arrayWidth) % arrayHeight;
+
+				y -= 1;
+
+				playerPos = x + arrayWidth*y;
+			} else
+
+			if (state[SDL_SCANCODE_DOWN]) {
+
+				int x = playerPos % arrayWidth;
+				int y = (playerPos / arrayWidth) % arrayHeight;
+
+				y += 1;
+
+				playerPos = x + arrayWidth*y;
+			}
             
         }
 
@@ -129,6 +163,17 @@ int main(int argc, char* argv[]) {
 
 				SDL_BlitSurface(tile01Surface, NULL, game, &pos);
 			}
+		}
+
+		//render player
+
+		{
+
+			int x = playerPos % arrayWidth;
+			int y = (playerPos / arrayWidth) % arrayHeight;
+
+			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+			SDL_BlitSurface(player, NULL, game, &pos);
 		}
 
 
