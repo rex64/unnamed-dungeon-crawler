@@ -3,10 +3,14 @@
 #elif _WIN32
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
+#include <stdio.h>
 #endif
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
+
+#define GAME_WIDTH 256
+#define GAME_HEIGHT 144
 
 int main(int argc, char* argv[]) {
 
@@ -31,21 +35,7 @@ int main(int argc, char* argv[]) {
        SCREEN_WIDTH*2,
        SCREEN_HEIGHT*2,
        0
-    );
-    
-    SDL_Rect SrcR;
-    SDL_Rect DestR;
-    
-    SrcR.x = 0;
-    SrcR.y = 0;
-    SrcR.h = 100;
-    SrcR.w = 100;
-    
-    DestR.x = 0;
-    DestR.y = 0;
-    DestR.h = 100;
-    DestR.w = 100;
-    
+    );    
     
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
@@ -61,7 +51,7 @@ int main(int argc, char* argv[]) {
     //SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR", SDL_GetError(), window);
     
     SDL_Surface *screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
-    SDL_Surface *game   = SDL_CreateRGBSurface(0, 256, 144, 32, 0, 0, 0, 0);
+    SDL_Surface *game   = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);
 
     SDL_Surface *testSurface = SDL_LoadBMP("test.bmp");
     SDL_Surface *borderSurface = SDL_LoadBMP("border.bmp");
@@ -69,6 +59,8 @@ int main(int argc, char* argv[]) {
     bool quit = false;
 
     SDL_Event e;
+
+	//SDL_Rect pos = { 0,40,100,100 };
 
     while (!quit)
     {
@@ -92,26 +84,18 @@ int main(int argc, char* argv[]) {
                 //DestR.x += 1;
             }
             
-            DestR.x =-1;
-    
-            //clear screen surface
-            SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
-            SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
-
-            SDL_Rect pos = {-50,40,100,100};
-            
-            int i = SDL_BlitSurface(testSurface, 0, game, &DestR );
-                            
-//            printf("%i", i);
-            
-            
-            SDL_BlitSurface(borderSurface, 0, screen, 0);
-            
-            SDL_Rect location = {72,40,100,100};
-            SDL_BlitSurface( game, 0, screen, &location);
-            
-            
         }
+
+		//clear screen surface
+		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
+		SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
+
+		SDL_BlitSurface(testSurface, 0, game, NULL);
+
+		SDL_BlitSurface(borderSurface, 0, screen, 0);
+
+		SDL_Rect location = { 72,40,100,100 };
+		SDL_BlitSurface(game, 0, screen, &location);
         
         SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
         SDL_RenderClear(renderer);
