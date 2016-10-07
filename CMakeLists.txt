@@ -11,9 +11,19 @@ set_property(TARGET unnamed-dungeon-crawler PROPERTY CXX_STANDARD_REQUIRED ON)
 
 if (APPLE)
 	message("OSX")
+	
+	#SDL
 	FIND_LIBRARY(SDL2_FRAMEWORK SDL2)
 	message(${SDL2_FRAMEWORK})
-	target_link_libraries(unnamed-dungeon-crawler ${SDL2_FRAMEWORK}) 
+	target_link_libraries(unnamed-dungeon-crawler ${SDL2_FRAMEWORK})
+
+	#LUA
+	FIND_LIBRARY(LUA_FRAMEWORK lua $ENV{OPENSSL_LIB_PATH})
+	message(${LUA_FRAMEWORK})
+	include_directories(/usr/local/include/)
+	target_link_libraries(unnamed-dungeon-crawler ${LUA_FRAMEWORK})
+
+
 elseif(WIN32)
 	
 	message("WIN")

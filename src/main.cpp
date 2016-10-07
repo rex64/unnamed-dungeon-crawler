@@ -1,10 +1,20 @@
 #ifdef __APPLE__
-#include <SDL2/SDL.h>
+
+    #include <SDL2/SDL.h>
+
+    extern "C" {
+        #include <lua.h>
+        #include <lualib.h>
+        #include <lauxlib.h>
+    }
+
 #elif _WIN32
-#define SDL_MAIN_HANDLED
-#include <SDL.h>
-#include <stdio.h>
-#include <lua.hpp>
+
+    #define SDL_MAIN_HANDLED
+    #include <SDL.h>
+    #include <stdio.h>
+    #include <lua.hpp>
+
 #endif
 
 #define SCREEN_WIDTH 400
