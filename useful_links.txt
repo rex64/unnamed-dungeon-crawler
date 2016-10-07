@@ -1,4 +1,11 @@
+SDL
 http://headerphile.com/
 http://lazyfoo.net/tutorials/SDL/
 http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
 https://wiki.libsdl.org/MigrationGuide
+
+LUA
+http://csl.sublevel3.org/post/lua-and-cpp/
+https://eliasdaler.wordpress.com/tag/lua/
+http://lua-users.org/wiki/UserDataExample
+http://lua-users.org/wiki/UserDataWithPointerExample
