@@ -4,6 +4,7 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include <stdio.h>
+#include <lua.hpp>
 #endif
 
 #define SCREEN_WIDTH 400
@@ -65,6 +66,11 @@ int main(int argc, char* argv[]) {
 
 	//SDL_Rect pos = { 0,40,100,100 };
 
+	//Lua
+	lua_State *state = luaL_newstate();
+	lua_close(state);
+
+	//Dungeon
 	int tilesArray[] = { 
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,

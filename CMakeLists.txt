@@ -15,7 +15,15 @@ if (APPLE)
 	message(${SDL2_FRAMEWORK})
 	target_link_libraries(unnamed-dungeon-crawler ${SDL2_FRAMEWORK}) 
 elseif(WIN32)
+	
 	message("WIN")
+	
+	#SDL
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SDL2/include)
 	target_link_libraries(unnamed-dungeon-crawler ${CMAKE_CURRENT_SOURCE_DIR}/SDL2/lib/x86/SDL2.lib)
+
+	#LUA
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lua/include)
+	target_link_libraries(unnamed-dungeon-crawler ${CMAKE_CURRENT_SOURCE_DIR}/lua/lua53.lib)
+
 endif()
