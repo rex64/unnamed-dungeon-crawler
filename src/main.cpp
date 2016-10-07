@@ -55,6 +55,8 @@ int main(int argc, char* argv[]) {
 
     SDL_Surface *testSurface = SDL_LoadBMP("test.bmp");
     SDL_Surface *borderSurface = SDL_LoadBMP("border.bmp");
+	SDL_Surface *tile00Surface = SDL_LoadBMP("tile00.bmp");
+	SDL_Surface *tile01Surface = SDL_LoadBMP("tile01.bmp");
 
     bool quit = false;
 
@@ -62,6 +64,24 @@ int main(int argc, char* argv[]) {
 
 	//SDL_Rect pos = { 0,40,100,100 };
 
+	int tilesArray[] = { 
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+		1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1,
+		1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1,
+		1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1,
+		1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1,
+		1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+		1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+
+
+
+	};
+
+	int arrayWidth  = 16;
+	int arrayHeight = 9;
+	 
     while (!quit)
     {
 
@@ -90,7 +110,29 @@ int main(int argc, char* argv[]) {
 		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
 		SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
 
-		SDL_BlitSurface(testSurface, 0, game, NULL);
+		//render tiles
+		for (size_t i = 0; i < arrayWidth * arrayHeight; i++)
+		{
+			int x = i % arrayWidth;
+			int y = (i / arrayWidth) % arrayHeight;
+
+			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+
+			//printf("x: %i , y: %i\n", x, y);
+
+			if (tilesArray[i] == 0) {
+
+				SDL_BlitSurface(tile00Surface, NULL, game, &pos);
+			} else 
+
+			if (tilesArray[i] == 1) {
+
+				SDL_BlitSurface(tile01Surface, NULL, game, &pos);
+			}
+		}
+
+
+		//SDL_BlitSurface(testSurface, 0, game, NULL);
 
 		SDL_BlitSurface(borderSurface, 0, screen, 0);
 
