@@ -13,6 +13,20 @@
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 144
 
+//http://www.lua.org/manual/5.3/manual.html#lua_CFunction
+static int luaTestFunc(lua_State* state)
+{
+	/* number of arguments */
+	int args = lua_gettop(state);
+
+	for (int n = 1; n <= args; ++n) {
+		printf("  arg %d: '%s'\n", n, lua_tostring(state, n));
+	}
+
+	lua_pushnumber(state, 123);
+	return 1; /* number of results */
+}
+
 int main(int argc, char* argv[]) {
 
     SDL_version compiled;
@@ -68,7 +82,13 @@ int main(int argc, char* argv[]) {
 
 	//Lua
 	lua_State *state = luaL_newstate();
-	lua_close(state);
+	luaL_openlibs(state);
+
+	lua_register(state, "luaTestFunc", luaTestFunc);
+
+	luaL_dostring(state, "io.write(\"luaTestFunc\")");
+	luaL_dostring(state, "luaTestFunc(\"First\", \"Second\", 112233)");
+	
 
 	//Dungeon
 	int tilesArray[] = { 
@@ -197,6 +217,8 @@ int main(int argc, char* argv[]) {
         
         SDL_Delay(16);
     }
+
+	lua_close(state);
 
     SDL_FreeSurface(testSurface);
     SDL_DestroyWindow(window);
