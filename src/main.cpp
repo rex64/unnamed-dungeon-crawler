@@ -42,11 +42,17 @@ static int luaTestFunc(lua_State* state)
 void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf) {
 
 	unsigned int i = 0;
+	unsigned int j = 0;
 	for (char& c : str) {
 		//printf("%c", c);
+		if (((int)c) == 10) {
+			++j;
+			i = 0;
+			continue;
+		};
 		unsigned int charIndex = c - 32;
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
-		SDL_Rect dst = { 8 * i, 16, 8, 8 };
+		SDL_Rect dst = { 8 * i, (14 + j )*8 , 8, 8 };
 
 		SDL_BlitSurface(charSet, &src, surf, &dst);
 		++i;
