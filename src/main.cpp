@@ -225,13 +225,14 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
+		
 		//render player
-
 		{
 
 			int x = playerPos % arrayWidth;
 			int y = (playerPos / arrayWidth) % arrayHeight;
 
+			//Player-->Game
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
 			SDL_BlitSurface(player, NULL, game, &pos);
 		}
@@ -239,15 +240,16 @@ int main(int argc, char* argv[]) {
 
 		//SDL_BlitSurface(testSurface, 0, game, NULL);
 
+		//Border-->Screen
 		SDL_BlitSurface(borderSurface, 0, screen, 0);
 
+		//TextBox-->Game
+		SDL_BlitSurface(bmpFont, 0, screen, 0);
+		renderText("TEXT MESSAGE BOX\nHello World!", bmpFont, game);
+
+		//Game-->Screen
 		SDL_Rect location = { 72,40,100,100 };
 		SDL_BlitSurface(game, 0, screen, &location);
-
-		//test
-		SDL_BlitSurface(bmpFont, 0, screen, 0);
-		renderText(" 0123!", bmpFont, screen);
-
 
         SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
         SDL_RenderClear(renderer);
