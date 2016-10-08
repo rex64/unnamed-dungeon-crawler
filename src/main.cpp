@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
        SDL_WINDOWPOS_UNDEFINED,
        SCREEN_WIDTH*2,
        SCREEN_HEIGHT*2,
-       0
+	   SDL_WINDOW_RESIZABLE
     );    
     
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
