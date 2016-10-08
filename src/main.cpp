@@ -17,6 +17,8 @@
 
 #endif
 
+#include <string>
+
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
 
@@ -35,6 +37,21 @@ static int luaTestFunc(lua_State* state)
 
 	lua_pushnumber(state, 123);
 	return 1; /* number of results */
+}
+
+void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf) {
+
+	unsigned int i = 0;
+	for (char& c : str) {
+		//printf("%c", c);
+		unsigned int charIndex = c - 32;
+		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
+		SDL_Rect dst = { 8 * i, 16, 8, 8 };
+
+		SDL_BlitSurface(charSet, &src, surf, &dst);
+		++i;
+	}
+
 }
 
 int main(int argc, char* argv[]) {
@@ -78,11 +95,12 @@ int main(int argc, char* argv[]) {
     SDL_Surface *screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
     SDL_Surface *game   = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);
 
-    SDL_Surface *testSurface = SDL_LoadBMP("test.bmp");
-    SDL_Surface *borderSurface = SDL_LoadBMP("border.bmp");
-	SDL_Surface *tile00Surface = SDL_LoadBMP("tile00.bmp");
-	SDL_Surface *tile01Surface = SDL_LoadBMP("tile01.bmp");
-	SDL_Surface *player = SDL_LoadBMP("player.bmp");
+    SDL_Surface *testSurface = SDL_LoadBMP("data/base/test.bmp");
+    SDL_Surface *borderSurface = SDL_LoadBMP("data/base/borders/border.bmp");
+	SDL_Surface *tile00Surface = SDL_LoadBMP("data/base/tiles/tile00.bmp");
+	SDL_Surface *tile01Surface = SDL_LoadBMP("data/base/tiles/tile01.bmp");
+	SDL_Surface *player = SDL_LoadBMP("data/base/spritesheets/player.bmp");
+	SDL_Surface *bmpFont = SDL_LoadBMP("data/base/fonts/standard_font.bmp");
 
     bool quit = false;
 
@@ -219,7 +237,12 @@ int main(int argc, char* argv[]) {
 
 		SDL_Rect location = { 72,40,100,100 };
 		SDL_BlitSurface(game, 0, screen, &location);
-        
+
+		//test
+		SDL_BlitSurface(bmpFont, 0, screen, 0);
+		renderText(" 0123!", bmpFont, screen);
+
+
         SDL_UpdateTexture(texture, NULL, screen->pixels, screen->pitch);
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, 0, 0);
