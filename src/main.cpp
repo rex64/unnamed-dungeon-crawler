@@ -256,6 +256,8 @@ int main(int argc, char* argv[]) {
 	int arrayWidth  = 16;
 	int arrayHeight = 9;
 	 
+    SDL_StartTextInput();
+    
     while (!quit)
     {
 
@@ -265,8 +267,19 @@ int main(int argc, char* argv[]) {
 			{
 				quit = true;
 			}
-
-			//Console
+            
+            if (e.type == SDL_TEXTINPUT) {
+                
+                if (strcmp(e.text.text,"~") == 0) {
+                    console.visible = !console.visible;
+                }
+                
+                
+//                printf("%s\n", e.text.text);
+                
+            }
+            
+            //Console
 			if (console.visible == true){
 			
 				if (e.type == SDL_KEYDOWN) {
@@ -336,10 +349,11 @@ int main(int argc, char* argv[]) {
 
 				//printf("console: %s\n", console.cmd.c_str());
 
-				if (e.type == SDL_KEYDOWN) {
-					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
-						console.visible = !console.visible;
-					}
+                if (e.type == SDL_KEYDOWN) {
+                    
+//					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
+//						console.visible = !console.visible;
+//					}
 
 					if (e.key.keysym.sym == SDLK_RETURN) {
 						luaL_dostring(state, console.cmd.c_str());
