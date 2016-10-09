@@ -10,6 +10,8 @@ require('mobdebug').start()
 
 print("main");
 
+print(Game);
+
 omar = {
   
   x = 10,

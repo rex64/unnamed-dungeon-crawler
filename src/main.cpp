@@ -38,6 +38,38 @@ struct Console {
 	std::string buff;
 };
 
+static void stackDump (lua_State *L) {
+    
+    printf("LUA STACK DUMP--------\n");
+    
+    int i;
+    int top = lua_gettop(L);
+    for (i = 1; i <= top; i++) {  /* repeat for each level */
+        int t = lua_type(L, i);
+        switch (t) {
+                
+            case LUA_TSTRING:  /* strings */
+                printf("`%s'", lua_tostring(L, i));
+                break;
+                
+            case LUA_TBOOLEAN:  /* booleans */
+                printf(lua_toboolean(L, i) ? "true" : "false");
+                break;
+                
+            case LUA_TNUMBER:  /* numbers */
+                printf("%g", lua_tonumber(L, i));
+                break;
+                
+            default:  /* other values */
+                printf("%s", lua_typename(L, t));
+                break;
+                
+        }
+        printf("  ");  /* put a separator */
+    }
+    printf("\n");  /* end the listing */
+}
+
 //http://www.lua.org/manual/5.3/manual.html#lua_CFunction
 static int luaTestFunc(lua_State* state)
 {
@@ -164,12 +196,46 @@ int main(int argc, char* argv[]) {
 
 	//luaL_dostring(state, "io.write(\"ciao\")");
     
+    lua_newtable(state);
+    lua_setglobal(state, "Game");
+    
     if (luaL_dofile(state, "data/base/scripts/main.lua")) {
         printf("Couldn't load file: %s\n", lua_tostring(state, -1));
+        lua_pop(state, -1);
+        
+        stackDump(state);
+        
         exit(1);
     }
-	
+    
+    lua_getglobal(state, "omar");
+//    stackDump(state);
+    
+    //x
+    lua_pushstring(state, "x");
+//    stackDump(state);
+    
+    lua_gettable(state, -2);
+//    stackDump(state);
+    
+    int x = lua_tonumber(state, -1);
+    
+    lua_pop(state, 1);
+//    stackDump(state);
 
+    //y
+    lua_pushstring(state, "y");
+//    stackDump(state);
+    
+    lua_gettable(state, -2);
+//    stackDump(state);
+    
+    int y = lua_tonumber(state, -1);
+    
+    lua_pop(state, 1);
+//    stackDump(state);
+    
+    
 	//Dungeon
 	int tilesArray[] = { 
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
