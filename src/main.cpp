@@ -27,6 +27,8 @@
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 144
 
+bool quit = false;
+
 struct Entity {
 	int pos;
 	std::string surfaceStr;
@@ -82,6 +84,15 @@ static int luaTestFunc(lua_State* state)
 
 	lua_pushnumber(state, 123);
 	return 1; /* number of results */
+}
+
+static int luaQuitGame(lua_State* state){
+
+//    printf("luaQuitGame..\n");
+    
+    quit = true;
+
+    return 0;
 }
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
@@ -177,11 +188,7 @@ int main(int argc, char* argv[]) {
 	}
 	SDL_Surface *bmpFont = SDL_LoadBMP("data/base/fonts/standard_font.bmp");
 
-	
-
-    bool quit = false;
-
-    SDL_Event e;
+	SDL_Event e;
 
 	//SDL_Rect pos = { 0,40,100,100 };
 
@@ -196,8 +203,30 @@ int main(int argc, char* argv[]) {
 
 	//luaL_dostring(state, "io.write(\"ciao\")");
     
+    /*
     lua_newtable(state);
-    lua_setglobal(state, "Game");
+    lua_setglobal(state, "game");
+    
+    lua_getglobal(state, "game");
+    lua_pushstring(state, "system");
+    lua_newtable(state);
+    lua_settable(state, -3);
+    lua_pop(state, -1);
+    */
+    
+    lua_newtable(state);
+    lua_setglobal(state, "system");
+    
+    lua_getglobal(state, "system");
+    lua_pushstring(state, "quit");
+    lua_pushcfunction(state, luaQuitGame);
+    lua_settable(state, -3);
+    lua_pop(state, -1);
+    
+//    luaL_dostring(state, "system.quit();");
+    
+    
+//    stackDump(state);
     
     if (luaL_dofile(state, "data/base/scripts/main.lua")) {
         printf("Couldn't load file: %s\n", lua_tostring(state, -1));
@@ -208,32 +237,7 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
     
-    lua_getglobal(state, "omar");
-//    stackDump(state);
     
-    //x
-    lua_pushstring(state, "x");
-//    stackDump(state);
-    
-    lua_gettable(state, -2);
-//    stackDump(state);
-    
-    int x = lua_tonumber(state, -1);
-    
-    lua_pop(state, 1);
-//    stackDump(state);
-
-    //y
-    lua_pushstring(state, "y");
-//    stackDump(state);
-    
-    lua_gettable(state, -2);
-//    stackDump(state);
-    
-    int y = lua_tonumber(state, -1);
-    
-    lua_pop(state, 1);
-//    stackDump(state);
     
     
 	//Dungeon
@@ -477,6 +481,8 @@ int main(int argc, char* argv[]) {
         
         SDL_Delay(16);
     }
+    
+    printf("Quitting..\n");
 
 	lua_close(state);
 
