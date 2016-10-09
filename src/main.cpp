@@ -54,10 +54,10 @@ static int luaTestFunc(lua_State* state)
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
 
-	unsigned int i = 0;
+	int i = 0;
 	for (char& c : str) {
 
-		unsigned int charIndex = c - 32;
+		int charIndex = c - 32;
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
 		SDL_Rect dst = { (8 + x) * i, y * 8 , 8, 8 };
 
@@ -68,8 +68,8 @@ void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Sur
 
 void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf) {
 
-	unsigned int i = 0;
-	unsigned int j = 0;
+	int i = 0;
+	int j = 0;
 	for (char& c : str) {
 		//printf("%c", c);
 		if (((int)c) == 10) {
@@ -77,7 +77,7 @@ void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf) {
 			i = 0;
 			continue;
 		};
-		unsigned int charIndex = c - 32;
+		int charIndex = c - 32;
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
 		SDL_Rect dst = { 8 * i, (14 + j )*8 , 8, 8 };
 
@@ -159,10 +159,15 @@ int main(int argc, char* argv[]) {
 
 	lua_register(state, "luaTestFunc", luaTestFunc);
 
-	luaL_dostring(state, "io.write(\"luaTestFunc\")");
-	luaL_dostring(state, "luaTestFunc(\"First\", \"Second\", 112233)");
+	//luaL_dostring(state, "io.write(\"luaTestFunc\")");
+	//luaL_dostring(state, "luaTestFunc(\"First\", \"Second\", 112233)");
 
-	luaL_dostring(state, "io.write(\"ciao\")");
+	//luaL_dostring(state, "io.write(\"ciao\")");
+    
+    if (luaL_dofile(state, "data/base/scripts/main.lua")) {
+        printf("Couldn't load file: %s\n", lua_tostring(state, -1));
+        exit(1);
+    }
 	
 
 	//Dungeon
