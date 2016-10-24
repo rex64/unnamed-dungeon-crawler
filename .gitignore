@@ -253,3 +253,6 @@ paket-files/
 SDL2/
 build/
 lua/
+*.bmp
+*.rar
+*.zip

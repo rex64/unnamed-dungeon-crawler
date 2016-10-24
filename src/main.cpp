@@ -228,15 +228,15 @@ int main(int argc, char* argv[]) {
     
 //    stackDump(state);
     
-    if (luaL_dofile(state, "data/base/scripts/main.lua")) {
-        printf("Couldn't load file: %s\n", lua_tostring(state, -1));
+	    if (luaL_dofile(state, "data/base/scripts/main.lua")) {
+		SDL_ShowSimpleMessageBox(0, "ERRORL", lua_tostring(state, -1), window);
+       // printf("Couldn't load file: %s\n", lua_tostring(state, -1));
         lua_pop(state, -1);
         
         stackDump(state);
         
         exit(1);
-    }
-    
+    }   
     
     
     
