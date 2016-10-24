@@ -7,6 +7,10 @@ set( project_sources
    src/Game.cpp
    src/ScriptManager.h
    src/ScriptManager.cpp
+   src/stage/StageManager.h
+   src/stage/StageManager.cpp
+   src/stage/Stage.h
+   src/stage/Stage.cpp
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})

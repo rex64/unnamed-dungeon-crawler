@@ -15,6 +15,8 @@
 #include <unordered_map>
 #include <iostream>
 
+#include "stage/StageManager.h"
+
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
 
@@ -24,6 +26,7 @@
 SDL_Window *window;
 
 Game* Game::game;
+
 
 struct Entity {
 	int pos;
@@ -87,6 +90,9 @@ void Game::init() {
 
 	ScriptManager* scriptManager = new ScriptManager();
 	scriptManager->init();
+
+	StageManager* stageManager = new StageManager();
+	stageManager->init();
 
 }
 
@@ -157,6 +163,7 @@ void Game::run() {
 
 
 	//Dungeon
+	/*
 	int tilesArray[] = {
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
@@ -171,6 +178,7 @@ void Game::run() {
 
 	int arrayWidth = 16;
 	int arrayHeight = 9;
+	*/
 
 	SDL_StartTextInput();
 
@@ -299,45 +307,45 @@ void Game::run() {
 
 					//int oldPos = playerPos;
 
-					int x = player.pos % arrayWidth;
-					int y = (player.pos / arrayWidth) % arrayHeight;
+					int x = player.pos % StageManager::manager->currStage->arrayWidth;
+					int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 					x -= 1;
 
-					player.pos = x + arrayWidth*y;
+					player.pos = x + StageManager::manager->currStage->arrayWidth*y;
 				}
 				else
 
 					if (state[SDL_SCANCODE_RIGHT]) {
 
-						int x = player.pos % arrayWidth;
-						int y = (player.pos / arrayWidth) % arrayHeight;
+						int x = player.pos % StageManager::manager->currStage->arrayWidth;
+						int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 						x += 1;
 
-						player.pos = x + arrayWidth*y;
+						player.pos = x + StageManager::manager->currStage->arrayWidth*y;
 					}
 					else
 
 						if (state[SDL_SCANCODE_UP]) {
 
-							int x = player.pos % arrayWidth;
-							int y = (player.pos / arrayWidth) % arrayHeight;
+							int x = player.pos % StageManager::manager->currStage->arrayWidth;
+							int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 							y -= 1;
 
-							player.pos = x + arrayWidth*y;
+							player.pos = x + StageManager::manager->currStage->arrayWidth*y;
 						}
 						else
 
 							if (state[SDL_SCANCODE_DOWN]) {
 
-								int x = player.pos % arrayWidth;
-								int y = (player.pos / arrayWidth) % arrayHeight;
+								int x = player.pos % StageManager::manager->currStage->arrayWidth;
+								int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 								y += 1;
 
-								player.pos = x + arrayWidth*y;
+								player.pos = x + StageManager::manager->currStage->arrayWidth*y;
 							}
 			}
 
@@ -348,22 +356,22 @@ void Game::run() {
 		SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
 
 		//render tiles
-		for (size_t i = 0; i < arrayWidth * arrayHeight; i++)
+		for (size_t i = 0; i < StageManager::manager->currStage->arrayWidth * StageManager::manager->currStage->arrayHeight; i++)
 		{
-			int x = i % arrayWidth;
-			int y = (i / arrayWidth) % arrayHeight;
+			int x = i % StageManager::manager->currStage->arrayWidth;
+			int y = (i / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
 
 			//printf("x: %i , y: %i\n", x, y);
 
-			if (tilesArray[i] == 0) {
+			if (StageManager::manager->currStage->tiles[i] == 0) {
 
 				SDL_BlitSurface(tile00Surface, NULL, game, &pos);
 			}
 			else
 
-				if (tilesArray[i] == 1) {
+				if (StageManager::manager->currStage->tiles[i] == 1) {
 
 					SDL_BlitSurface(tile01Surface, NULL, game, &pos);
 				}
@@ -373,8 +381,8 @@ void Game::run() {
 		//render player
 		{
 
-			int x = player.pos % arrayWidth;
-			int y = (player.pos / arrayWidth) % arrayHeight;
+			int x = player.pos % StageManager::manager->currStage->arrayWidth;
+			int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 			//Player-->Game
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
