@@ -3,6 +3,8 @@ project (unnamed-dungeon-crawler)
 
 set( project_sources
    src/main.cpp
+   src/Game.h
+   src/Game.cpp
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})
