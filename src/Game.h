@@ -1,13 +1,20 @@
 #pragma once
+#include "ScriptManager.h"
 class Game
 {
-private:
-
 public:
 	Game();
 	~Game();
 
-	void Run();
+	void init();
+	void run();
 
+	void showMsgBox(const char *msg);
+	void quit();
+
+
+	static Game *game;
+private:
+	bool m_bQuit;
 };
 

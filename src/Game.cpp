@@ -4,17 +4,10 @@
 
 #include <SDL2/SDL.h>
 
-extern "C" {
-#include <lua.h>
-#include <lualib.h>
-#include <lauxlib.h>
-}
-
 #elif _WIN32
 
 #include <SDL.h>
 #include <stdio.h>
-#include <lua.hpp>
 
 #endif
 
@@ -28,7 +21,9 @@ extern "C" {
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 144
 
-bool quit = false;
+SDL_Window *window;
+
+Game* Game::game;
 
 struct Entity {
 	int pos;
@@ -41,60 +36,6 @@ struct Console {
 	std::string buff;
 };
 
-static void stackDump(lua_State *L) {
-
-	printf("LUA STACK DUMP--------\n");
-
-	int i;
-	int top = lua_gettop(L);
-	for (i = 1; i <= top; i++) {  /* repeat for each level */
-		int t = lua_type(L, i);
-		switch (t) {
-
-		case LUA_TSTRING:  /* strings */
-			printf("`%s'", lua_tostring(L, i));
-			break;
-
-		case LUA_TBOOLEAN:  /* booleans */
-			printf(lua_toboolean(L, i) ? "true" : "false");
-			break;
-
-		case LUA_TNUMBER:  /* numbers */
-			printf("%g", lua_tonumber(L, i));
-			break;
-
-		default:  /* other values */
-			printf("%s", lua_typename(L, t));
-			break;
-
-		}
-		printf("  ");  /* put a separator */
-	}
-	printf("\n");  /* end the listing */
-}
-
-//http://www.lua.org/manual/5.3/manual.html#lua_CFunction
-static int luaTestFunc(lua_State* state)
-{
-	/* number of arguments */
-	int args = lua_gettop(state);
-
-	for (int n = 1; n <= args; ++n) {
-		printf("  arg %d: '%s'\n", n, lua_tostring(state, n));
-	}
-
-	lua_pushnumber(state, 123);
-	return 1; /* number of results */
-}
-
-static int luaQuitGame(lua_State* state) {
-
-	//    printf("luaQuitGame..\n");
-
-	quit = true;
-
-	return 0;
-}
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
 
@@ -140,7 +81,16 @@ Game::~Game()
 {
 }
 
-void Game::Run() {
+void Game::init() {
+
+	game = this;
+
+	ScriptManager* scriptManager = new ScriptManager();
+	scriptManager->init();
+
+}
+
+void Game::run() {
 
 	Entity player = { 0 };
 	Console console = { false, "" };
@@ -160,7 +110,7 @@ void Game::Run() {
 
 
 	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window *window = SDL_CreateWindow(
+	window = SDL_CreateWindow(
 		"unamed-dungeon-crawler",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -203,52 +153,7 @@ void Game::Run() {
 
 	//SDL_Rect pos = { 0,40,100,100 };
 
-	//Lua
-	lua_State *state = luaL_newstate();
-	luaL_openlibs(state);
-
-	lua_register(state, "luaTestFunc", luaTestFunc);
-
-	//luaL_dostring(state, "io.write(\"luaTestFunc\")");
-	//luaL_dostring(state, "luaTestFunc(\"First\", \"Second\", 112233)");
-
-	//luaL_dostring(state, "io.write(\"ciao\")");
-
-	/*
-	lua_newtable(state);
-	lua_setglobal(state, "game");
-
-	lua_getglobal(state, "game");
-	lua_pushstring(state, "system");
-	lua_newtable(state);
-	lua_settable(state, -3);
-	lua_pop(state, -1);
-	*/
-
-	lua_newtable(state);
-	lua_setglobal(state, "system");
-
-	lua_getglobal(state, "system");
-	lua_pushstring(state, "quit");
-	lua_pushcfunction(state, luaQuitGame);
-	lua_settable(state, -3);
-	lua_pop(state, -1);
-
-	//    luaL_dostring(state, "system.quit();");
-
-
-	//    stackDump(state);
-
-	if (luaL_dofile(state, "data/base/scripts/main.lua")) {
-		SDL_ShowSimpleMessageBox(0, "ERRORL", lua_tostring(state, -1), window);
-		// printf("Couldn't load file: %s\n", lua_tostring(state, -1));
-		lua_pop(state, -1);
-
-		stackDump(state);
-
-		exit(1);
-	}
-
+	
 
 
 	//Dungeon
@@ -269,14 +174,16 @@ void Game::Run() {
 
 	SDL_StartTextInput();
 
-	while (!quit)
+	m_bQuit = false;
+
+	while (!m_bQuit)
 	{
 
 		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_QUIT)
 			{
-				quit = true;
+				m_bQuit = true;
 			}
 
 			if (e.type == SDL_TEXTINPUT) {
@@ -368,7 +275,7 @@ void Game::Run() {
 					//					}
 
 					if (e.key.keysym.sym == SDLK_RETURN) {
-						luaL_dostring(state, console.cmd.c_str());
+						ScriptManager::manager->doString(console.cmd.c_str());
 						console.cmd = "";
 
 					}
@@ -511,10 +418,20 @@ void Game::Run() {
 
 	printf("Quitting..\n");
 
-	lua_close(state);
+	//lua_close(m_L);
 
 	SDL_FreeSurface(testSurface);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
+}
+
+void Game::showMsgBox(const char *msg)
+{
+	SDL_ShowSimpleMessageBox(0, "READ CAREFULLY", msg, window);
+}
+
+void Game::quit() {
+
+	m_bQuit = true;
 }
