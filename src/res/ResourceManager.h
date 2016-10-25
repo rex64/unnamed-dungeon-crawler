@@ -1,8 +1,9 @@
 #pragma once
 
 #include <unordered_map>
+#include <string>
 
-class SDL_Surface;
+struct SDL_Surface;
 
 class ResourceManager
 {
@@ -12,12 +13,28 @@ public:
 
 	void init();
 
+	void loadSprite(std::string f);
+	void loadTile(std::string f);
+	void loadFont(std::string f);
+	void loadBorder(std::string f);
+
+	SDL_Surface* getSprite(std::string id);
+	SDL_Surface* getTile(std::string id);
+	SDL_Surface* getFont(std::string id);
+	SDL_Surface* getBorder(std::string id);
+
+
 	static ResourceManager *manager;
 
 	std::unordered_map<std::string, SDL_Surface*> spritesheets;
 	std::unordered_map<std::string, SDL_Surface*> tiles;
 	std::unordered_map<std::string, SDL_Surface*> fonts;
 	std::unordered_map<std::string, SDL_Surface*> borders;
+
+	SDL_Surface* spriteDefault;
+	SDL_Surface* tileDefault;
+	SDL_Surface* charDefault;
+	SDL_Surface* borderDefault;
 
 private:
 	

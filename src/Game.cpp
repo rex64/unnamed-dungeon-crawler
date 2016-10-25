@@ -377,7 +377,7 @@ void Game::run() {
 
 			//Player-->Game
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-			SDL_BlitSurface(ResourceManager::manager->spritesheets[player.surfaceStr], NULL, game, &pos);
+			SDL_BlitSurface(ResourceManager::manager->getSprite(player.surfaceStr), NULL, game, &pos);
 		}
 
 

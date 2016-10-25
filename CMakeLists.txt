@@ -13,6 +13,7 @@ set( project_sources
    src/stage/Stage.cpp
    src/res/ResourceManager.h
    src/res/ResourceManager.cpp
+   src/res/default_sprite.c
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})
