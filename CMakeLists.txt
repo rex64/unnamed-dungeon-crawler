@@ -14,6 +14,10 @@ set( project_sources
    src/res/ResourceManager.h
    src/res/ResourceManager.cpp
    src/res/default_sprite.c
+   src/UI.h
+   src/UI.cpp
+   src/Console.h
+   src/Console.cpp
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})

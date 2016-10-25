@@ -18,6 +18,7 @@
 #include "res/ResourceManager.h"
 #include "stage/StageManager.h"
 #include "ScriptManager.h"
+#include "Console.h"
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
@@ -33,13 +34,6 @@ struct Entity {
 	int pos;
 	std::string surfaceStr;
 };
-
-struct Console {
-	bool visible;
-	std::string cmd;
-	std::string buff;
-};
-
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
 
@@ -104,8 +98,10 @@ void Game::run() {
 
 	Entity player = { 0 };
 	player.surfaceStr = "data.base.spritesheets.player";
-	Console console = { false, "" };
-
+	Console* console = new Console();
+	console->visible = false;
+	console->buff = "";
+	console->cmd = "";
 
 	SDL_version compiled;
 	SDL_version linked;
@@ -117,8 +113,6 @@ void Game::run() {
 		compiled.major, compiled.minor, compiled.patch);
 	printf("We are linking against SDL version %d.%d.%d.\n",
 		linked.major, linked.minor, linked.patch);
-
-
 
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow(
@@ -147,30 +141,7 @@ void Game::run() {
 	SDL_Surface *game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);
 
 	SDL_Event e;
-
-	//SDL_Rect pos = { 0,40,100,100 };
-
 	
-
-
-	//Dungeon
-	/*
-	int tilesArray[] = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
-		1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1,
-		1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1,
-		1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1,
-		1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1,
-		1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
-		1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-
-	int arrayWidth = 16;
-	int arrayHeight = 9;
-	*/
-
 	SDL_StartTextInput();
 
 	m_bQuit = false;
@@ -188,94 +159,91 @@ void Game::run() {
 			if (e.type == SDL_TEXTINPUT) {
 
 				if (strcmp(e.text.text, "~") == 0) {
-					console.visible = !console.visible;
+					console->visible = !console->visible;
 				}
-
-
-				//                printf("%s\n", e.text.text);
 
 			}
 
 			//Console
-			if (console.visible == true) {
+			if (console->visible == true) {
 
 				if (e.type == SDL_KEYDOWN) {
 
 					SDL_Keymod omar = SDL_GetModState();
 
-					if (e.key.keysym.sym == SDLK_q) console.cmd = console.cmd + "q";
-					if (e.key.keysym.sym == SDLK_w) console.cmd = console.cmd + "w";
-					if (e.key.keysym.sym == SDLK_e) console.cmd = console.cmd + "e";
-					if (e.key.keysym.sym == SDLK_r) console.cmd = console.cmd + "r";
-					if (e.key.keysym.sym == SDLK_t) console.cmd = console.cmd + "t";
-					if (e.key.keysym.sym == SDLK_y) console.cmd = console.cmd + "y";
-					if (e.key.keysym.sym == SDLK_u) console.cmd = console.cmd + "u";
-					if (e.key.keysym.sym == SDLK_i) console.cmd = console.cmd + "i";
-					if (e.key.keysym.sym == SDLK_o) console.cmd = console.cmd + "o";
-					if (e.key.keysym.sym == SDLK_p) console.cmd = console.cmd + "p";
-					if (e.key.keysym.sym == SDLK_a) console.cmd = console.cmd + "a";
-					if (e.key.keysym.sym == SDLK_s) console.cmd = console.cmd + "s";
-					if (e.key.keysym.sym == SDLK_d) console.cmd = console.cmd + "d";
-					if (e.key.keysym.sym == SDLK_f) console.cmd = console.cmd + "f";
-					if (e.key.keysym.sym == SDLK_h) console.cmd = console.cmd + "h";
-					if (e.key.keysym.sym == SDLK_j) console.cmd = console.cmd + "j";
-					if (e.key.keysym.sym == SDLK_k) console.cmd = console.cmd + "k";
-					if (e.key.keysym.sym == SDLK_l) console.cmd = console.cmd + "l";
-					if (e.key.keysym.sym == SDLK_z) console.cmd = console.cmd + "z";
-					if (e.key.keysym.sym == SDLK_x) console.cmd = console.cmd + "x";
-					if (e.key.keysym.sym == SDLK_c) console.cmd = console.cmd + "c";
-					if (e.key.keysym.sym == SDLK_v) console.cmd = console.cmd + "v";
-					if (e.key.keysym.sym == SDLK_b) console.cmd = console.cmd + "b";
-					if (e.key.keysym.sym == SDLK_n) console.cmd = console.cmd + "n";
-					if (e.key.keysym.sym == SDLK_m) console.cmd = console.cmd + "m";
+					if (e.key.keysym.sym == SDLK_q) console->cmd = console->cmd + "q";
+					if (e.key.keysym.sym == SDLK_w) console->cmd = console->cmd + "w";
+					if (e.key.keysym.sym == SDLK_e) console->cmd = console->cmd + "e";
+					if (e.key.keysym.sym == SDLK_r) console->cmd = console->cmd + "r";
+					if (e.key.keysym.sym == SDLK_t) console->cmd = console->cmd + "t";
+					if (e.key.keysym.sym == SDLK_y) console->cmd = console->cmd + "y";
+					if (e.key.keysym.sym == SDLK_u) console->cmd = console->cmd + "u";
+					if (e.key.keysym.sym == SDLK_i) console->cmd = console->cmd + "i";
+					if (e.key.keysym.sym == SDLK_o) console->cmd = console->cmd + "o";
+					if (e.key.keysym.sym == SDLK_p) console->cmd = console->cmd + "p";
+					if (e.key.keysym.sym == SDLK_a) console->cmd = console->cmd + "a";
+					if (e.key.keysym.sym == SDLK_s) console->cmd = console->cmd + "s";
+					if (e.key.keysym.sym == SDLK_d) console->cmd = console->cmd + "d";
+					if (e.key.keysym.sym == SDLK_f) console->cmd = console->cmd + "f";
+					if (e.key.keysym.sym == SDLK_h) console->cmd = console->cmd + "h";
+					if (e.key.keysym.sym == SDLK_j) console->cmd = console->cmd + "j";
+					if (e.key.keysym.sym == SDLK_k) console->cmd = console->cmd + "k";
+					if (e.key.keysym.sym == SDLK_l) console->cmd = console->cmd + "l";
+					if (e.key.keysym.sym == SDLK_z) console->cmd = console->cmd + "z";
+					if (e.key.keysym.sym == SDLK_x) console->cmd = console->cmd + "x";
+					if (e.key.keysym.sym == SDLK_c) console->cmd = console->cmd + "c";
+					if (e.key.keysym.sym == SDLK_v) console->cmd = console->cmd + "v";
+					if (e.key.keysym.sym == SDLK_b) console->cmd = console->cmd + "b";
+					if (e.key.keysym.sym == SDLK_n) console->cmd = console->cmd + "n";
+					if (e.key.keysym.sym == SDLK_m) console->cmd = console->cmd + "m";
 
-					if (e.key.keysym.sym == SDLK_PERIOD) console.cmd = console.cmd + ".";
-					if (e.key.keysym.sym == SDLK_SEMICOLON) console.cmd = console.cmd + ";";
+					if (e.key.keysym.sym == SDLK_PERIOD) console->cmd = console->cmd + ".";
+					if (e.key.keysym.sym == SDLK_SEMICOLON) console->cmd = console->cmd + ";";
 
 					if (e.key.keysym.sym == SDLK_QUOTE) {
 						if (e.key.keysym.sym == SDLK_QUOTE && omar & KMOD_SHIFT) {
-							console.cmd = console.cmd + "\"";
+							console->cmd = console->cmd + "\"";
 						}
 						else {
-							console.cmd = console.cmd + "'";
+							console->cmd = console->cmd + "'";
 
 						}
 					}
 
 					if (e.key.keysym.sym == SDLK_9) {
 						if (e.key.keysym.sym == SDLK_9 && omar & KMOD_SHIFT) {
-							console.cmd = console.cmd + "(";
+							console->cmd = console->cmd + "(";
 						}
 						else {
-							console.cmd = console.cmd + "9";
+							console->cmd = console->cmd + "9";
 
 						}
 					}
 
 					if (e.key.keysym.sym == SDLK_0) {
 						if (e.key.keysym.sym == SDLK_0 && omar & KMOD_SHIFT) {
-							console.cmd = console.cmd + ")";
+							console->cmd = console->cmd + ")";
 						}
 						else {
-							console.cmd = console.cmd + "0";
+							console->cmd = console->cmd + "0";
 						}
 					}
-					if (e.key.keysym.sym == SDLK_SPACE) console.cmd = console.cmd + " ";
-					if (e.key.keysym.sym == SDLK_BACKSPACE) console.cmd = console.cmd.substr(0, console.cmd.length() - 1);
+					if (e.key.keysym.sym == SDLK_SPACE) console->cmd = console->cmd + " ";
+					if (e.key.keysym.sym == SDLK_BACKSPACE) console->cmd = console->cmd.substr(0, console->cmd.length() - 1);
 
 				}
 
-				//printf("console: %s\n", console.cmd.c_str());
+				//printf("console: %s\n", console->cmd.c_str());
 
 				if (e.type == SDL_KEYDOWN) {
 
 					//					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
-					//						console.visible = !console.visible;
+					//						console->visible = !console->visible;
 					//					}
 
 					if (e.key.keysym.sym == SDLK_RETURN) {
-						ScriptManager::manager->doString(console.cmd.c_str());
-						console.cmd = "";
+						ScriptManager::manager->doString(console->cmd.c_str());
+						console->cmd = "";
 
 					}
 				}
@@ -288,11 +256,11 @@ void Game::run() {
 
 
 
-				if (e.type == SDL_KEYDOWN) {
+				/*if (e.type == SDL_KEYDOWN) {
 					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
-						console.visible = !console.visible;
+						console->visible = !console->visible;
 					}
-				}
+				}*/
 
 				if (state[SDL_SCANCODE_LEFT]) {
 
@@ -396,11 +364,11 @@ void Game::run() {
 
 		//Console-->Screen
 		{
-			if (console.visible) {
+			if (console->visible) {
 				SDL_Surface *consoleSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT - 16, 32, 0, 0, 0, 0);
 				SDL_FillRect(consoleSurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-				renderTextLine(">" + console.cmd, 0, 24, ResourceManager::manager->fonts["data.base.fonts.standard_font"], consoleSurface);
+				renderTextLine(">" + console->cmd, 0, 24, ResourceManager::manager->fonts["data.base.fonts.standard_font"], consoleSurface);
 
 				SDL_BlitSurface(consoleSurface, 0, screen, 0);
 				SDL_FreeSurface(consoleSurface);
