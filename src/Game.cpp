@@ -15,7 +15,9 @@
 #include <unordered_map>
 #include <iostream>
 
+#include "res/ResourceManager.h"
 #include "stage/StageManager.h"
+#include "ScriptManager.h"
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
@@ -26,7 +28,6 @@
 SDL_Window *window;
 
 Game* Game::game;
-
 
 struct Entity {
 	int pos;
@@ -88,6 +89,9 @@ void Game::init() {
 
 	game = this;
 
+	ResourceManager* resManager = new ResourceManager();
+	resManager->init();
+
 	ScriptManager* scriptManager = new ScriptManager();
 	scriptManager->init();
 
@@ -99,6 +103,7 @@ void Game::init() {
 void Game::run() {
 
 	Entity player = { 0 };
+	player.surfaceStr = "data.base.spritesheets.player";
 	Console console = { false, "" };
 
 
@@ -138,22 +143,8 @@ void Game::run() {
 
 	//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR", SDL_GetError(), window);
 
-	//RESOURCES
-	std::unordered_map<std::string, SDL_Surface*> spritesheets;
-
 	SDL_Surface *screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
 	SDL_Surface *game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);
-
-	SDL_Surface *testSurface = SDL_LoadBMP("data/base/test.bmp");
-	SDL_Surface *borderSurface = SDL_LoadBMP("data/base/borders/border.bmp");
-	SDL_Surface *tile00Surface = SDL_LoadBMP("data/base/tiles/tile00.bmp");
-	SDL_Surface *tile01Surface = SDL_LoadBMP("data/base/tiles/tile01.bmp");
-	{
-		std::string file = "data/base/spritesheets/player.bmp";
-		spritesheets[file] = SDL_LoadBMP(file.c_str());
-		player.surfaceStr = file;
-	}
-	SDL_Surface *bmpFont = SDL_LoadBMP("data/base/fonts/standard_font.bmp");
 
 	SDL_Event e;
 
@@ -367,13 +358,13 @@ void Game::run() {
 
 			if (StageManager::manager->currStage->tiles[i] == 0) {
 
-				SDL_BlitSurface(tile00Surface, NULL, game, &pos);
+				SDL_BlitSurface(ResourceManager::manager->tiles["data.base.tiles.tile00"], NULL, game, &pos);
 			}
 			else
 
 				if (StageManager::manager->currStage->tiles[i] == 1) {
 
-					SDL_BlitSurface(tile01Surface, NULL, game, &pos);
+					SDL_BlitSurface(ResourceManager::manager->tiles["data.base.tiles.tile01"], NULL, game, &pos);
 				}
 		}
 
@@ -386,18 +377,18 @@ void Game::run() {
 
 			//Player-->Game
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-			SDL_BlitSurface(spritesheets[player.surfaceStr], NULL, game, &pos);
+			SDL_BlitSurface(ResourceManager::manager->spritesheets[player.surfaceStr], NULL, game, &pos);
 		}
 
 
 		//SDL_BlitSurface(testSurface, 0, game, NULL);
 
 		//Border-->Screen
-		SDL_BlitSurface(borderSurface, 0, screen, 0);
+		SDL_BlitSurface(ResourceManager::manager->borders["data.base.borders.border"], 0, screen, 0);
 
 		//TextBox-->Game
-		SDL_BlitSurface(bmpFont, 0, screen, 0);
-		renderText("TEXT MESSAGE BOX\nHello World!", bmpFont, game);
+		SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
+		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
 
 		//Game-->Screen
 		SDL_Rect location = { 72,40,100,100 };
@@ -409,7 +400,7 @@ void Game::run() {
 				SDL_Surface *consoleSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT - 16, 32, 0, 0, 0, 0);
 				SDL_FillRect(consoleSurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-				renderTextLine(">" + console.cmd, 0, 24, bmpFont, consoleSurface);
+				renderTextLine(">" + console.cmd, 0, 24, ResourceManager::manager->fonts["data.base.fonts.standard_font"], consoleSurface);
 
 				SDL_BlitSurface(consoleSurface, 0, screen, 0);
 				SDL_FreeSurface(consoleSurface);
@@ -428,7 +419,7 @@ void Game::run() {
 
 	//lua_close(m_L);
 
-	SDL_FreeSurface(testSurface);
+	//SDL_FreeSurface(testSurface);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 

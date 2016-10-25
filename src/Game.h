@@ -1,5 +1,5 @@
 #pragma once
-#include "ScriptManager.h"
+
 class Game
 {
 public:
