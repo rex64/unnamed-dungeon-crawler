@@ -3,6 +3,7 @@ http://headerphile.com/
 http://lazyfoo.net/tutorials/SDL/
 http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
 https://wiki.libsdl.org/MigrationGuide
+https://caedesnotes.wordpress.com/2015/04/13/how-to-integrate-your-sdl2-window-icon-or-any-image-into-your-executable/
 
 LUA
 http://csl.sublevel3.org/post/lua-and-cpp/
