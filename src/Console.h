@@ -1,11 +1,15 @@
 #pragma once
 #include <string>
-class Console
+#include "IInputReceiver.h"
+class Console : public IInputReceiver
 {
 public:
 	Console();
 	~Console();
 	void init();
+
+	//IInputReceiver
+	bool onInput(SDL_Event* e);
 
 	static Console* console;
 
