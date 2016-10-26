@@ -1,6 +1,13 @@
 #pragma once
 #include <vector>
- 
+#include <string> 
+
+struct Tile {
+
+	std::string tileResID;
+
+};
+
 class Stage
 {
 public:
@@ -8,9 +15,9 @@ public:
 	~Stage();
 
 	void load();
-	void setTile(int, int);
+	void setTile(int, std::string);
 
-	std::vector<int> tiles;
+	std::vector<Tile> tiles;
 	int arrayWidth;
 	int arrayHeight;
 

@@ -164,6 +164,21 @@ void Game::run() {
 				m_bQuit = true;
 			}
 
+			if (Console::console->visible == true) {
+
+				if (e.key.keysym.sym == SDLK_BACKSPACE) {
+					Console::console->cmd = Console::console->cmd.substr(0, Console::console->cmd.length() - 1);
+				}
+				else if (e.type == SDL_TEXTINPUT) {
+					Console::console->cmd = Console::console->cmd + e.text.text;
+				}
+				else if (e.key.keysym.sym == SDLK_RETURN) {
+					ScriptManager::manager->doString(Console::console->cmd.c_str());
+					Console::console->cmd = "";
+
+				}
+			}
+
 			if (e.type == SDL_TEXTINPUT) {
 
 				if (strcmp(e.text.text, "~") == 0) {
@@ -174,95 +189,12 @@ void Game::run() {
 
 			//Console
 			if (Console::console->visible == true) {
-
-				if (e.type == SDL_KEYDOWN) {
-
-					SDL_Keymod omar = SDL_GetModState();
-
-					if (e.key.keysym.sym == SDLK_q) Console::console->cmd = Console::console->cmd + "q";
-					if (e.key.keysym.sym == SDLK_w) Console::console->cmd = Console::console->cmd + "w";
-					if (e.key.keysym.sym == SDLK_e) Console::console->cmd = Console::console->cmd + "e";
-					if (e.key.keysym.sym == SDLK_r) Console::console->cmd = Console::console->cmd + "r";
-					if (e.key.keysym.sym == SDLK_t) Console::console->cmd = Console::console->cmd + "t";
-					if (e.key.keysym.sym == SDLK_y) Console::console->cmd = Console::console->cmd + "y";
-					if (e.key.keysym.sym == SDLK_u) Console::console->cmd = Console::console->cmd + "u";
-					if (e.key.keysym.sym == SDLK_i) Console::console->cmd = Console::console->cmd + "i";
-					if (e.key.keysym.sym == SDLK_o) Console::console->cmd = Console::console->cmd + "o";
-					if (e.key.keysym.sym == SDLK_p) Console::console->cmd = Console::console->cmd + "p";
-					if (e.key.keysym.sym == SDLK_a) Console::console->cmd = Console::console->cmd + "a";
-					if (e.key.keysym.sym == SDLK_s) Console::console->cmd = Console::console->cmd + "s";
-					if (e.key.keysym.sym == SDLK_d) Console::console->cmd = Console::console->cmd + "d";
-					if (e.key.keysym.sym == SDLK_f) Console::console->cmd = Console::console->cmd + "f";
-					if (e.key.keysym.sym == SDLK_h) Console::console->cmd = Console::console->cmd + "h";
-					if (e.key.keysym.sym == SDLK_j) Console::console->cmd = Console::console->cmd + "j";
-					if (e.key.keysym.sym == SDLK_k) Console::console->cmd = Console::console->cmd + "k";
-					if (e.key.keysym.sym == SDLK_l) Console::console->cmd = Console::console->cmd + "l";
-					if (e.key.keysym.sym == SDLK_z) Console::console->cmd = Console::console->cmd + "z";
-					if (e.key.keysym.sym == SDLK_x) Console::console->cmd = Console::console->cmd + "x";
-					if (e.key.keysym.sym == SDLK_c) Console::console->cmd = Console::console->cmd + "c";
-					if (e.key.keysym.sym == SDLK_v) Console::console->cmd = Console::console->cmd + "v";
-					if (e.key.keysym.sym == SDLK_b) Console::console->cmd = Console::console->cmd + "b";
-					if (e.key.keysym.sym == SDLK_n) Console::console->cmd = Console::console->cmd + "n";
-					if (e.key.keysym.sym == SDLK_m) Console::console->cmd = Console::console->cmd + "m";
-
-					if (e.key.keysym.sym == SDLK_PERIOD) Console::console->cmd = Console::console->cmd + ".";
-					if (e.key.keysym.sym == SDLK_SEMICOLON) Console::console->cmd = Console::console->cmd + ";";
-
-					if (e.key.keysym.sym == SDLK_QUOTE) {
-						if (e.key.keysym.sym == SDLK_QUOTE && omar & KMOD_SHIFT) {
-							Console::console->cmd = Console::console->cmd + "\"";
-						}
-						else {
-							Console::console->cmd = Console::console->cmd + "'";
-
-						}
-					}
-
-					if (e.key.keysym.sym == SDLK_9) {
-						if (e.key.keysym.sym == SDLK_9 && omar & KMOD_SHIFT) {
-							Console::console->cmd = Console::console->cmd + "(";
-						}
-						else {
-							Console::console->cmd = Console::console->cmd + "9";
-
-						}
-					}
-
-					if (e.key.keysym.sym == SDLK_0) {
-						if (e.key.keysym.sym == SDLK_0 && omar & KMOD_SHIFT) {
-							Console::console->cmd = Console::console->cmd + ")";
-						}
-						else {
-							Console::console->cmd = Console::console->cmd + "0";
-						}
-					}
-					if (e.key.keysym.sym == SDLK_SPACE) Console::console->cmd = Console::console->cmd + " ";
-					if (e.key.keysym.sym == SDLK_BACKSPACE) Console::console->cmd = Console::console->cmd.substr(0, Console::console->cmd.length() - 1);
-
-				}
-
-				//printf("Console::console: %s\n", Console::console->cmd.c_str());
-
-				if (e.type == SDL_KEYDOWN) {
-
-					//					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
-					//						Console::console->visible = !Console::console->visible;
-					//					}
-
-					if (e.key.keysym.sym == SDLK_RETURN) {
-						ScriptManager::manager->doString(Console::console->cmd.c_str());
-						Console::console->cmd = "";
-
-					}
-				}
+				
 
 			}
 			else {
 
 				const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-
-
 
 				/*if (e.type == SDL_KEYDOWN) {
 					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
@@ -330,20 +262,13 @@ void Game::run() {
 
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
 
-			//printf("x: %i , y: %i\n", x, y);
-
-			if (StageManager::manager->currStage->tiles[i] == 0) {
-
-				SDL_BlitSurface(ResourceManager::manager->tiles["data.base.tiles.tile00"], NULL, game, &pos);
-			}
-			else
-
-				if (StageManager::manager->currStage->tiles[i] == 1) {
-
-					SDL_BlitSurface(ResourceManager::manager->tiles["data.base.tiles.tile01"], NULL, game, &pos);
-				}
+			SDL_BlitSurface(
+				ResourceManager::manager->getTile(StageManager::manager->currStage->tiles[i].tileResID),
+				NULL, 
+				game, 
+				&pos
+			);
 		}
-
 
 		//render player
 		{

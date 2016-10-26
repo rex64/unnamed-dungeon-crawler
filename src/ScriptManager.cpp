@@ -45,6 +45,13 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "data");
 
+	//data - reload()
+	/*lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "setTile");
+	lua_pushcfunction(m_L, l_setTile);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);*/
+
 	//game
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "game");
@@ -152,7 +159,7 @@ void ScriptManager::doString(const char *str)
 		int args = lua_gettop(state);
 
 		int id = lua_tointeger(state, 1);
-		int value = lua_tointeger(state, 2);
+		std::string value = lua_tostring(state, 2);
 
 
 		StageManager::manager->currStage->setTile(id, value);
