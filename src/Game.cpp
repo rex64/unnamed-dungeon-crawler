@@ -149,6 +149,8 @@ void Game::run() {
 
 	m_bQuit = false;
 
+	ScriptManager::manager->runMain();
+
 	while (!m_bQuit)
 	{
 

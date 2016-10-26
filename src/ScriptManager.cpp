@@ -1,5 +1,6 @@
 #include "ScriptManager.h"
 #include "Game.h"
+#include "stage/StageManager.h"
 
 ScriptManager* ScriptManager::manager;
 
@@ -55,6 +56,13 @@ void ScriptManager::init() {
 	//field
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "field");
+	
+	//field - setTile(id, value)
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "setTile");
+	lua_pushcfunction(m_L, l_setTile);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
 
 	//battle
 	lua_newtable(m_L);
@@ -71,13 +79,15 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
+}
+
+void ScriptManager::runMain() {
+
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);
 	}
-
-
 }
 
 void ScriptManager::doString(const char *str)
@@ -85,7 +95,6 @@ void ScriptManager::doString(const char *str)
 	if (luaL_dostring(m_L, str)) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
-
 		stackDump(m_L);
 	}
 }
@@ -135,6 +144,19 @@ void ScriptManager::doString(const char *str)
 
 		lua_pushnumber(state, 123);
 		return 1; /* number of results */
+	}
+
+	static int l_setTile(lua_State* state)
+	{
+		/* number of arguments */
+		int args = lua_gettop(state);
+
+		int id = lua_tointeger(state, 1);
+		int value = lua_tointeger(state, 2);
+
+
+		StageManager::manager->currStage->setTile(id, value);
+		return 0; /* number of results */
 	}
 
 	static int luaQuitGame(lua_State* state) {

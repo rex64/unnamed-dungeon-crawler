@@ -31,3 +31,8 @@ void Stage::load() {
 		tiles.push_back(tilesArray[i]);
 	}
 }
+
+void Stage::setTile(int id, int value) {
+
+	tiles[id] = value;
+}

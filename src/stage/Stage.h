@@ -8,6 +8,7 @@ public:
 	~Stage();
 
 	void load();
+	void setTile(int, int);
 
 	std::vector<int> tiles;
 	int arrayWidth;

@@ -18,6 +18,7 @@ public:
 	~ScriptManager();
 
 	void init();
+	void runMain();
 	void doString(const char *str);
 
 	static ScriptManager *manager;
@@ -29,3 +30,4 @@ private:
 extern "C" static void stackDump(lua_State *L);
 extern "C" static int luaTestFunc(lua_State* state);
 extern "C" static int luaQuitGame(lua_State* state);
+extern "C" static int l_setTile(lua_State* state);
