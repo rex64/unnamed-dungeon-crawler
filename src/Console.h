@@ -14,6 +14,7 @@ public:
 	static Console* console;
 
 	bool visible;
+	bool showCursor;
 	std::string cmd;
 	std::string buff;
 };

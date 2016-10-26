@@ -38,6 +38,10 @@ struct Entity {
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
 
+	if (Console::console->showCursor) {
+		str = str + '_';
+	}
+
 	int i = 0;
 	for (char& c : str) {
 
@@ -101,6 +105,28 @@ void Game::init() {
 
 }
 
+extern "C" Uint32 my_callbackfunc(Uint32 interval, void *param)
+{
+	SDL_Event event;
+	SDL_UserEvent userevent;
+
+	/* In this example, our callback pushes a function
+	into the queue, and causes our callback to be called again at the
+	same interval: */
+
+	/*userevent.type = SDL_USEREVENT;
+	userevent.code = 0;
+	userevent.data1 = &my_function;
+	userevent.data2 = param;
+
+	event.type = SDL_USEREVENT;
+	event.user = userevent;
+
+	SDL_PushEvent(&event);*/
+	Console::console->showCursor = !Console::console->showCursor;
+	return(interval);
+}
+
 void Game::run() {
 
 	Entity player = { 0 };
@@ -117,7 +143,7 @@ void Game::run() {
 	printf("We are linking against SDL version %d.%d.%d.\n",
 		linked.major, linked.minor, linked.patch);
 
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_EVERYTHING);
 	window = SDL_CreateWindow(
 		"unamed-dungeon-crawler",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -150,6 +176,8 @@ void Game::run() {
 	m_bQuit = false;
 
 	ScriptManager::manager->runMain();
+
+	SDL_AddTimer(260, my_callbackfunc, 0);
 
 	while (!m_bQuit)
 	{

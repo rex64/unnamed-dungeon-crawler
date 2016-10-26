@@ -2,7 +2,7 @@
 
 Console* Console::console;
 
-Console::Console() : visible(false), cmd(""), buff("")
+Console::Console() : visible(false), cmd(""), buff(""), showCursor(false)
 {
 }
 
@@ -16,8 +16,5 @@ void Console::init() {
 
 bool Console::onInput(SDL_Event* e) {
 
-
-
 	return true;
-
 }
