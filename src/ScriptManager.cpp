@@ -20,12 +20,14 @@ void ScriptManager::init() {
 	m_L = luaL_newstate();
 	luaL_openlibs(m_L);
 
+	/*
 	lua_register(m_L, "luaTestFunc", luaTestFunc);
 
 	luaL_dostring(m_L, "io.write(\"luaTestFunc\")");
 	luaL_dostring(m_L, "luaTestFunc(\"First\", \"Second\", 112233)");
 
 	luaL_dostring(m_L, "io.write(\"ciao\")");
+	*/
 
 	/*
 	lua_newtable(state);
@@ -38,29 +40,41 @@ void ScriptManager::init() {
 	lua_pop(state, -1);
 	*/
 
+	//data
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "data");
+
+	//game
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "game");
+
+	//ui
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "ui");
+
+	//field
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "field");
+
+	//battle
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "battle");
+
+	//system
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "system");
 
+	//system.quit
 	lua_getglobal(m_L, "system");
 	lua_pushstring(m_L, "quit");
 	lua_pushcfunction(m_L, luaQuitGame);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
-	//    luaL_dostring(m_L, "system.quit();");
-
-
-	//    stackDump(m_L);
-
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		//SDL_ShowSimpleMessageBox(0, "ERRORL", lua_tostring(m_L, -1), window);
-		// printf("Couldn't load file: %s\n", lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
-
 		stackDump(m_L);
-
-		//exit(1);
 	}
 
 
