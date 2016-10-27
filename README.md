@@ -1,5 +1,6 @@
 # unnamed-dungeon-crawler
 
+![Build status](https://img.shields.io/badge/build-works%20on%20my%20machine-green.svg)
 [![GitHub issues](https://img.shields.io/github/issues/rex64/unnamed-dungeon-crawler.svg)](https://github.com/rex64/unnamed-dungeon-crawler/issues)
 [![GitHub stars](https://img.shields.io/github/stars/rex64/unnamed-dungeon-crawler.svg)](https://github.com/rex64/unnamed-dungeon-crawler/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/rex64/unnamed-dungeon-crawler.svg)](https://github.com/rex64/unnamed-dungeon-crawler/network)
