@@ -21,6 +21,9 @@ set( project_sources
    src/InputManager.h
    src/InputManager.cpp
    src/IInputReceiver.h
+   src/RenderManager.h
+   src/RenderManager.cpp
+   src/IRenderable.h
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})
