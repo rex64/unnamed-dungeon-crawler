@@ -160,9 +160,10 @@ void ScriptManager::doString(const char *str)
 
 		int id = lua_tointeger(state, 1);
 		std::string value = lua_tostring(state, 2);
+		int tileType = lua_tointeger(state, 3);
 
 
-		StageManager::manager->currStage->setTile(id, value);
+		StageManager::manager->currStage->setTile(id, value, (TileType) tileType);
 		return 0; /* number of results */
 	}
 

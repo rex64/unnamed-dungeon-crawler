@@ -20,7 +20,22 @@ void Stage::load() {
 	}
 }
 
-void Stage::setTile(int id, std::string value) {
+void Stage::setTile(int id, std::string value, TileType tileType) {
 
-	tiles[id] = Tile{ value };
+	tiles[id] = Tile{ value, tileType};
+}
+
+Tile Stage::getTile(int id) {
+
+	return tiles[id];
+}
+
+Entity Stage::getEntity(int entityId) {
+
+	return entities[entityId];
+}
+
+Entity Stage::getTileEntity(int tileId) {
+
+	return tileEntities[tileId];
 }

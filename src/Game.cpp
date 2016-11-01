@@ -31,7 +31,7 @@ SDL_Window *window;
 
 Game* Game::game;
 
-struct Entity {
+struct Entityz {
 	int pos;
 	std::string surfaceStr;
 };
@@ -129,7 +129,7 @@ extern "C" Uint32 my_callbackfunc(Uint32 interval, void *param)
 
 void Game::run() {
 
-	Entity player = { 0 };
+	Entityz player = { 0 };
 	player.surfaceStr = "data.base.spritesheets.player";
 
 	SDL_version compiled;
@@ -224,12 +224,6 @@ void Game::run() {
 
 				const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-				/*if (e.type == SDL_KEYDOWN) {
-					if (e.key.keysym.sym == SDLK_BACKQUOTE) {
-						Console::console->visible = !Console::console->visible;
-					}
-				}*/
-
 				if (state[SDL_SCANCODE_LEFT]) {
 
 					//int oldPos = playerPos;
@@ -291,7 +285,7 @@ void Game::run() {
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
 
 			SDL_BlitSurface(
-				ResourceManager::manager->getTile(StageManager::manager->currStage->tiles[i].tileResID),
+				ResourceManager::manager->getTile(StageManager::manager->currStage->getTile(i).tileResID),
 				NULL, 
 				game, 
 				&pos
@@ -316,8 +310,8 @@ void Game::run() {
 		SDL_BlitSurface(ResourceManager::manager->borders["data.base.borders.border"], 0, screen, 0);
 
 		//TextBox-->Game
-		SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
-		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
+		//SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
+		//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
 
 		//Game-->Screen
 		SDL_Rect location = { 72,40,100,100 };
