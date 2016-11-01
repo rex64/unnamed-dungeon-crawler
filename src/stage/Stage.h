@@ -25,9 +25,9 @@ struct Tile {
 
 enum EntityType {
 
-	None = 0,
-	Player,
-	Other
+	Player = 0,
+	Enemy = 1,
+	Other = 2,
 
 };
 

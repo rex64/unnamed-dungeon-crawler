@@ -77,6 +77,13 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
+	//field - spawnEntity(id, value)
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "spawnEntity");
+	lua_pushcfunction(m_L, l_setTile);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+
 	//battle
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "battle");

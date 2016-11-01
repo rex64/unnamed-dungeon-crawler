@@ -44,6 +44,14 @@ a = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 }
 
+EntityType = {
+
+	Player = 0,
+	Enemy = 1,
+	Other = 2,
+
+}
+
 for i,v in ipairs(a) do 
 	if v == 0 then
 		field.setTile(i-1, t1, v)
@@ -51,3 +59,20 @@ for i,v in ipairs(a) do
 		field.setTile(i-1, t0, v)
 	end
 end
+
+
+enemy = {
+  
+  new = function() return {
+    
+      type = EntityType.Enemy,
+      entityResID = "data.base.spritesheets.enemy"
+    
+    } 
+    end
+  
+}
+
+newEnemy = enemy.new()
+
+--field.registerEntity(newEnemy, 1 + 24)
