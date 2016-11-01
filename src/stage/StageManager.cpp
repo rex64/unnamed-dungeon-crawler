@@ -46,8 +46,13 @@ bool StageManager::onInput(SDL_Event * e)
 		int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 		x -= 1;
+		int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-		player->tileId = x + StageManager::manager->currStage->arrayWidth*y;
+
+		if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
+
+			player->tileId = targetTileID;
+		}
 	}
 	else
 
@@ -57,8 +62,12 @@ bool StageManager::onInput(SDL_Event * e)
 			int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 			x += 1;
+			int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-			player->tileId = x + StageManager::manager->currStage->arrayWidth*y;
+			if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
+
+				player->tileId = targetTileID;
+			}
 		}
 		else
 
@@ -68,8 +77,13 @@ bool StageManager::onInput(SDL_Event * e)
 				int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 				y -= 1;
+				int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-				player->tileId = x + StageManager::manager->currStage->arrayWidth*y;
+
+				if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
+
+					player->tileId = targetTileID;
+				}
 			}
 			else
 
@@ -79,8 +93,13 @@ bool StageManager::onInput(SDL_Event * e)
 					int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 					y += 1;
+					int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-					player->tileId = x + StageManager::manager->currStage->arrayWidth*y;
+
+					if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
+
+						player->tileId = targetTileID;
+					}
 				}
 
 
