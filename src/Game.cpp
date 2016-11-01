@@ -13,6 +13,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <algorithm>
 #include <iostream>
 
 #include "res/ResourceManager.h"
@@ -88,6 +89,7 @@ void Game::init() {
 
 	game = this;
 
+	//managers initialization
 	ResourceManager *resManager = new ResourceManager();
 	resManager->init();
 
@@ -102,6 +104,18 @@ void Game::init() {
 
 	InputManager *inputManger = new InputManager();
 	inputManger->init();
+
+	std::vector<IInputReceiver*> vecPerson;
+	
+	inputManger->registerInput(console);
+	inputManger->registerInput(stageManager);
+	inputManger->registerInput(scriptManager);	
+
+	printf("");
+
+	//Register input handlers
+
+	//Register renderer
 
 }
 
@@ -128,10 +142,7 @@ extern "C" Uint32 my_callbackfunc(Uint32 interval, void *param)
 }
 
 void Game::run() {
-
-	Entityz player = { 0 };
-	player.surfaceStr = "data.base.spritesheets.player";
-
+	
 	SDL_version compiled;
 	SDL_version linked;
 
@@ -187,26 +198,6 @@ void Game::run() {
 
 			InputManager::manager->onInput(&e);
 
-			if (e.type == SDL_QUIT)
-			{
-				m_bQuit = true;
-			}
-
-			if (Console::console->visible == true) {
-
-				if (e.key.keysym.sym == SDLK_BACKSPACE) {
-					Console::console->cmd = Console::console->cmd.substr(0, Console::console->cmd.length() - 1);
-				}
-				else if (e.type == SDL_TEXTINPUT) {
-					Console::console->cmd = Console::console->cmd + e.text.text;
-				}
-				else if (e.key.keysym.sym == SDLK_RETURN) {
-					ScriptManager::manager->doString(Console::console->cmd.c_str());
-					Console::console->cmd = "";
-
-				}
-			}
-
 			if (e.type == SDL_TEXTINPUT) {
 
 				if (strcmp(e.text.text, "~") == 0) {
@@ -215,59 +206,9 @@ void Game::run() {
 
 			}
 
-			//Console
-			if (Console::console->visible == true) {
-				
-
-			}
-			else {
-
-				const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-				if (state[SDL_SCANCODE_LEFT]) {
-
-					//int oldPos = playerPos;
-
-					int x = player.pos % StageManager::manager->currStage->arrayWidth;
-					int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-					x -= 1;
-
-					player.pos = x + StageManager::manager->currStage->arrayWidth*y;
-				}
-				else
-
-					if (state[SDL_SCANCODE_RIGHT]) {
-
-						int x = player.pos % StageManager::manager->currStage->arrayWidth;
-						int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-						x += 1;
-
-						player.pos = x + StageManager::manager->currStage->arrayWidth*y;
-					}
-					else
-
-						if (state[SDL_SCANCODE_UP]) {
-
-							int x = player.pos % StageManager::manager->currStage->arrayWidth;
-							int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-							y -= 1;
-
-							player.pos = x + StageManager::manager->currStage->arrayWidth*y;
-						}
-						else
-
-							if (state[SDL_SCANCODE_DOWN]) {
-
-								int x = player.pos % StageManager::manager->currStage->arrayWidth;
-								int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-								y += 1;
-
-								player.pos = x + StageManager::manager->currStage->arrayWidth*y;
-							}
+			if (e.type == SDL_QUIT)
+			{
+				m_bQuit = true;
 			}
 
 		}
@@ -294,13 +235,13 @@ void Game::run() {
 
 		//render player
 		{
-
-			int x = player.pos % StageManager::manager->currStage->arrayWidth;
-			int y = (player.pos / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
+			Entity *player = &(StageManager::manager->currStage->player);
+			int x = player->tileId % StageManager::manager->currStage->arrayWidth;
+			int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 			//Player-->Game
 			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-			SDL_BlitSurface(ResourceManager::manager->getSprite(player.surfaceStr), NULL, game, &pos);
+			SDL_BlitSurface(ResourceManager::manager->getSprite(player->entityResID), NULL, game, &pos);
 		}
 
 

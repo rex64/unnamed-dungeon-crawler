@@ -2,6 +2,12 @@
 #include "Game.h"
 #include "stage/StageManager.h"
 
+#ifdef __APPLE__
+#include <SDL2/SDL.h>
+#elif _WIN32
+#include <SDL.h>
+#endif
+
 ScriptManager* ScriptManager::manager;
 
 ScriptManager::ScriptManager()
@@ -86,6 +92,12 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
+}
+
+bool ScriptManager::onInput(SDL_Event * e)
+{
+	printf("ScriptManager - onInput\n");
+	return false;
 }
 
 void ScriptManager::runMain() {

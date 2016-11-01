@@ -27,6 +27,7 @@ struct Entity {
 	int id;
 	int tileId;
 	EntityType type;
+	std::string entityResID;
 };
 
 class Stage
@@ -44,10 +45,11 @@ public:
 
 	int arrayWidth;
 	int arrayHeight;
+	Entity player;
 
 private:
 
-	uint32_t nextEntityId;
+	int nextEntityId;
 
 	std::vector<Tile> tiles;
 

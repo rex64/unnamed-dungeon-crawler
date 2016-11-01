@@ -2,8 +2,10 @@
 
 Stage::Stage()
 {
-}
+	nextEntityId = 1;
+	player = Entity{ nextEntityId++, 1, Player, "data.base.spritesheets.player" };
 
+}
 
 Stage::~Stage()
 {

@@ -11,7 +11,9 @@ extern "C" {
 #include <lua.hpp>
 #endif
 
-class ScriptManager
+#include "IInputReceiver.h"
+
+class ScriptManager : public IInputReceiver
 {
 public:
 	ScriptManager();
@@ -22,6 +24,8 @@ public:
 	void doString(const char *str);
 
 	static ScriptManager *manager;
+
+	bool onInput(SDL_Event* e);
 
 private:
 	lua_State *m_L;

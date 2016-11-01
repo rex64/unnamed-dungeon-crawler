@@ -1,5 +1,5 @@
 #pragma once
-#include <stack>
+#include <vector>
 
 class IInputReceiver;
 union SDL_Event;
@@ -15,5 +15,6 @@ public:
 	
 
 	static InputManager* manager;
-	std::stack<IInputReceiver*> inputStack;
+	std::vector<IInputReceiver*> inputStack;
+	void registerInput(IInputReceiver*);
 };
