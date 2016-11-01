@@ -39,54 +39,14 @@ bool StageManager::onInput(SDL_Event * e)
 	}
 
 	Entity *player = StageManager::manager->currStage->player;
+	Point p = currStage->toXY(player->tileId);
 
-	if (left) {
+	if (left) p.x -= 1;
+	if (right) p.x += 1;
+	if (up) p.y -= 1;
+	if (down) p.y += 1;
 
-		int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-		int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-		x -= 1;
-		int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
-
-		StageManager::manager->currStage->moveEntity(player, targetTileID);
-	}
-	else
-
-		if (state[SDL_SCANCODE_RIGHT]) {
-
-			int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-			int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-			x += 1;
-			int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
-
-			StageManager::manager->currStage->moveEntity(player, targetTileID);
-		}
-		else
-
-			if (state[SDL_SCANCODE_UP]) {
-
-				int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-				int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-				y -= 1;
-				int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
-
-				StageManager::manager->currStage->moveEntity(player, targetTileID);
-			}
-			else
-
-				if (state[SDL_SCANCODE_DOWN]) {
-
-					int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-					int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-					y += 1;
-					int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
-
-					StageManager::manager->currStage->moveEntity(player, targetTileID);
-				}
-
+	StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
 
 	printf("StageManager - onInput\n");
 	return true;

@@ -92,3 +92,22 @@ bool Stage::checkIfTileIsWalkable(int tileID)
 
 	return false;
 }
+
+int Stage::to1D(Point p) {
+
+	return to1D(p.x, p.y);
+}
+
+int Stage::to1D(int x, int y) {
+		
+	return x + arrayWidth*y;
+}
+
+Point Stage::toXY(int i) {
+	
+	int x = i % arrayWidth;
+	int y = (i / arrayWidth) % arrayHeight;
+
+	return Point{ x,y };
+
+}

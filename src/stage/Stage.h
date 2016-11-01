@@ -3,6 +3,13 @@
 #include <string> 
 #include <unordered_map>
 
+struct Point {
+
+	int x;
+	int y;
+
+};
+
 enum TileType {
 
 	Wall = 0,
@@ -50,6 +57,10 @@ public:
 	int arrayWidth;
 	int arrayHeight;
 	Entity* player;
+
+	int to1D(Point p);
+	int to1D(int x, int y);
+	Point toXY(int i);
 
 	std::unordered_map<int, Entity*> entities;
 
