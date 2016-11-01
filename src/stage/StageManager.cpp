@@ -38,7 +38,7 @@ bool StageManager::onInput(SDL_Event * e)
 		return false;
 	}
 
-	Entity *player = &(StageManager::manager->currStage->player);
+	Entity *player = StageManager::manager->currStage->player;
 
 	if (left) {
 
@@ -48,11 +48,7 @@ bool StageManager::onInput(SDL_Event * e)
 		x -= 1;
 		int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-
-		if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
-
-			player->tileId = targetTileID;
-		}
+		StageManager::manager->currStage->moveEntity(player, targetTileID);
 	}
 	else
 
@@ -64,10 +60,7 @@ bool StageManager::onInput(SDL_Event * e)
 			x += 1;
 			int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-			if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
-
-				player->tileId = targetTileID;
-			}
+			StageManager::manager->currStage->moveEntity(player, targetTileID);
 		}
 		else
 
@@ -79,11 +72,7 @@ bool StageManager::onInput(SDL_Event * e)
 				y -= 1;
 				int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-
-				if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
-
-					player->tileId = targetTileID;
-				}
+				StageManager::manager->currStage->moveEntity(player, targetTileID);
 			}
 			else
 
@@ -95,11 +84,7 @@ bool StageManager::onInput(SDL_Event * e)
 					y += 1;
 					int targetTileID = x + StageManager::manager->currStage->arrayWidth*y;
 
-
-					if (StageManager::manager->currStage->getTile(targetTileID).tileType == Floor) {
-
-						player->tileId = targetTileID;
-					}
+					StageManager::manager->currStage->moveEntity(player, targetTileID);
 				}
 
 

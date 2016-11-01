@@ -66,14 +66,27 @@ void RenderManager::render()
 	}
 
 	//render player
-	{
-		Entity *player = &(StageManager::manager->currStage->player);
-		int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-		int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
+	//{
+	//	Entity *player = StageManager::manager->currStage->player;
+	//	int x = player->tileId % StageManager::manager->currStage->arrayWidth;
+	//	int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
+
+	//	//Player-->Game
+	//	SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+	//	SDL_BlitSurface(ResourceManager::manager->getSprite(player->entityResID), NULL, game, &pos);
+	//}
+
+	for (auto kv : StageManager::manager->currStage->entities) {
+	
+		Entity *entity = kv.second;
+
+		int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
+		int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 		//Player-->Game
 		SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-		SDL_BlitSurface(ResourceManager::manager->getSprite(player->entityResID), NULL, game, &pos);
+		SDL_BlitSurface(ResourceManager::manager->getSprite(entity->entityResID), NULL, game, &pos);
+
 	}
 
 

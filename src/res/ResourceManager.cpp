@@ -68,6 +68,8 @@ void ResourceManager::init() {
 	loadTile("data/base/tiles/tile01.bmp");
 
 	loadSprite("data/base/spritesheets/player.bmp");
+	loadSprite("data/base/spritesheets/enemy.bmp");
+	loadSprite("data/base/spritesheets/stairs.bmp");
 
 	loadFont("data/base/fonts/standard_font.bmp");
 

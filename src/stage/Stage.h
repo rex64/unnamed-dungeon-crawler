@@ -19,7 +19,8 @@ struct Tile {
 enum EntityType {
 
 	None = 0,
-	Player
+	Player,
+	Other
 
 };
 
@@ -39,13 +40,18 @@ public:
 	void load();
 	void setTile(int, std::string, TileType);
 	Tile getTile(int tileId);
-	Entity getEntity(int entityId);
-	Entity getTileEntity(int tileId);	
-	//void addEntity(int tileId, EntityType type);
+	Entity* getEntity(int entityId);
+	Entity* getTileEntity(int tileId);	
+	bool addEntity(Entity*, int);
+	bool moveEntity(Entity*, int);
+	bool removeEntity(Entity*);
+	bool checkIfTileIsWalkable(int tileID);
 
 	int arrayWidth;
 	int arrayHeight;
-	Entity player;
+	Entity* player;
+
+	std::unordered_map<int, Entity*> entities;
 
 private:
 
@@ -53,6 +59,6 @@ private:
 
 	std::vector<Tile> tiles;
 
-	std::unordered_map<int, Entity> entities;
-	std::unordered_map<int, Entity> tileEntities;
+	
+	std::unordered_map<int, Entity*> tileEntities;
 };
