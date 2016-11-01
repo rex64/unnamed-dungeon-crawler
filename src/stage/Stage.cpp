@@ -5,6 +5,7 @@ Stage::Stage()
 	nextEntityId = 1;
 	addEntity(new Entity{ NULL, NULL, Player, "data.base.spritesheets.player" }, 1 + 16);
 	addEntity(new Entity{ NULL, NULL, Other, "data.base.spritesheets.stairs" }, 1 + 18);
+	addEntity(new Entity{ NULL, NULL, Other, "data.base.spritesheets.enemy" }, 1 + 24);
 
 }
 
