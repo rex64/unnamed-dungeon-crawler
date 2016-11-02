@@ -76,3 +76,10 @@ enemy = {
 newEnemy = enemy.new()
 
 --field.registerEntity(newEnemy, 1 + 24)
+
+function foo()
+    local obj = MyLib.MakeObj()
+    obj:method()
+end
+
+foo()

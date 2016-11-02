@@ -30,7 +30,7 @@ void InputManager::init() {
 
 void InputManager::onInput(SDL_Event* e) {
 
-	printf("--Input Manager - onInput\n");
+//	printf("--Input Manager - onInput\n");
 	for (IInputReceiver* i : inputStack) {
 		if (i->onInput(e)) {
 			break;

@@ -48,6 +48,6 @@ bool StageManager::onInput(SDL_Event * e)
 
 	StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
 
-	printf("StageManager - onInput\n");
+	//printf("StageManager - onInput\n");
 	return true;
 }

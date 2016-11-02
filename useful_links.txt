@@ -8,7 +8,7 @@ https://caedesnotes.wordpress.com/2015/04/13/how-to-integrate-your-sdl2-window-i
 LUA
 http://csl.sublevel3.org/post/lua-and-cpp/
 https://eliasdaler.wordpress.com/tag/lua/
-http://lua-users.org/wiki/UserDataExample
+http://lua-users.org/wiki/UserDataExample (http://lua-users.org/wiki/LibraryWithUserdataExample)
 http://lua-users.org/wiki/UserDataWithPointerExample
 http://stackoverflow.com/questions/3578401/lua-garbage-collection-userdata
 http://www.lua.org/source/5.3/liolib.c.html
