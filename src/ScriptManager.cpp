@@ -218,6 +218,7 @@ void ScriptManager::doString(const char *str)
 		return 0;
 	}
 	int Obj_method(lua_State *L) {
+		stackDump(L);
 		printf("In Obj_method\n");
 		check_Obj(L, 1);
 		return 0;
