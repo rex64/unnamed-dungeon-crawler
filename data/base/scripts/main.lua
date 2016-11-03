@@ -80,7 +80,6 @@ newEnemy = enemy.new()
 function foo()
     local obj = MyLib.MakeObj()
     obj:method()
-    obj.method()
 end
 
 foo()

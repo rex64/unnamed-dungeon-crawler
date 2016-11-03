@@ -103,6 +103,7 @@ void ScriptManager::init() {
 
 
 	luaL_requiref(m_L, "MyLib", luaopen_MyLib, 1);
+	stackDump(m_L);
 }
 
 bool ScriptManager::onInput(SDL_Event * e)
@@ -113,6 +114,7 @@ bool ScriptManager::onInput(SDL_Event * e)
 
 void ScriptManager::runMain() {
 
+	stackDump(m_L);
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
@@ -129,7 +131,7 @@ void ScriptManager::doString(const char *str)
 	}
 }
 
-
+//stolen from https://www.lua.org/pil/24.2.3.html
 static void stackDump(lua_State *L) {
 
 	printf("LUA STACK DUMP--------\n");
@@ -235,17 +237,31 @@ int luaopen_MyLib(lua_State *L) {
 		{ NULL, NULL }
 	};
 
+	stackDump(L);
 	luaL_newlib(L, MyLib_lib);
+	stackDump(L);
 
 	// Stack: MyLib
 	luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
+	stackDump(L);
+
 	luaL_newlib(L, Obj_lib);
+	stackDump(L);
+	
 	lua_setfield(L, -2, "__index"); // Stack: MyLib meta
+	stackDump(L);
 
 	lua_pushstring(L, "__gc");
+	stackDump(L);
+
 	lua_pushcfunction(L, Obj__gc); // Stack: MyLib meta "__gc" fptr
+	stackDump(L);
+	
 	lua_settable(L, -3); // Stack: MyLib meta
+	stackDump(L);
+
 	lua_pop(L, 1); // Stack: MyLib
+	stackDump(L);
 
 	return 1;
 }
