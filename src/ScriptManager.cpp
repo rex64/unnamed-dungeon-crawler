@@ -71,7 +71,7 @@ void ScriptManager::init() {
 	//field
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "field");
-	
+
 	//field - setTile(id, value)
 	lua_getglobal(m_L, "field");
 	lua_pushstring(m_L, "setTile");
@@ -130,122 +130,122 @@ void ScriptManager::doString(const char *str)
 }
 
 
-	static void stackDump(lua_State *L) {
+static void stackDump(lua_State *L) {
 
-		printf("LUA STACK DUMP--------\n");
+	printf("LUA STACK DUMP--------\n");
 
-		int i;
-		int top = lua_gettop(L);
-		for (i = 1; i <= top; i++) {  /* repeat for each level */
-			int t = lua_type(L, i);
-			switch (t) {
+	int i;
+	int top = lua_gettop(L);
+	for (i = 1; i <= top; i++) {  /* repeat for each level */
+		int t = lua_type(L, i);
+		switch (t) {
 
-			case LUA_TSTRING:  /* strings */
-				printf("`%s'", lua_tostring(L, i));
-				break;
+		case LUA_TSTRING:  /* strings */
+			printf("`%s'", lua_tostring(L, i));
+			break;
 
-			case LUA_TBOOLEAN:  /* booleans */
-				printf(lua_toboolean(L, i) ? "true" : "false");
-				break;
+		case LUA_TBOOLEAN:  /* booleans */
+			printf(lua_toboolean(L, i) ? "true" : "false");
+			break;
 
-			case LUA_TNUMBER:  /* numbers */
-				printf("%g", lua_tonumber(L, i));
-				break;
+		case LUA_TNUMBER:  /* numbers */
+			printf("%g", lua_tonumber(L, i));
+			break;
 
-			default:  /* other values */
-				printf("%s", lua_typename(L, t));
-				break;
+		default:  /* other values */
+			printf("%s", lua_typename(L, t));
+			break;
 
-			}
-			printf("  ");  /* put a separator */
 		}
-		printf("\n");  /* end the listing */
+		printf("  ");  /* put a separator */
+	}
+	printf("\n");  /* end the listing */
+}
+
+//http://www.lua.org/manual/5.3/manual.html#lua_CFunction
+static int luaTestFunc(lua_State* state)
+{
+	/* number of arguments */
+	int args = lua_gettop(state);
+
+	for (int n = 1; n <= args; ++n) {
+		printf("  arg %d: '%s'\n", n, lua_tostring(state, n));
 	}
 
-	//http://www.lua.org/manual/5.3/manual.html#lua_CFunction
-	static int luaTestFunc(lua_State* state)
-	{
-		/* number of arguments */
-		int args = lua_gettop(state);
+	lua_pushnumber(state, 123);
+	return 1; /* number of results */
+}
 
-		for (int n = 1; n <= args; ++n) {
-			printf("  arg %d: '%s'\n", n, lua_tostring(state, n));
-		}
+static int l_setTile(lua_State* state)
+{
+	/* number of arguments */
+	int args = lua_gettop(state);
 
-		lua_pushnumber(state, 123);
-		return 1; /* number of results */
-	}
-
-	static int l_setTile(lua_State* state)
-	{
-		/* number of arguments */
-		int args = lua_gettop(state);
-
-		int id = lua_tointeger(state, 1);
-		std::string value = lua_tostring(state, 2);
-		int tileType = lua_tointeger(state, 3);
+	int id = lua_tointeger(state, 1);
+	std::string value = lua_tostring(state, 2);
+	int tileType = lua_tointeger(state, 3);
 
 
-		StageManager::manager->currStage->setTile(id, value, (TileType) tileType);
-		return 0; /* number of results */
-	}
+	StageManager::manager->currStage->setTile(id, value, (TileType)tileType);
+	return 0; /* number of results */
+}
 
-	static int luaQuitGame(lua_State* state) {
+static int luaQuitGame(lua_State* state) {
 
-		//    printf("luaQuitGame..\n");
+	//    printf("luaQuitGame..\n");
 
-		//quit = true;
+	//quit = true;
 
-		Game::game->quit();
+	Game::game->quit();
 
-		return 0;
-	}
+	return 0;
+}
 
-	const static char *Obj_typename = "ObjTypename";
+const static char *Obj_typename = "ObjTypename";
 
-	void check_Obj(lua_State *L, int i) {
-		luaL_checkudata(L, i, Obj_typename);
-	}
+void check_Obj(lua_State *L, int i) {
+	luaL_checkudata(L, i, Obj_typename);
+}
 
-	int MyLib_MakeObj(lua_State *L) {
-		printf("In MyLib_MakeObj\n");
-		lua_newuserdata(L, sizeof(int*));
-		luaL_setmetatable(L, Obj_typename);
-		return 1;
-	}
-	int Obj__gc(lua_State *L) {
-		printf("In Obj__gc\n");
-		return 0;
-	}
-	int Obj_method(lua_State *L) {
-		stackDump(L);
-		printf("In Obj_method\n");
-		check_Obj(L, 1);
-		return 0;
-	}
+int MyLib_MakeObj(lua_State *L) {
+	printf("In MyLib_MakeObj\n");
+	lua_newuserdata(L, sizeof(int*));
+	luaL_setmetatable(L, Obj_typename);
+	return 1;
+}
+int Obj__gc(lua_State *L) {
+	printf("In Obj__gc\n");
+	return 0;
+}
+int Obj_method(lua_State *L) {
+	stackDump(L);
+	printf("In Obj_method\n");
+	check_Obj(L, 1);
+	return 0;
+}
 
-	int luaopen_MyLib(lua_State *L) {
-		static const luaL_Reg Obj_lib[] = {
-			{ "method", &Obj_method },
-			{ NULL, NULL }
-		};
+int luaopen_MyLib(lua_State *L) {
+	static const luaL_Reg Obj_lib[] = {
+		{ "method", &Obj_method },
+		{ NULL, NULL }
+	};
 
-		static const luaL_Reg MyLib_lib[] = {
-			{ "MakeObj", &MyLib_MakeObj },
-			{ NULL, NULL }
-		};
+	static const luaL_Reg MyLib_lib[] = {
+		{ "MakeObj", &MyLib_MakeObj },
+		{ NULL, NULL }
+	};
 
-		luaL_newlib(L, MyLib_lib);
+	luaL_newlib(L, MyLib_lib);
 
-		// Stack: MyLib
-		luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
-		luaL_newlib(L, Obj_lib);
-		lua_setfield(L, -2, "__index"); // Stack: MyLib meta
+	// Stack: MyLib
+	luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
+	luaL_newlib(L, Obj_lib);
+	lua_setfield(L, -2, "__index"); // Stack: MyLib meta
 
-		lua_pushstring(L, "__gc");
-		lua_pushcfunction(L, Obj__gc); // Stack: MyLib meta "__gc" fptr
-		lua_settable(L, -3); // Stack: MyLib meta
-		lua_pop(L, 1); // Stack: MyLib
+	lua_pushstring(L, "__gc");
+	lua_pushcfunction(L, Obj__gc); // Stack: MyLib meta "__gc" fptr
+	lua_settable(L, -3); // Stack: MyLib meta
+	lua_pop(L, 1); // Stack: MyLib
 
-		return 1;
-	}
+	return 1;
+}
