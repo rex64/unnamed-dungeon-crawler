@@ -31,8 +31,8 @@ private:
 	lua_State *m_L;
 };
 
-extern "C" static void stackDump(lua_State *L);
-extern "C" static int luaTestFunc(lua_State* state);
-extern "C" static int luaQuitGame(lua_State* state);
-extern "C" static int l_setTile(lua_State* state);
-extern "C" static int luaopen_MyLib(lua_State *L);
+extern "C" void stackDump(lua_State *L);
+extern "C" int luaTestFunc(lua_State* state);
+extern "C" int luaQuitGame(lua_State* state);
+extern "C" int l_setTile(lua_State* state);
+extern "C" int luaopen_MyLib(lua_State *L);

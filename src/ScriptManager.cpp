@@ -132,7 +132,7 @@ void ScriptManager::doString(const char *str)
 }
 
 //stolen from https://www.lua.org/pil/24.2.3.html
-static void stackDump(lua_State *L) {
+void stackDump(lua_State *L) {
 
 	printf("LUA STACK DUMP--------\n");
 
@@ -165,7 +165,7 @@ static void stackDump(lua_State *L) {
 }
 
 //http://www.lua.org/manual/5.3/manual.html#lua_CFunction
-static int luaTestFunc(lua_State* state)
+int luaTestFunc(lua_State* state)
 {
 	/* number of arguments */
 	int args = lua_gettop(state);
@@ -178,7 +178,7 @@ static int luaTestFunc(lua_State* state)
 	return 1; /* number of results */
 }
 
-static int l_setTile(lua_State* state)
+int l_setTile(lua_State* state)
 {
 	/* number of arguments */
 	int args = lua_gettop(state);
@@ -192,7 +192,7 @@ static int l_setTile(lua_State* state)
 	return 0; /* number of results */
 }
 
-static int luaQuitGame(lua_State* state) {
+int luaQuitGame(lua_State* state) {
 
 	//    printf("luaQuitGame..\n");
 
