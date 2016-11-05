@@ -157,7 +157,9 @@ void Game::run() {
 
 	printf("Quitting..\n");
 
-	//lua_close(m_L);
+	ScriptManager::manager->onQuit();
+
+	
 
 	//SDL_FreeSurface(testSurface);
 	SDL_DestroyWindow(window);

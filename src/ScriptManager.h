@@ -26,6 +26,7 @@ public:
 	static ScriptManager *manager;
 
 	bool onInput(SDL_Event* e);
+	void onQuit();
 
 private:
 	lua_State *m_L;

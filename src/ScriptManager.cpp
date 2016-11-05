@@ -131,6 +131,12 @@ void ScriptManager::doString(const char *str)
 	}
 }
 
+void ScriptManager::onQuit() {
+
+	lua_close(m_L);
+
+}
+
 //stolen from https://www.lua.org/pil/24.2.3.html
 void stackDump(lua_State *L) {
 
@@ -203,37 +209,47 @@ int luaQuitGame(lua_State* state) {
 	return 0;
 }
 
-const static char *Obj_typename = "ObjTypename";
+const static char *Entity_typename = "EntityTypename";
 
-void check_Obj(lua_State *L, int i) {
-	luaL_checkudata(L, i, Obj_typename);
+Entity* check_Entity(lua_State *L) {
+	return (Entity*) luaL_checkudata(L, 1, Entity_typename);
 }
 
-int MyLib_MakeObj(lua_State *L) {
-	printf("In MyLib_MakeObj\n");
-	lua_newuserdata(L, sizeof(int*));
-	luaL_setmetatable(L, Obj_typename);
+int MyLib_MakeEntity(lua_State *L) {
+	
+	Entity *e = (Entity*) lua_newuserdata(L, sizeof(Entity));
+	luaL_setmetatable(L, Entity_typename);
+
+	e->id = -1;
+	e->tileId = -1;
+	e->type = Other;
+	e->entityResID = std::string("data.base.spritesheets.stairs");
+
+	StageManager::manager->currStage->addEntity(e, 1 + 18);
+
+	printf("Entity Creata");
+
 	return 1;
 }
-int Obj__gc(lua_State *L) {
+int Entity__gc(lua_State *L) {
+	Entity *e = check_Entity(L);
 	printf("In Obj__gc\n");
 	return 0;
 }
-int Obj_method(lua_State *L) {
-	stackDump(L);
+int Entity_method(lua_State *L) {
 	printf("In Obj_method\n");
-	check_Obj(L, 1);
+	check_Entity(L);
 	return 0;
 }
 
 int luaopen_MyLib(lua_State *L) {
 	static const luaL_Reg Obj_lib[] = {
-		{ "method", &Obj_method },
+		{ "method", &Entity_method },
 		{ NULL, NULL }
 	};
 
 	static const luaL_Reg MyLib_lib[] = {
-		{ "MakeObj", &MyLib_MakeObj },
+		{ "MakeObj", &MyLib_MakeEntity },
 		{ NULL, NULL }
 	};
 
@@ -242,7 +258,7 @@ int luaopen_MyLib(lua_State *L) {
 	stackDump(L);
 
 	// Stack: MyLib
-	luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
+	luaL_newmetatable(L, Entity_typename); // Stack: MyLib meta
 	stackDump(L);
 
 	luaL_newlib(L, Obj_lib);
@@ -254,7 +270,7 @@ int luaopen_MyLib(lua_State *L) {
 	lua_pushstring(L, "__gc");
 	stackDump(L);
 
-	lua_pushcfunction(L, Obj__gc); // Stack: MyLib meta "__gc" fptr
+	lua_pushcfunction(L, Entity__gc); // Stack: MyLib meta "__gc" fptr
 	stackDump(L);
 	
 	lua_settable(L, -3); // Stack: MyLib meta

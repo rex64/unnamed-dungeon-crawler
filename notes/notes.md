@@ -51,3 +51,28 @@ int luaopen_MyLib(lua_State *L) {
 
 	//11
 	lua_pop(L, 1); // Stack: "MyLib" table(MyLib_lib)
+
+}
+
+const static char *Obj_typename = "ObjTypename";
+
+void check_Obj(lua_State *L, int i) {
+	luaL_checkudata(L, i, Obj_typename);
+}
+
+int MyLib_MakeObj(lua_State *L) {
+	printf("In MyLib_MakeObj\n");
+	lua_newuserdata(L, sizeof(int*));
+	luaL_setmetatable(L, Obj_typename);
+	return 1;
+}
+int Obj__gc(lua_State *L) {
+	printf("In Obj__gc\n");
+	return 0;
+}
+int Obj_method(lua_State *L) {
+	stackDump(L);
+	printf("In Obj_method\n");
+	check_Obj(L, 1);
+	return 0;
+}
