@@ -67,9 +67,9 @@ void ResourceManager::init() {
 	
 	loadTile("data/base/tiles/tile01.bmp");
 
-	loadSprite("data/base/spritesheets/player.bmp");
+	/*loadSprite("data/base/spritesheets/player.bmp");
 	loadSprite("data/base/spritesheets/enemy.bmp");
-	loadSprite("data/base/spritesheets/stairs.bmp");
+	loadSprite("data/base/spritesheets/stairs.bmp");*/
 
 	loadFont("data/base/fonts/standard_font.bmp");
 
@@ -77,14 +77,16 @@ void ResourceManager::init() {
 
 }
 
-void ResourceManager::loadSprite(std::string f) {
+void ResourceManager::loadSprite(std::string filePath) {
 
-	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
+	if (SDL_Surface *surf = SDL_LoadBMP(filePath.c_str())) {
 
-		std::string resID = f.substr(0, f.size() -4);
-		std::replace(resID.begin(), resID.end(), '/', '.');
-		
-		spritesheets[resID] = surf;
+		std::size_t found = filePath.find("data/");
+		std::string sub = filePath.substr(found);
+		std::string sub2 = sub.substr(0, sub.size() - 4);
+
+		std::replace(sub2.begin(), sub2.end(), '/', '.');
+		spritesheets[sub2] = surf;
 
 	}
 	else
@@ -93,6 +95,24 @@ void ResourceManager::loadSprite(std::string f) {
 	}
 
 }
+
+//void ResourceManager::loadSprite(std::string f) {
+//
+//	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
+//
+//		std::string resID = f.substr(0, f.size() -4);
+//		std::replace(resID.begin(), resID.end(), '/', '.');
+//		
+//		spritesheets[resID] = surf;
+//
+//	}
+//	else
+//	{
+//		Game::game->showMsgBox(SDL_GetError());
+//	}
+//
+//}
+
 void ResourceManager::loadTile(std::string f) {
 
 	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {

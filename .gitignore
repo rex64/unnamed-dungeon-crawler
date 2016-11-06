@@ -256,3 +256,4 @@ lua/
 *.bmp
 *.rar
 *.zip
+external/tinydir.h

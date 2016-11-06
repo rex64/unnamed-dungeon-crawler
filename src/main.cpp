@@ -19,6 +19,9 @@
 
 #include <iostream>
 #include "Game.h"
+#include <tinydir.h>
+#include "res\ResourceManager.h"
+
 /*
 const static char *Obj_typename = "ObjTypename";
 
@@ -69,7 +72,53 @@ int luaopen_MyLib(lua_State *L) {
 }
 */
 
+void walk(std::string basePath) {
+
+	
+
+	const char *dataPath = basePath.c_str();
+	printf("Entering: %s", dataPath);
+	printf("\n");
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++)
+	{
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+			continue;
+		}
+
+		if (file.is_dir)
+		{
+			//printf("/");
+			walk(std::string(basePath).append("/").append(file.name));
+		}
+		else {
+			printf("%s", file.name);
+			printf("\n");
+
+			if (strcmp(file.extension, "bmp") == 0){
+				std::size_t found = basePath.find("data/");
+				std::string sub = basePath.substr(found);
+				//printf("%s", found);
+				ResourceManager::manager->loadSprite(file.path);
+			}
+		}
+		
+	}
+
+	tinydir_close(&dir);
+
+
+}
+
 int main(int argc, char* argv[]) {
+
+	
 
 	Game *g = new Game();
 	g->init();
@@ -86,7 +135,16 @@ int main(int argc, char* argv[]) {
 
 	lua_close(L);
 	std::cout << "CIAO\n";
+
+
 	*/
+	
+	std::string basePath(SDL_GetBasePath());
+	basePath.append("data");
+	//basePath.append("base\\");
+	walk(basePath);
+	
+
 	g->run();
 
     return 0;

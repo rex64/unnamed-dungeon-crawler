@@ -24,11 +24,15 @@ set( project_sources
    src/RenderManager.h
    src/RenderManager.cpp
    src/IRenderable.h
+
+   external/tinydir.h
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})
 set_property(TARGET unnamed-dungeon-crawler PROPERTY CXX_STANDARD 11)
 set_property(TARGET unnamed-dungeon-crawler PROPERTY CXX_STANDARD_REQUIRED ON)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/)
 
 if (APPLE)
 	message("OSX")
