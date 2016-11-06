@@ -78,15 +78,15 @@ void RenderManager::render()
 
 	for (auto kv : StageManager::manager->currStage->entities) {
 	
-		Entity *entity = kv.second;
+		if (Entity *entity = kv.second) {
 
-		int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
-		int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
+			int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
+			int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
-		//Player-->Game
-		SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-		SDL_BlitSurface(ResourceManager::manager->getSprite(entity->entityResID), NULL, game, &pos);
-
+			//Player-->Game
+			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+			SDL_BlitSurface(ResourceManager::manager->getSprite(entity->entityResID), NULL, game, &pos);
+		};
 	}
 
 

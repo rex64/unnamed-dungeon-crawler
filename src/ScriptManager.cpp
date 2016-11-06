@@ -79,10 +79,17 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
-	//field - spawnEntity(id, value)
+	//field - addEntity(id, value)
 	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "spawnEntity");
-	lua_pushcfunction(m_L, l_setTile);
+	lua_pushstring(m_L, "addEntity");
+	lua_pushcfunction(m_L, l_addEntity);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+
+	//field - addEntity(id, value)
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "setEntityTile");
+	lua_pushcfunction(m_L, l_setEntityTile);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
@@ -101,8 +108,6 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
-
-	luaL_requiref(m_L, "MyLib", luaopen_MyLib, 1);
 	stackDump(m_L);
 }
 
@@ -198,6 +203,34 @@ int l_setTile(lua_State* state)
 	return 0; /* number of results */
 }
 
+int l_addEntity(lua_State* state)
+{
+	/* number of arguments */
+	int args = lua_gettop(state);
+
+	EntityType entityType = (EntityType) lua_tointeger(state, 1);
+	std::string ns = lua_tostring(state, 2);
+
+	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, ns }, 1 + 16);
+
+	lua_pushnumber(state, newEntityID);
+
+	return 1; /* number of results */
+}
+
+int l_setEntityTile(lua_State* state)
+{
+	/* number of arguments */
+	int args = lua_gettop(state);
+
+	int entityID = lua_tointeger(state, 1);
+	int tileID = lua_tointeger(state, 2);
+
+	StageManager::manager->currStage->moveEntity(entityID, tileID);
+
+	return 0; /* number of results */
+}
+
 int luaQuitGame(lua_State* state) {
 
 	//    printf("luaQuitGame..\n");
@@ -207,77 +240,4 @@ int luaQuitGame(lua_State* state) {
 	Game::game->quit();
 
 	return 0;
-}
-
-const static char *Entity_typename = "EntityTypename";
-
-Entity* check_Entity(lua_State *L) {
-	return (Entity*) luaL_checkudata(L, 1, Entity_typename);
-}
-
-int MyLib_MakeEntity(lua_State *L) {
-	
-	Entity *e = (Entity*) lua_newuserdata(L, sizeof(Entity));
-	luaL_setmetatable(L, Entity_typename);
-
-	e->id = -1;
-	e->tileId = -1;
-	e->type = Other;
-	e->entityResID = std::string("data.base.spritesheets.stairs");
-
-	StageManager::manager->currStage->addEntity(e, 1 + 18);
-
-	printf("Entity Creata");
-
-	return 1;
-}
-int Entity__gc(lua_State *L) {
-	Entity *e = check_Entity(L);
-	printf("In Obj__gc\n");
-	return 0;
-}
-int Entity_method(lua_State *L) {
-	printf("In Obj_method\n");
-	check_Entity(L);
-	return 0;
-}
-
-int luaopen_MyLib(lua_State *L) {
-	static const luaL_Reg Obj_lib[] = {
-		{ "method", &Entity_method },
-		{ NULL, NULL }
-	};
-
-	static const luaL_Reg MyLib_lib[] = {
-		{ "MakeObj", &MyLib_MakeEntity },
-		{ NULL, NULL }
-	};
-
-	stackDump(L);
-	luaL_newlib(L, MyLib_lib);
-	stackDump(L);
-
-	// Stack: MyLib
-	luaL_newmetatable(L, Entity_typename); // Stack: MyLib meta
-	stackDump(L);
-
-	luaL_newlib(L, Obj_lib);
-	stackDump(L);
-	
-	lua_setfield(L, -2, "__index"); // Stack: MyLib meta
-	stackDump(L);
-
-	lua_pushstring(L, "__gc");
-	stackDump(L);
-
-	lua_pushcfunction(L, Entity__gc); // Stack: MyLib meta "__gc" fptr
-	stackDump(L);
-	
-	lua_settable(L, -3); // Stack: MyLib meta
-	stackDump(L);
-
-	lua_pop(L, 1); // Stack: MyLib
-	stackDump(L);
-
-	return 1;
 }

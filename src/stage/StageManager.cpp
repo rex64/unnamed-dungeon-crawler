@@ -34,20 +34,22 @@ bool StageManager::onInput(SDL_Event * e)
 	bool up = state[SDL_SCANCODE_UP];
 	bool down = state[SDL_SCANCODE_DOWN];
 
-	if ( !(left || right || up || down) ) {
-		return false;
+	if (left || right || up || down) {
+
+		if (Entity *player = StageManager::manager->currStage->player) {
+			Point p = currStage->toXY(player->tileId);
+
+			if (left) p.x -= 1;
+			if (right) p.x += 1;
+			if (up) p.y -= 1;
+			if (down) p.y += 1;
+
+			StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
+
+			//printf("StageManager - onInput\n");
+			return true;
+		}
 	}
 
-	Entity *player = StageManager::manager->currStage->player;
-	Point p = currStage->toXY(player->tileId);
-
-	if (left) p.x -= 1;
-	if (right) p.x += 1;
-	if (up) p.y -= 1;
-	if (down) p.y += 1;
-
-	StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
-
-	//printf("StageManager - onInput\n");
-	return true;
+	return false;
 }

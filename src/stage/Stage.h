@@ -49,7 +49,8 @@ public:
 	Tile getTile(int tileId);
 	Entity* getEntity(int entityId);
 	Entity* getTileEntity(int tileId);	
-	bool addEntity(Entity*, int);
+	int addEntity(Entity*, int);
+	bool moveEntity(int entityId, int tileId);
 	bool moveEntity(Entity*, int);
 	bool removeEntity(Entity*);
 	bool checkIfTileIsWalkable(int tileID);
@@ -61,6 +62,7 @@ public:
 	int to1D(Point p);
 	int to1D(int x, int y);
 	Point toXY(int i);
+	bool checkBoundaries(int tileId);
 
 	std::unordered_map<int, Entity*> entities;
 

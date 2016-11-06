@@ -61,25 +61,11 @@ for i,v in ipairs(a) do
 end
 
 
-enemy = {
-  
-  new = function() return {
-    
-      type = EntityType.Enemy,
-      entityResID = "data.base.spritesheets.enemy"
-    
-    } 
-    end
-  
-}
+  local playerID = field.addEntity(EntityType.Player, 'data.base.spritesheets.player')
+  field.setEntityTile(playerID, 1 + 16)
 
-newEnemy = enemy.new()
+  local stairsID = field.addEntity(EntityType.Other, 'data.base.spritesheets.stairs')
+  field.setEntityTile(stairsID, 1 + 18)
 
---field.registerEntity(newEnemy, 1 + 24)
-
-function foo()
-    local obj = MyLib.MakeObj()
-    obj:method()
-end
-
-foo()
+  local enemyID = field.addEntity(EntityType.Enemy, 'data.base.spritesheets.enemy')
+  field.setEntityTile(enemyID, 1 + 24)

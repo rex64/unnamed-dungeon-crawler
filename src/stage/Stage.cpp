@@ -3,7 +3,7 @@
 Stage::Stage()
 {
 	nextEntityId = 1;
-	addEntity(new Entity{ NULL, NULL, Player, "data.base.spritesheets.player" }, 1 + 16);
+	//addEntity(new Entity{ NULL, NULL, Player, "data.base.spritesheets.player" }, 1 + 16);
 	//addEntity(new Entity{ NULL, NULL, Other, "data.base.spritesheets.stairs" }, 1 + 18);
 	//addEntity(new Entity{ NULL, NULL, Enemy, "data.base.spritesheets.enemy" }, 1 + 24);
 
@@ -15,6 +15,7 @@ Stage::~Stage()
 
 void Stage::load() {
 
+	player = nullptr;
 	arrayWidth = 16;
 	arrayHeight = 9;
 
@@ -44,7 +45,7 @@ Entity* Stage::getTileEntity(int tileId) {
 	return tileEntities[tileId];
 }
 
-bool Stage::addEntity(Entity *newEntity, int tileId)
+int Stage::addEntity(Entity *newEntity, int tileId)
 {
 	int entityID = nextEntityId++;
 	
@@ -59,7 +60,18 @@ bool Stage::addEntity(Entity *newEntity, int tileId)
 		this->player = newEntity;
 	}
 
-	return true;
+	return entityID;
+}
+
+bool Stage::moveEntity(int entityId, int tileId) {
+
+	if (checkBoundaries(tileId)) {
+		if (Entity *e = entities[entityId]) {
+			moveEntity(e, tileId);
+		}
+	}
+
+	return false;
 }
 
 bool Stage::moveEntity(Entity *entityToMove, int tileId)
@@ -110,4 +122,13 @@ Point Stage::toXY(int i) {
 
 	return Point{ x,y };
 
+}
+
+bool Stage::checkBoundaries(int tileId) {
+
+	if (tileId >= 0 || tileId < tiles.size()) {
+		return true;
+	}
+
+	return false;
 }
