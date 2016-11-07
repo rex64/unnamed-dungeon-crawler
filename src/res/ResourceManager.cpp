@@ -115,48 +115,15 @@ void ResourceManager::loadSprite(std::string filePath) {
 
 void ResourceManager::loadTile(std::string f) {
 
-	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
-
-		std::string resID = f.substr(0, f.size() - 4);
-		std::replace(resID.begin(), resID.end(), '/', '.');
-
-		tiles[resID] = surf;
-
-	}
-	else
-	{
-		Game::game->showMsgBox(SDL_GetError());
-	}
+	loadSprite(f);
 }
 void ResourceManager::loadFont(std::string f) {
 
-	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
-
-		std::string resID = f.substr(0, f.size() - 4);
-		std::replace(resID.begin(), resID.end(), '/', '.');
-
-		fonts[resID] = surf;
-
-	}
-	else
-	{
-		Game::game->showMsgBox(SDL_GetError());
-	}
+	loadSprite(f);
 }
 void ResourceManager::loadBorder(std::string f) {
 
-	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
-
-		std::string resID = f.substr(0, f.size() - 4);
-		std::replace(resID.begin(), resID.end(), '/', '.');
-
-		borders[resID] = surf;
-
-	}
-	else
-	{
-		Game::game->showMsgBox(SDL_GetError());
-	}
+	loadSprite(f);
 }
 
 SDL_Surface* ResourceManager::getSprite(std::string id) { 
@@ -171,7 +138,7 @@ SDL_Surface* ResourceManager::getSprite(std::string id) {
 }
 SDL_Surface* ResourceManager::getTile(std::string id) {
 
-	SDL_Surface* ret = tiles[id];
+	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
 		return spriteDefault;
@@ -181,7 +148,7 @@ SDL_Surface* ResourceManager::getTile(std::string id) {
 }
 SDL_Surface* ResourceManager::getFont(std::string id) {
 
-	SDL_Surface* ret = fonts[id];
+	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
 		return spriteDefault;
@@ -191,7 +158,7 @@ SDL_Surface* ResourceManager::getFont(std::string id) {
 }
 SDL_Surface* ResourceManager::getBorder(std::string id) {
 
-	SDL_Surface* ret = borders[id];
+	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
 		return spriteDefault;

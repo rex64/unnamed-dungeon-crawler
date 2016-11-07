@@ -93,7 +93,7 @@ void RenderManager::render()
 	//SDL_BlitSurface(testSurface, 0, game, NULL);
 
 	//Border-->Screen
-	SDL_BlitSurface(ResourceManager::manager->borders["data.base.borders.border"], 0, screen, 0);
+	SDL_BlitSurface(ResourceManager::manager->getBorder("data.base.borders.border"), 0, screen, 0);
 
 	//TextBox-->Game
 	//SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
@@ -109,7 +109,7 @@ void RenderManager::render()
 			SDL_Surface *consoleSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT - 16, 32, 0, 0, 0, 0);
 			SDL_FillRect(consoleSurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-			renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->fonts["data.base.fonts.standard_font"], consoleSurface);
+			renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->getFont("data.base.fonts.standard_font"), consoleSurface);
 
 			SDL_BlitSurface(consoleSurface, 0, screen, 0);
 			SDL_FreeSurface(consoleSurface);

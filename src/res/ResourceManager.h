@@ -24,18 +24,15 @@ public:
 	SDL_Surface* getBorder(std::string id);
 
 
-	static ResourceManager *manager;
+	static ResourceManager *manager;	
+
+private:
 
 	std::unordered_map<std::string, SDL_Surface*> spritesheets;
-	std::unordered_map<std::string, SDL_Surface*> tiles;
-	std::unordered_map<std::string, SDL_Surface*> fonts;
-	std::unordered_map<std::string, SDL_Surface*> borders;
 
 	SDL_Surface* spriteDefault;
 	SDL_Surface* tileDefault;
 	SDL_Surface* charDefault;
 	SDL_Surface* borderDefault;
-
-private:
 	
 };
