@@ -20,7 +20,7 @@
 #include <iostream>
 #include "Game.h"
 #include <tinydir.h>
-#include "res\ResourceManager.h"
+#include "res/ResourceManager.h"
 
 /*
 const static char *Obj_typename = "ObjTypename";
