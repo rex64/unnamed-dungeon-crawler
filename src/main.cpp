@@ -21,6 +21,8 @@
 #include "Game.h"
 #include <tinydir.h>
 #include "res/ResourceManager.h"
+#include "ScriptManager.h"
+#include <algorithm>
 
 /*
 const static char *Obj_typename = "ObjTypename";
@@ -106,6 +108,26 @@ void walk(std::string basePath) {
 				std::string sub = basePath.substr(found);
 				//printf("%s", found);
 				ResourceManager::manager->loadSprite(file.path);
+			}
+
+			if (strcmp(file.extension, "xml") == 0) {
+				
+				std::string filePath = std::string(file.path);
+				std::size_t found = filePath.find("data/");
+				std::string sub = filePath.substr(found);
+				std::string sub2 = sub.substr(0, sub.size() - 4);
+
+				std::replace(sub2.begin(), sub2.end(), '/', '.');
+
+				EntityData *newEntityData = new EntityData{ sub2, file.name, "StairsName", new FieldEntityData{ "data.base.spritesheets.stairs" } };
+				ResourceManager::manager->entityDatas[sub2] = newEntityData;
+			}
+
+			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {
+				std::size_t found = basePath.find("data/");
+				std::string sub = basePath.substr(found);
+
+				ScriptManager::manager->doFile(file.path);
 			}
 		}
 		

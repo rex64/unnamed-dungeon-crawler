@@ -60,12 +60,18 @@ for i,v in ipairs(a) do
 	end
 end
 
+--Player
+--local playerID = field.addEntity(EntityType.Player, 'data.base.spritesheets.player')
+--field.setEntityTile(playerID, 1 + 16)
 
-  local playerID = field.addEntity(EntityType.Player, 'data.base.spritesheets.player')
-  field.setEntityTile(playerID, 1 + 16)
 
-  local stairsID = field.addEntity(EntityType.Other, 'data.base.spritesheets.stairs')
-  field.setEntityTile(stairsID, 1 + 18)
+local stairsID = field.addEntity(EntityType.Other, 'data.base.entities.stairs')
+field.setEntityTile(stairsID, 1 + 18)
 
-  local enemyID = field.addEntity(EntityType.Enemy, 'data.base.spritesheets.enemy')
-  field.setEntityTile(enemyID, 1 + 24)
+
+--[[
+local enemyID = field.addEntity(EntityType.Enemy, 'data.base.spritesheets.enemy')
+field.setEntityTile(enemyID, 1 + 24)
+]]--
+
+print('ok');

@@ -35,7 +35,7 @@ struct Entity {
 	int id;
 	int tileId;
 	EntityType type;
-	std::string entityResID;
+	std::string entityDataID;
 };
 
 class Stage

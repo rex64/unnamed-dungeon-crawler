@@ -22,6 +22,7 @@ public:
 	void init();
 	void runMain();
 	void doString(const char *str);
+	void doFile(const char *str);
 
 	static ScriptManager *manager;
 

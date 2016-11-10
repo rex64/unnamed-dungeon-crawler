@@ -88,6 +88,8 @@ void ResourceManager::loadSprite(std::string filePath) {
 		std::replace(sub2.begin(), sub2.end(), '/', '.');
 		spritesheets[sub2] = surf;
 
+		SDL_Log("Loaded %s", sub2.c_str());
+
 	}
 	else
 	{

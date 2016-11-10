@@ -5,6 +5,22 @@
 
 struct SDL_Surface;
 
+struct FieldEntityData {
+
+	std::string spritesheet;
+
+
+};
+
+struct EntityData {
+	std::string id;
+	std::string fileName;
+	std::string name;
+	FieldEntityData *data;
+};
+
+
+
 class ResourceManager
 {
 public:
@@ -26,9 +42,12 @@ public:
 
 	static ResourceManager *manager;	
 
+	std::unordered_map<std::string, EntityData*> entityDatas;
+
 private:
 
 	std::unordered_map<std::string, SDL_Surface*> spritesheets;
+	
 
 	SDL_Surface* spriteDefault;
 	SDL_Surface* tileDefault;

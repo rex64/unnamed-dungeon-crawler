@@ -108,6 +108,18 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 
+	//data
+	lua_newtable(m_L);
+	lua_setglobal(m_L, "data");
+
+	//data.entities
+	lua_getglobal(m_L, "data");
+	lua_pushstring(m_L, "entities");
+	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+
+	stackDump(m_L);
 	stackDump(m_L);
 }
 
@@ -130,6 +142,14 @@ void ScriptManager::runMain() {
 void ScriptManager::doString(const char *str)
 {
 	if (luaL_dostring(m_L, str)) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+}
+
+void ScriptManager::doFile(const char *str){
+	if (luaL_dofile(m_L, str)) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);
@@ -209,9 +229,9 @@ int l_addEntity(lua_State* state)
 	int args = lua_gettop(state);
 
 	EntityType entityType = (EntityType) lua_tointeger(state, 1);
-	std::string ns = lua_tostring(state, 2);
+	std::string entityDataID = lua_tostring(state, 2);
 
-	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, ns }, 1 + 16);
+	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, entityDataID }, -1);
 
 	lua_pushnumber(state, newEntityID);
 

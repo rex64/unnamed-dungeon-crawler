@@ -1,3 +1,4 @@
+--[[
 EntityType = {
 
 	Player = 0,
@@ -22,3 +23,4 @@ test1 = enemy.new()
 
 print(test1.type)
 print(test1.entityResID)
+]]--
