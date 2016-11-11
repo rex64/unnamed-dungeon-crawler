@@ -11,6 +11,7 @@ extern "C" {
 #include <lua.hpp>
 #endif
 
+#include <string>
 #include "IInputReceiver.h"
 
 class ScriptManager : public IInputReceiver
@@ -28,6 +29,8 @@ public:
 
 	bool onInput(SDL_Event* e);
 	void onQuit();
+
+	void onInteract(std::string);
 
 private:
 	lua_State *m_L;

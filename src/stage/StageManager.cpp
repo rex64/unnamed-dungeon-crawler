@@ -6,6 +6,8 @@
 #include <SDL.h>
 #endif
 
+#include "../ScriptManager.h"
+
 StageManager* StageManager::manager;
 
 StageManager::StageManager()
@@ -27,12 +29,16 @@ void StageManager::init() {
 
 bool StageManager::onInput(SDL_Event * e)
 {
+
+	//Process player input
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 	bool left = state[SDL_SCANCODE_LEFT];
 	bool right = state[SDL_SCANCODE_RIGHT];
 	bool up = state[SDL_SCANCODE_UP];
 	bool down = state[SDL_SCANCODE_DOWN];
+
+	bool spacebar = state[SDL_SCANCODE_SPACE];
 
 	if (left || right || up || down) {
 
@@ -46,10 +52,29 @@ bool StageManager::onInput(SDL_Event * e)
 
 			StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
 
-			//printf("StageManager - onInput\n");
+			//find adjacent entities
+			StageManager::manager->currStage->adjEntitiesFindRes = StageManager::manager->currStage->findAdjacentEntities(player);
 			return true;
 		}
 	}
+	else if (spacebar) {
+	
+		if (StageManager::manager->currStage->adjEntitiesFindRes.e) {
+
+			if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.upEntity) {
+			
+				printf("%s", e->entityDataID);
+				ScriptManager::manager->onInteract(e->entityDataID);
+			}
+
+		}
+
+	
+		return true;
+	}
+
+	
+	
 
 	return false;
 }

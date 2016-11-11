@@ -61,8 +61,8 @@ for i,v in ipairs(a) do
 end
 
 --Player
---local playerID = field.addEntity(EntityType.Player, 'data.base.spritesheets.player')
---field.setEntityTile(playerID, 1 + 16)
+local playerID = field.addEntity(EntityType.Player, 'data.base.entities.player')
+field.setEntityTile(playerID, 1 + 16)
 
 
 local stairsID = field.addEntity(EntityType.Other, 'data.base.entities.stairs')

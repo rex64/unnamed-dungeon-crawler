@@ -15,6 +15,9 @@ Stage::~Stage()
 
 void Stage::load() {
 
+	adjEntitiesFindRes = AdjEntitiesFindResult{ nullptr, nullptr, nullptr, nullptr, nullptr };
+
+
 	player = nullptr;
 	arrayWidth = 16;
 	arrayHeight = 9;
@@ -42,7 +45,14 @@ Entity* Stage::getEntity(int entityId) {
 
 Entity* Stage::getTileEntity(int tileId) {
 
-	return tileEntities[tileId];
+	if (checkBoundaries(tileId)) {
+		
+		return tileEntities[tileId];
+
+	}
+
+	return nullptr;
+	
 }
 
 int Stage::addEntity(Entity *newEntity, int tileId)
@@ -131,4 +141,28 @@ bool Stage::checkBoundaries(int tileId) {
 	}
 
 	return false;
+}
+
+AdjEntitiesFindResult Stage::findAdjacentEntities(Entity* e) {
+
+	AdjEntitiesFindResult res = AdjEntitiesFindResult{e, nullptr, nullptr, nullptr, nullptr};
+
+	Point p = toXY(e->tileId);
+	if (Entity* upEntity = getTileEntity(to1D(p.x, p.y-1))) {
+		res.upEntity = upEntity;
+	}
+
+	if (Entity* leftEntity = getTileEntity(to1D(p.x-1, p.y))) {
+		res.leftEntity = leftEntity;
+	}
+
+	if (Entity* downEntity = getTileEntity(to1D(p.x, p.y+1))) {
+		res.downEntity = downEntity;
+	}
+
+	if (Entity* rightEntity = getTileEntity(to1D(p.x+1, p.y))) {
+		res.rightEntity = rightEntity;
+	}	
+
+	return res;
 }

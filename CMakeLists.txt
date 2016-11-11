@@ -26,6 +26,8 @@ set( project_sources
    src/IRenderable.h
 
    external/tinydir.h
+   external/tinyxml2.h
+   external/tinyxml2.cpp
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})

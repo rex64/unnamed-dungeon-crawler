@@ -4,7 +4,7 @@ local stairs = {
   sprite = 'data.base.spritesheets.stairs',
   
   onInteract = function()
-    print("stairs")
+    print("stairs - onInteract")
   end
   
 }

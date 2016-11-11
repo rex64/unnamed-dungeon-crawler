@@ -23,6 +23,7 @@
 #include "res/ResourceManager.h"
 #include "ScriptManager.h"
 #include <algorithm>
+#include "tinyxml2.h"
 
 /*
 const static char *Obj_typename = "ObjTypename";
@@ -119,8 +120,15 @@ void walk(std::string basePath) {
 
 				std::replace(sub2.begin(), sub2.end(), '/', '.');
 
-				EntityData *newEntityData = new EntityData{ sub2, file.name, "StairsName", new FieldEntityData{ "data.base.spritesheets.stairs" } };
+				tinyxml2::XMLDocument doc;
+				doc.LoadFile(file.path);
+				const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
+				const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+
+				EntityData *newEntityData = new EntityData{ sub2, file.name, entityName, new FieldEntityData{ "data.base.spritesheets.stairs" } };
 				ResourceManager::manager->entityDatas[sub2] = newEntityData;
+
+				
 			}
 
 			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {

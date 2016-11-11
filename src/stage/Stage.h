@@ -38,6 +38,16 @@ struct Entity {
 	std::string entityDataID;
 };
 
+struct AdjEntitiesFindResult {
+
+	Entity *e;
+	Entity *upEntity;
+	Entity *leftEntity;
+	Entity *downEntity;
+	Entity *rightEntity;
+
+};
+
 class Stage
 {
 public:
@@ -48,16 +58,20 @@ public:
 	void setTile(int, std::string, TileType);
 	Tile getTile(int tileId);
 	Entity* getEntity(int entityId);
-	Entity* getTileEntity(int tileId);	
+	Entity* getTileEntity(int tileId);
 	int addEntity(Entity*, int);
 	bool moveEntity(int entityId, int tileId);
 	bool moveEntity(Entity*, int);
 	bool removeEntity(Entity*);
 	bool checkIfTileIsWalkable(int tileID);
 
+	AdjEntitiesFindResult Stage::findAdjacentEntities(Entity*);
+	//std::vector<const Entity*> Stage::findAdjacentEntities(int tileId) const;
+
 	int arrayWidth;
 	int arrayHeight;
 	Entity* player;
+	AdjEntitiesFindResult adjEntitiesFindRes;
 
 	int to1D(Point p);
 	int to1D(int x, int y);
