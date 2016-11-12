@@ -19,6 +19,12 @@ struct EntityData {
 	FieldEntityData *data;
 };
 
+struct DungeonData {
+	std::string id;
+	std::string fileName;
+	std::string name;
+};
+
 
 
 class ResourceManager
@@ -43,6 +49,7 @@ public:
 	static ResourceManager *manager;	
 
 	std::unordered_map<std::string, EntityData*> entityDatas;
+	std::unordered_map<std::string, DungeonData*> dungeonDatas;
 
 private:
 

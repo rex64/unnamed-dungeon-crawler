@@ -31,6 +31,7 @@ public:
 	void onQuit();
 
 	void onInteract(std::string);
+	void onCreateFloor(std::string, int);
 
 private:
 	lua_State *m_L;

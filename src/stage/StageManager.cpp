@@ -22,8 +22,6 @@ StageManager::~StageManager()
 void StageManager::init() {
 
 	manager = this;
-	currStage = new Stage();
-	currStage->load();
 
 }
 

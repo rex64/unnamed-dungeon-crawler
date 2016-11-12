@@ -122,20 +122,37 @@ void walk(std::string basePath) {
 
 				tinyxml2::XMLDocument doc;
 				doc.LoadFile(file.path);
-				const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
-				const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
-				const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
 
-				EntityData *newEntityData = new EntityData{ 
-					sub2, 
-					file.name, 
-					entityName, 
-					new FieldEntityData{ entitySprite } 
-				};
+				//entity
+				if (doc.FirstChildElement("entity")) {
+					const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
+					const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+					const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
 
-				ResourceManager::manager->entityDatas[sub2] = newEntityData;
+					EntityData *newEntityData = new EntityData{
+						sub2,
+						file.name,
+						entityName,
+						new FieldEntityData{ entitySprite }
+					};
 
-				
+					ResourceManager::manager->entityDatas[sub2] = newEntityData;
+				}
+
+				//dungeon
+				if (doc.FirstChildElement("dungeon")) {
+
+					const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
+
+					DungeonData *newDungeonData = new DungeonData{
+						sub2,
+						file.name,
+						dungeonName
+					};
+
+					ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;
+				}
+
 			}
 
 			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {

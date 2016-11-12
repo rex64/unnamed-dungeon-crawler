@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "../ScriptManager.h"
 
 Stage::Stage()
 {
@@ -13,10 +14,9 @@ Stage::~Stage()
 {
 }
 
-void Stage::load() {
+void Stage::load(std::string dungeonDataID, int dungeonFloor) {
 
 	adjEntitiesFindRes = AdjEntitiesFindResult{ nullptr, nullptr, nullptr, nullptr, nullptr };
-
 
 	player = nullptr;
 	arrayWidth = 16;
@@ -26,6 +26,9 @@ void Stage::load() {
 	{
 		tiles.push_back(Tile{});
 	}
+
+	ScriptManager::manager->onCreateFloor(dungeonDataID, dungeonFloor);
+
 }
 
 void Stage::setTile(int id, std::string value, TileType tileType) {

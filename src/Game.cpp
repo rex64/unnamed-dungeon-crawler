@@ -125,6 +125,9 @@ void Game::run() {
 
 	ScriptManager::manager->runMain();
 
+	StageManager::manager->currStage = new Stage();
+	StageManager::manager->currStage->load("data.base.dungeons.dungeon1", 0);
+
 	SDL_AddTimer(260, my_callbackfunc, 0);
 
 	while (!m_bQuit)
