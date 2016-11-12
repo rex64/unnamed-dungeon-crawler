@@ -61,7 +61,10 @@ void check_Obj(lua_State *L, int i) {
 }
 
 int MyLib_MakeObj(lua_State *L) {
-	printf("In MyLib_MakeObj\n");
+
+	//1  This function allocates a new block of memory with the given size, 
+	//   pushes onto the stack a new full userdata with the block address, 
+	//   and returns this address. The host program can freely use this memory.
 	lua_newuserdata(L, sizeof(int*));
 	luaL_setmetatable(L, Obj_typename);
 	return 1;

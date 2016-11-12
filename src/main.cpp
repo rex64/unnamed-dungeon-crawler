@@ -124,8 +124,15 @@ void walk(std::string basePath) {
 				doc.LoadFile(file.path);
 				const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
 				const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+				const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
 
-				EntityData *newEntityData = new EntityData{ sub2, file.name, entityName, new FieldEntityData{ "data.base.spritesheets.stairs" } };
+				EntityData *newEntityData = new EntityData{ 
+					sub2, 
+					file.name, 
+					entityName, 
+					new FieldEntityData{ entitySprite } 
+				};
+
 				ResourceManager::manager->entityDatas[sub2] = newEntityData;
 
 				

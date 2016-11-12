@@ -1,0 +1,5 @@
+<entity>
+	<name>EnemyName</name>
+	<type>enemy</type>
+	<sprite>data.base.spritesheets.enemy</sprite>
+</entity>

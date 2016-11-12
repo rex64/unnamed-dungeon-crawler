@@ -63,7 +63,7 @@ bool StageManager::onInput(SDL_Event * e)
 
 			if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.upEntity) {
 			
-				printf("%s", e->entityDataID);
+				printf(e->entityDataID.c_str());
 				ScriptManager::manager->onInteract(e->entityDataID);
 			}
 

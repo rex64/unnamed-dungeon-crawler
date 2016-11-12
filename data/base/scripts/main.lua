@@ -64,14 +64,10 @@ end
 local playerID = field.addEntity(EntityType.Player, 'data.base.entities.player')
 field.setEntityTile(playerID, 1 + 16)
 
-
 local stairsID = field.addEntity(EntityType.Other, 'data.base.entities.stairs')
 field.setEntityTile(stairsID, 1 + 18)
 
-
---[[
-local enemyID = field.addEntity(EntityType.Enemy, 'data.base.spritesheets.enemy')
+local enemyID = field.addEntity(EntityType.Enemy, 'data.base.entities.enemy')
 field.setEntityTile(enemyID, 1 + 24)
-]]--
 
-print('ok');
+print('main - ok');

@@ -1,4 +1,5 @@
 <entity>
 	<name>StairsName</name>
 	<type>other</type>
+	<sprite>data.base.spritesheets.stairs</sprite>
 </entity>
