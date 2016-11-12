@@ -1,5 +1,10 @@
 <dungeon>
 	<name>Dungeon1</name>
-	<!-- <type>player</type> -->
-	<!-- <sprite>data.base.spritesheets.player</sprite> -->
+	<description>desc</description>
+	<difficulties>
+		<easy>1</easy>
+		<normal>2</normal>
+		<hard>3</hard>
+		<extreme>4</extreme>
+	</difficulties>
 </dungeon>

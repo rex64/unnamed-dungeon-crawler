@@ -49,13 +49,26 @@ void RenderManager::render()
 		i->onRender();
 	}
 
+	int cameraOffsetX = 0;
+	int cameraOffsetY = 0;
+
+	if (Entity *player = StageManager::manager->currStage->player) {
+	
+		Point playerPos = StageManager::manager->currStage->toXY(player->tileId);
+
+		cameraOffsetX = (-16 * playerPos.x) + (16*7);
+		cameraOffsetY = (-16 * playerPos.y) + (16*4);
+	}
+
 	//render tiles
 	for (size_t i = 0; i < StageManager::manager->currStage->arrayWidth * StageManager::manager->currStage->arrayHeight; i++)
 	{
 		int x = i % StageManager::manager->currStage->arrayWidth;
 		int y = (i / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
-		SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+		
+
+		SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
 
 		SDL_BlitSurface(
 			ResourceManager::manager->getTile(StageManager::manager->currStage->getTile(i).tileResID),
@@ -84,7 +97,7 @@ void RenderManager::render()
 			int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
 			//Player-->Game
-			SDL_Rect pos = { x * 16, y * 16, 16, 16 };
+			SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
 			std::string spriteID = ((FieldEntityData*)(ResourceManager::manager->entityDatas[entity->entityDataID]->data))->spritesheet;
 			SDL_BlitSurface(ResourceManager::manager->getSprite( spriteID), NULL, game, &pos);
 		};
