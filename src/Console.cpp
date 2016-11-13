@@ -43,6 +43,5 @@ bool Console::onInput(SDL_Event* e) {
 		}
 	}
 
-	//printf("Console - onInput\n");
 	return true;
 }

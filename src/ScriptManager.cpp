@@ -132,7 +132,6 @@ void ScriptManager::init() {
 
 bool ScriptManager::onInput(SDL_Event * e)
 {
-	//printf("ScriptManager - onInput\n");
 	return false;
 }
 
@@ -206,7 +205,7 @@ void ScriptManager::onCreateFloor(std::string s, int floorNo) {
 //stolen from https://www.lua.org/pil/24.2.3.html
 void stackDump(lua_State *L) {
 
-	printf("LUA STACK DUMP--------\n");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "LUA STACK DUMP--------");
 
 	int i;
 	int top = lua_gettop(L);
@@ -215,25 +214,27 @@ void stackDump(lua_State *L) {
 		switch (t) {
 
 		case LUA_TSTRING:  /* strings */
-			printf("`%s'", lua_tostring(L, i));
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "`%s'", lua_tostring(L, i));
 			break;
 
 		case LUA_TBOOLEAN:  /* booleans */
-			printf(lua_toboolean(L, i) ? "true" : "false");
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, lua_toboolean(L, i) ? "true" : "false");
 			break;
 
 		case LUA_TNUMBER:  /* numbers */
-			printf("%g", lua_tonumber(L, i));
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "%g", lua_tonumber(L, i));
 			break;
 
 		default:  /* other values */
-			printf("%s", lua_typename(L, t));
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, lua_typename(L, t));
 			break;
 
 		}
-		printf("  ");  /* put a separator */
+		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, " "); /* put a separator */
 	}
-	printf("\n");  /* end the listing */
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "\n"); /* end the listing */
+
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "--------");
 }
 
 //http://www.lua.org/manual/5.3/manual.html#lua_CFunction
@@ -293,10 +294,6 @@ int l_setEntityTile(lua_State* state)
 }
 
 int luaQuitGame(lua_State* state) {
-
-	//    printf("luaQuitGame..\n");
-
-	//quit = true;
 
 	Game::game->quit();
 

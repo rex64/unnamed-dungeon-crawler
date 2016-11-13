@@ -165,7 +165,6 @@ void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf) {
 	int i = 0;
 	int j = 0;
 	for (char& c : str) {
-		//printf("%c", c);
 		if (((int)c) == 10) {
 			++j;
 			i = 0;

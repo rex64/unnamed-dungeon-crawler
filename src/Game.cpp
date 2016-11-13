@@ -154,7 +154,7 @@ void Game::run() {
 		SDL_Delay(16);
 	}
 
-	printf("Quitting..\n");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Quitting..");
 
 	ScriptManager::manager->onQuit();
 

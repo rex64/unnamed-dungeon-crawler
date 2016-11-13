@@ -1,7 +1,6 @@
 #include "ResourceManager.h"
 #include "../Game.h"
 
-
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
 #elif _WIN32
@@ -70,13 +69,9 @@ void ResourceManager::init() {
 	
 	loadTile("data/base/tiles/tile01.bmp");
 
-	/*loadSprite("data/base/spritesheets/player.bmp");
-	loadSprite("data/base/spritesheets/enemy.bmp");
-	loadSprite("data/base/spritesheets/stairs.bmp");*/
-
 	loadFont("data/base/fonts/standard_font.bmp");
 
-	SDL_Surface* tre =  getSprite("omar");
+	//SDL_Surface* tre =  getSprite("omar");
 
 }
 
@@ -136,6 +131,7 @@ SDL_Surface* ResourceManager::getSprite(std::string id) {
 	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Sprite %s not found", id.c_str());
 		return spriteDefault;
 	}
 
@@ -146,6 +142,7 @@ SDL_Surface* ResourceManager::getTile(std::string id) {
 	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Tile %s not found", id.c_str());
 		return spriteDefault;
 	}
 
@@ -156,6 +153,7 @@ SDL_Surface* ResourceManager::getFont(std::string id) {
 	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Font %s not found", id.c_str());
 		return spriteDefault;
 	}
 
@@ -166,6 +164,7 @@ SDL_Surface* ResourceManager::getBorder(std::string id) {
 	SDL_Surface* ret = spritesheets[id];
 
 	if (ret == nullptr) {
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Border %s not found", id.c_str());
 		return spriteDefault;
 	}
 
@@ -176,7 +175,6 @@ void ResourceManager::loadDataFolder() {
 
 	std::string basePath(SDL_GetBasePath());
 	basePath.append("data");
-	//basePath.append("base\\");
 	walk(basePath);
 
 }
