@@ -45,10 +45,8 @@ void Game::init() {
 	SDL_VERSION(&compiled);
 	SDL_GetVersion(&linked);
 
-	printf("We compiled against SDL version %d.%d.%d ...\n",
-		compiled.major, compiled.minor, compiled.patch);
-	printf("We are linking against SDL version %d.%d.%d.\n",
-		linked.major, linked.minor, linked.patch);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "We compiled against SDL version %d.%d.%d ...\n", compiled.major, compiled.minor, compiled.patch);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "We are linking against SDL version %d.%d.%d.\n", linked.major, linked.minor, linked.patch);
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	window = SDL_CreateWindow(
@@ -79,13 +77,11 @@ void Game::init() {
 	RenderManager *renderManager = new RenderManager();
 	renderManager->init();
 
-	std::vector<IInputReceiver*> vecPerson;
+	resManager->loadDataFolder();
 	
 	inputManger->registerInput(console);
 	inputManger->registerInput(stageManager);
-	inputManger->registerInput(scriptManager);	
-
-	printf("");
+	inputManger->registerInput(scriptManager);
 
 	//Register input handlers
 

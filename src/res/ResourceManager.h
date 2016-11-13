@@ -35,6 +35,9 @@ public:
 
 	void init();
 
+	void loadDataFolder();
+	void walk(std::string);
+
 	void loadSprite(std::string f);
 	void loadTile(std::string f);
 	void loadFont(std::string f);

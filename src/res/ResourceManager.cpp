@@ -9,6 +9,9 @@
 #endif
 
 #include <algorithm>
+#include <tinydir.h>
+#include "tinyxml2.h"
+#include "../ScriptManager.h"
 
 ResourceManager* ResourceManager::manager;
 
@@ -167,4 +170,100 @@ SDL_Surface* ResourceManager::getBorder(std::string id) {
 	}
 
 	return ret;
+}
+
+void ResourceManager::loadDataFolder() {
+
+	std::string basePath(SDL_GetBasePath());
+	basePath.append("data");
+	//basePath.append("base\\");
+	walk(basePath);
+
+}
+
+void ResourceManager::walk(std::string basePath) {
+
+	const char *dataPath = basePath.c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++)
+	{
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+			continue;
+		}
+
+		if (file.is_dir)
+		{
+			walk(std::string(basePath).append("/").append(file.name));
+		}
+		else {
+
+			if (strcmp(file.extension, "bmp") == 0) {
+				std::size_t found = basePath.find("data/");
+				std::string sub = basePath.substr(found);
+				ResourceManager::manager->loadSprite(file.path);
+			}
+
+			if (strcmp(file.extension, "xml") == 0) {
+
+				std::string filePath = std::string(file.path);
+				std::size_t found = filePath.find("data/");
+				std::string sub = filePath.substr(found);
+				std::string sub2 = sub.substr(0, sub.size() - 4);
+
+				std::replace(sub2.begin(), sub2.end(), '/', '.');
+
+				tinyxml2::XMLDocument doc;
+				doc.LoadFile(file.path);
+
+				//entity
+				if (doc.FirstChildElement("entity")) {
+					const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
+					const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+					const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
+
+					EntityData *newEntityData = new EntityData{
+						sub2,
+						file.name,
+						entityName,
+						new FieldEntityData{ entitySprite }
+					};
+
+					ResourceManager::manager->entityDatas[sub2] = newEntityData;
+				}
+
+				//dungeon
+				if (doc.FirstChildElement("dungeon")) {
+
+					const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
+
+					DungeonData *newDungeonData = new DungeonData{
+						sub2,
+						file.name,
+						dungeonName
+					};
+
+					ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;
+				}
+
+			}
+
+			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {
+				std::size_t found = basePath.find("data/");
+				std::string sub = basePath.substr(found);
+
+				ScriptManager::manager->doFile(file.path);
+			}
+		}
+
+	}
+
+	tinydir_close(&dir);
+
+
 }
