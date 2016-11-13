@@ -23,6 +23,15 @@ struct Tile {
 	TileType tileType;
 };
 
+enum Facing {
+
+	Up = 0,
+	Right,
+	Down,
+	Left
+
+};
+
 enum EntityType {
 
 	Player = 0,
@@ -36,6 +45,7 @@ struct Entity {
 	int tileId;
 	EntityType type;
 	std::string entityDataID;
+	Facing facing;
 };
 
 struct AdjEntitiesFindResult {
@@ -62,6 +72,7 @@ public:
 	int addEntity(Entity*, int);
 	bool moveEntity(int entityId, int tileId);
 	bool moveEntity(Entity*, int);
+	void setEntityFacing(Entity*, Facing);
 	bool removeEntity(Entity*);
 	bool checkIfTileIsWalkable(int tileID);
 

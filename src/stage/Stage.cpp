@@ -4,10 +4,6 @@
 Stage::Stage()
 {
 	nextEntityId = 1;
-	//addEntity(new Entity{ NULL, NULL, Player, "data.base.spritesheets.player" }, 1 + 16);
-	//addEntity(new Entity{ NULL, NULL, Other, "data.base.spritesheets.stairs" }, 1 + 18);
-	//addEntity(new Entity{ NULL, NULL, Enemy, "data.base.spritesheets.enemy" }, 1 + 24);
-
 }
 
 Stage::~Stage()
@@ -106,6 +102,11 @@ bool Stage::moveEntity(Entity *entityToMove, int tileId)
 bool Stage::removeEntity(Entity *entityToRemove)
 {
 	return false;
+}
+
+void Stage::setEntityFacing(Entity* e, Facing f) {
+
+	e->facing = f;
 }
 
 bool Stage::checkIfTileIsWalkable(int tileID)

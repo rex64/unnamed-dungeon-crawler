@@ -98,8 +98,10 @@ void RenderManager::render()
 
 			//Player-->Game
 			SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
+			SDL_Rect rez{ 0 + (16 * entity->facing),0 (16 * entity->facing),16,16 };
 			std::string spriteID = ((FieldEntityData*)(ResourceManager::manager->entityDatas[entity->entityDataID]->data))->spritesheet;
-			SDL_BlitSurface(ResourceManager::manager->getSprite( spriteID), NULL, game, &pos);
+			SDL_BlitSurface(ResourceManager::manager->getSprite(spriteID), &rez, game, &pos);
+			
 		};
 	}
 

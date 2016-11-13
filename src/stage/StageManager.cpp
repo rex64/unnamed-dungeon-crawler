@@ -43,15 +43,21 @@ bool StageManager::onInput(SDL_Event * e)
 		if (Entity *player = StageManager::manager->currStage->player) {
 			Point p = currStage->toXY(player->tileId);
 
-			if (left) p.x -= 1;
-			if (right) p.x += 1;
-			if (up) p.y -= 1;
-			if (down) p.y += 1;
+			Facing newFacing = Up;
+
+			if (left) { p.x -= 1; newFacing = Left; }
+			else if (right) { p.x += 1; newFacing = Right; }
+			else if (up) { p.y -= 1; newFacing = Up; }
+			else if (down) { p.y += 1; newFacing = Down; }
 
 			StageManager::manager->currStage->moveEntity(player, currStage->to1D(p));
 
+			//change player entity facing
+			StageManager::manager->currStage->setEntityFacing(player, newFacing);
+
 			//find adjacent entities
 			StageManager::manager->currStage->adjEntitiesFindRes = StageManager::manager->currStage->findAdjacentEntities(player);
+			
 			return true;
 		}
 	}
@@ -59,10 +65,44 @@ bool StageManager::onInput(SDL_Event * e)
 	
 		if (StageManager::manager->currStage->adjEntitiesFindRes.e) {
 
-			if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.upEntity) {
-			
-				SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, e->entityDataID.c_str());
-				ScriptManager::manager->onInteract(e->entityDataID);
+			//UP
+			if (StageManager::manager->currStage->player->facing == Up) {
+
+				if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.upEntity) {
+
+					SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, e->entityDataID.c_str());
+					ScriptManager::manager->onInteract(e->entityDataID);
+				}
+			}
+
+			//LEFT
+			if (StageManager::manager->currStage->player->facing == Left) {
+
+				if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.leftEntity) {
+
+					SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, e->entityDataID.c_str());
+					ScriptManager::manager->onInteract(e->entityDataID);
+				}
+			}
+
+			//DOWN
+			if (StageManager::manager->currStage->player->facing == Down) {
+
+				if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.downEntity) {
+
+					SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, e->entityDataID.c_str());
+					ScriptManager::manager->onInteract(e->entityDataID);
+				}
+			}
+
+			//RIGHT
+			if (StageManager::manager->currStage->player->facing == Right) {
+
+				if (Entity *e = StageManager::manager->currStage->adjEntitiesFindRes.rightEntity) {
+
+					SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, e->entityDataID.c_str());
+					ScriptManager::manager->onInteract(e->entityDataID);
+				}
 			}
 
 		}

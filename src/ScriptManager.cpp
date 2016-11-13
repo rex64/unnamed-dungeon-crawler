@@ -273,7 +273,7 @@ int l_addEntity(lua_State* state)
 	EntityType entityType = (EntityType) lua_tointeger(state, 1);
 	std::string entityDataID = lua_tostring(state, 2);
 
-	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, entityDataID }, -1);
+	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, entityDataID, Up }, -1);
 
 	lua_pushnumber(state, newEntityID);
 
