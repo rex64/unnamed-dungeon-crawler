@@ -22,6 +22,7 @@
 #include "Console.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "MenuManager.h"
 
 Game* Game::game;
 
@@ -77,9 +78,14 @@ void Game::init() {
 	RenderManager *renderManager = new RenderManager();
 	renderManager->init();
 
+	MenuManager *menuManager = new MenuManager();
+	menuManager->init();
+
 	resManager->loadDataFolder();
 	
+	inputManger->registerInput(menuManager);
 	inputManger->registerInput(console);
+	inputManger->registerInput(stageManager);
 	inputManger->registerInput(stageManager);
 	inputManger->registerInput(scriptManager);
 
@@ -131,9 +137,9 @@ void Game::run() {
 
 		while (SDL_PollEvent(&e) != 0)
 		{
-
-			InputManager::manager->onInput(&e);
-
+			if (e.type == SDL_KEYDOWN) {
+				InputManager::manager->onInput(&e);
+			}
 			if (e.type == SDL_TEXTINPUT) {
 
 				if (strcmp(e.text.text, "~") == 0) {
@@ -147,11 +153,12 @@ void Game::run() {
 				m_bQuit = true;
 			}
 
+			RenderManager::manager->render();
+			SDL_Delay(16);
 		}
 
 		
-		RenderManager::manager->render();
-		SDL_Delay(16);
+		
 	}
 
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Quitting..");

@@ -4,6 +4,7 @@
 #include "Console.h"
 #include "stage/StageManager.h"
 #include "res/ResourceManager.h"
+#include "MenuManager.h"
 
 RenderManager* RenderManager::manager;
 
@@ -114,6 +115,14 @@ void RenderManager::render()
 	//TextBox-->Game
 	//SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
 	//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
+
+	//Menu-->Game
+	if (MenuManager::manager->isVisible()) {
+	
+		SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
+		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
+
+	}
 
 	//Game-->Screen
 	SDL_Rect location = { 72,40,100,100 };

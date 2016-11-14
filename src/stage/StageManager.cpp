@@ -7,6 +7,7 @@
 #endif
 
 #include "../ScriptManager.h"
+#include "../MenuManager.h"
 
 StageManager* StageManager::manager;
 
@@ -27,6 +28,13 @@ void StageManager::init() {
 
 bool StageManager::onInput(SDL_Event * e)
 {
+
+	if (e->key.keysym.sym == SDLK_ESCAPE) {
+
+		MenuManager::manager->setVisible(true);
+
+		return true;
+	}
 
 	//Process player input
 	const Uint8 *state = SDL_GetKeyboardState(NULL);

@@ -24,6 +24,8 @@ set( project_sources
    src/RenderManager.h
    src/RenderManager.cpp
    src/IRenderable.h
+   src/MenuManager.h
+   src/MenuManager.cpp
 
    external/tinydir.h
    external/tinyxml2.h
