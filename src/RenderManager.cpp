@@ -122,6 +122,10 @@ void RenderManager::render()
 		SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
 		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
 
+		for (Window *w : MenuManager::manager->windows) {
+		
+			w->draw(game);
+		}
 	}
 
 	//Game-->Screen
