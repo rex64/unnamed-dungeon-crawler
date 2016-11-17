@@ -7,7 +7,7 @@
 #endif
 
 #include "../ScriptManager.h"
-#include "../MenuManager.h"
+#include "../ui/MenuManager.h"
 
 StageManager* StageManager::manager;
 

@@ -1,6 +1,7 @@
 #include "ScriptManager.h"
 #include "Game.h"
 #include "stage/StageManager.h"
+#include "ui/ui_lua_bindings.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -128,6 +129,9 @@ void ScriptManager::init() {
 
 	/*stackDump(m_L);
 	stackDump(m_L);*/
+
+	//TEST
+	luaL_requiref(m_L, "MyLib", &luaopen_Windowlib, 1);
 }
 
 bool ScriptManager::onInput(SDL_Event * e)

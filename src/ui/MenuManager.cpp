@@ -1,6 +1,7 @@
 #include "MenuManager.h"
-#include "IInputReceiver.h"
-#include "res/ResourceManager.h"
+#include "../ui/MenuManager.h"
+#include "../res/ResourceManager.h"
+#include "../RenderManager.h"
 
 #include <iostream>
 
@@ -12,6 +13,12 @@ Window::Window() {
 	rect.h = 8;
 
 
+}
+
+void Window::addMenuItem(MenuItem *m) {
+
+	menuItems.push_back(m);
+	
 }
 
 void Window::draw(SDL_Surface *s) {
@@ -38,6 +45,13 @@ void Window::draw(SDL_Surface *s) {
 
 		}
 	
+	}
+
+	for(int i = 0; i < menuItems.size(); i++){
+
+		MenuItem *m = menuItems[i];
+		
+		renderTextLine(m->text, 0, i, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
 	}
 
 	
@@ -97,4 +111,12 @@ void MenuManager::addSelectWindow() {
 
 	Window *newW = new Window();
 	windows.push_back(newW);
+
+	newW->addMenuItem(new MenuItem("Item1"));
+	newW->addMenuItem(new MenuItem("Item2"));
+	newW->addMenuItem(new MenuItem("Item3"));
+}
+
+MenuItem::MenuItem(std::string s) {
+	text = s;
 }

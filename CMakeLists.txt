@@ -14,8 +14,6 @@ set( project_sources
    src/res/ResourceManager.h
    src/res/ResourceManager.cpp
    src/res/default_sprite.c
-   src/UI.h
-   src/UI.cpp
    src/Console.h
    src/Console.cpp
    src/InputManager.h
@@ -24,9 +22,12 @@ set( project_sources
    src/RenderManager.h
    src/RenderManager.cpp
    src/IRenderable.h
-   src/MenuManager.h
-   src/MenuManager.cpp
-
+   src/ui/UI.h
+   src/ui/UI.cpp
+   src/ui/MenuManager.h
+   src/ui/MenuManager.cpp
+   src/ui/ui_lua_bindings.h
+   src/ui/ui_lua_bindings.cpp
    external/tinydir.h
    external/tinyxml2.h
    external/tinyxml2.cpp

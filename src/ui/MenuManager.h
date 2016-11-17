@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "IInputReceiver.h"
+#include "../IInputReceiver.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -8,14 +8,24 @@
 #include <SDL.h>
 #endif
 
+class MenuItem {
+
+public:
+	std::string text;
+
+	MenuItem(std::string);
+};
+
 class Window {
 
 public:
 	//int id;
 
 	SDL_Rect rect;
+	std::vector<MenuItem*> menuItems;
 
 	Window();
+	void addMenuItem(MenuItem*);
 	void draw(SDL_Surface *s);
 
 };

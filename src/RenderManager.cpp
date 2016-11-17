@@ -4,7 +4,7 @@
 #include "Console.h"
 #include "stage/StageManager.h"
 #include "res/ResourceManager.h"
-#include "MenuManager.h"
+#include "ui/MenuManager.h"
 
 RenderManager* RenderManager::manager;
 

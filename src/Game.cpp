@@ -22,7 +22,7 @@
 #include "Console.h"
 #include "InputManager.h"
 #include "RenderManager.h"
-#include "MenuManager.h"
+#include "ui\MenuManager.h"
 
 Game* Game::game;
 
