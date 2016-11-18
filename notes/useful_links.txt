@@ -13,3 +13,6 @@ http://lua-users.org/wiki/UserDataWithPointerExample
 http://stackoverflow.com/questions/3578401/lua-garbage-collection-userdata
 http://www.lua.org/source/5.3/liolib.c.html
 http://stackoverflow.com/questions/21792657/how-free-up-memory-allocated-by-lua-newuserdata-with-delete-operator
+
+PATHFINDING
+http://forums.roguetemple.com/index.php?topic=4899.0
