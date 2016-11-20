@@ -1,6 +1,7 @@
 #include "ui_lua_bindings.h"
 #include <stdio.h>
 #include "../ScriptManager.h"
+#include "MenuManager.h"
 
 const static char *Obj_typename = "ObjTypename";
 
@@ -43,16 +44,25 @@ int MyLib_MakeObj(lua_State *L) {
 	//1  This function allocates a new block of memory with the given size, 
 	//   pushes onto the stack a new full userdata with the block address, 
 	//   and returns this address. The host program can freely use this memory.
-	lua_newuserdata(L, sizeof(int*));
-	luaL_setmetatable(L, Obj_typename);
+	/*lua_newuserdata(L, sizeof(int*));
+	luaL_setmetatable(L, Obj_typename);*/
+	
+	Window **pWindow = reinterpret_cast<Window **>(lua_newuserdata(L, sizeof(Window*)));
+	*pWindow = new Window();
+
+
 	return 1;
 }
 int Obj__gc(lua_State *L) {
 	printf("In Obj__gc\n");
+
+	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
+	delete *pWindow;
+
 	return 0;
 }
 int Obj_method(lua_State *L) {
-	stackDump(L);
+	//stackDump(L);
 	printf("In Obj_method\n");
 	check_Obj(L, 1);
 	return 0;
