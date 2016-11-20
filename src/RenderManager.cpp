@@ -192,10 +192,10 @@ void RenderManager::render()
 	SDL_RenderPresent(renderer);
 }
 
-void RenderManager::registerRenderable(IRenderable *)
-{
-
-}
+//void RenderManager::registerRenderable(IRenderable *)
+//{
+//
+//}
 
 
 void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {

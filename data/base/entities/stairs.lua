@@ -2,6 +2,7 @@ local stairs = {
   
   onInteract = function()
     print("stairs - onInteract")
+    table.remove(ui.windows)
   end
   
 }

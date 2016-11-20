@@ -15,9 +15,9 @@ extern "C" {
 
 	
 	int luaopen_Windowlib(lua_State *L);
-	void check_Obj(lua_State *L, int i);
-	int MyLib_MakeObj(lua_State *L);
-	int Obj__gc(lua_State *L);
-	int Obj_method(lua_State *L);
+	void check_Window(lua_State *L, int i);
+	int WindowLib_new(lua_State *L);
+	int Window__gc(lua_State *L);
+	int Window_method(lua_State *L);
 
 }

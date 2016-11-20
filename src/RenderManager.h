@@ -21,7 +21,7 @@ public:
 	static RenderManager *manager;
 
 	std::vector<IRenderable*> renderStack;
-	void registerRenderable(IRenderable*);
+	//void registerRenderable(IRenderable*);
 
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
