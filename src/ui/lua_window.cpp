@@ -1,4 +1,4 @@
-#include "ui_lua_bindings.h"
+#include "lua_window.h"
 #include <stdio.h>
 #include "../ScriptManager.h"
 #include "MenuManager.h"
@@ -8,7 +8,7 @@ const static char *Obj_typename = "ObjTypename";
 int luaopen_Windowlib(lua_State *L)
 {
 
-	stackDump(L);
+	//stackDump(L);
 
 	static const luaL_Reg Obj_lib[] = {
 		{ "method", &Obj_method },
@@ -47,9 +47,13 @@ int MyLib_MakeObj(lua_State *L) {
 	/*lua_newuserdata(L, sizeof(int*));
 	luaL_setmetatable(L, Obj_typename);*/
 	
-	Window **pWindow = reinterpret_cast<Window **>(lua_newuserdata(L, sizeof(Window*)));
-	*pWindow = new Window();
+	int x = lua_tointeger(L, 1);
+	int y = lua_tointeger(L, 2);
 
+	Window **pWindow = reinterpret_cast<Window **>(lua_newuserdata(L, sizeof(Window*)));
+	*pWindow = new Window(x, y);
+
+	luaL_setmetatable(L, Obj_typename);
 
 	return 1;
 }

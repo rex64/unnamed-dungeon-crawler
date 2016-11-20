@@ -26,8 +26,8 @@ set( project_sources
    src/ui/UI.cpp
    src/ui/MenuManager.h
    src/ui/MenuManager.cpp
-   src/ui/ui_lua_bindings.h
-   src/ui/ui_lua_bindings.cpp
+   src/ui/lua_window.h
+   src/ui/lua_window.cpp
    external/tinydir.h
    external/tinyxml2.h
    external/tinyxml2.cpp

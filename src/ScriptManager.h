@@ -33,7 +33,7 @@ public:
 	void onInteract(std::string);
 	void onCreateFloor(std::string, int);
 
-private:
+public:
 	lua_State *m_L;
 };
 

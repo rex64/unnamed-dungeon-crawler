@@ -1,7 +1,7 @@
 #include "ScriptManager.h"
 #include "Game.h"
 #include "stage/StageManager.h"
-#include "ui/ui_lua_bindings.h"
+#include "ui/lua_window.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -65,11 +65,18 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "game");
 
-	//ui
+	//ui ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "ui");
 
-	//field
+	//ui - windows
+	lua_getglobal(m_L, "ui");
+	lua_pushstring(m_L, "windows");
+	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+
+	//field ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "field");
 
@@ -130,7 +137,9 @@ void ScriptManager::init() {
 	/*stackDump(m_L);
 	stackDump(m_L);*/
 
-	//TEST
+
+
+	//Load libs
 	luaL_requiref(m_L, "MyLib", &luaopen_Windowlib, 1);
 }
 

@@ -5,6 +5,18 @@
 #include "stage/StageManager.h"
 #include "res/ResourceManager.h"
 #include "ui/MenuManager.h"
+#include "ScriptManager.h"
+
+#ifdef __APPLE__
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
+
+#elif _WIN32
+#include <lua.hpp>
+#endif
 
 RenderManager* RenderManager::manager;
 
@@ -122,10 +134,38 @@ void RenderManager::render()
 		SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
 		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
 
-		for (Window *w : MenuManager::manager->windows) {
+		/*for (Window *w : MenuManager::manager->windows) {
 		
 			w->draw(game);
+		}*/
+
+
+		lua_State *m_L = ScriptManager::manager->m_L;
+		
+
+		lua_getglobal(m_L, "ui");
+		lua_pushstring(m_L, "windows");
+		lua_gettable(m_L, -2);
+
+		//stackDump(m_L);
+
+		lua_pushnil(m_L);  /* first key */
+		while (lua_next(m_L, -2) != 0) {
+			/* uses 'key' (at index -2) and 'value' (at index -1) */
+		
+			/*printf("%s - %s\n",
+				lua_typename(m_L, lua_type(m_L, -2)),
+				lua_typename(m_L, lua_type(m_L, -1)));
+			*/
+			
+			Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(m_L, -1));
+
+			(*pWindow)->draw(game);
+
+			/* removes 'value'; keeps 'key' for next iteration */
+			lua_pop(m_L, 1);
 		}
+
 	}
 
 	//Game-->Screen

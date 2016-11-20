@@ -5,13 +5,12 @@
 
 #include <iostream>
 
-Window::Window() {
+Window::Window(int x, int y) {
 
-	rect.x = 1;
-	rect.y = 1;
+	rect.x = x;
+	rect.y = y;
 	rect.w = 8;
 	rect.h = 8;
-
 
 }
 
@@ -107,15 +106,15 @@ bool MenuManager::isVisible() {
 
 }
 
-void MenuManager::addSelectWindow() {
-
-	Window *newW = new Window();
-	windows.push_back(newW);
-
-	newW->addMenuItem(new MenuItem("Item1"));
-	newW->addMenuItem(new MenuItem("Item2"));
-	newW->addMenuItem(new MenuItem("Item3"));
-}
+//void MenuManager::addSelectWindow() {
+//
+//	Window *newW = new Window();
+//	windows.push_back(newW);
+//
+//	newW->addMenuItem(new MenuItem("Item1"));
+//	newW->addMenuItem(new MenuItem("Item2"));
+//	newW->addMenuItem(new MenuItem("Item3"));
+//}
 
 MenuItem::MenuItem(std::string s) {
 	text = s;

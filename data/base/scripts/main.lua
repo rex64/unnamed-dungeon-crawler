@@ -26,8 +26,13 @@ omar = {
 }
 
 function foo()
-    local obj = MyLib.MakeObj()
-    obj:method()
+    
+    table.insert(ui.windows, MyLib.MakeObj(1,1))
+    table.insert(ui.windows, MyLib.MakeObj(8,8))
+    table.insert(ui.windows, MyLib.MakeObj(8,16))
+    table.insert(ui.windows, MyLib.MakeObj(16,8))
+
+
 end
 
 foo()

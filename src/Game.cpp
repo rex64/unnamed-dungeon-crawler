@@ -132,7 +132,7 @@ void Game::run() {
 
 	SDL_AddTimer(260, my_callbackfunc, 0);
 
-	MenuManager::manager->addSelectWindow();
+	//MenuManager::manager->addSelectWindow();
 
 	while (!m_bQuit)
 	{
@@ -155,11 +155,11 @@ void Game::run() {
 				m_bQuit = true;
 			}
 
-			RenderManager::manager->render();
-			SDL_Delay(16);
+			
 		}
 
-		
+		RenderManager::manager->render();
+		SDL_Delay(16);
 		
 	}
 

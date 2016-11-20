@@ -24,7 +24,7 @@ public:
 	SDL_Rect rect;
 	std::vector<MenuItem*> menuItems;
 
-	Window();
+	Window(int x, int y);
 	void addMenuItem(MenuItem*);
 	void draw(SDL_Surface *s);
 
@@ -45,7 +45,7 @@ public:
 	void setVisible(bool);
 	bool isVisible();
 
-	void addSelectWindow();
+	//void addSelectWindow();
 
 	std::vector<Window*> windows;
 
