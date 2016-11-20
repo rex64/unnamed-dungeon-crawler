@@ -166,6 +166,7 @@ void RenderManager::render()
 			lua_pop(m_L, 1);
 		}
 
+		lua_settop(m_L, 0); //pop ui & windows
 	}
 
 	//Game-->Screen

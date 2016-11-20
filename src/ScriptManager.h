@@ -38,6 +38,7 @@ public:
 };
 
 extern "C" void stackDump(lua_State *L);
+extern "C" void checkIfStackIsEmpty(lua_State *L);
 extern "C" int luaTestFunc(lua_State* state);
 extern "C" int luaQuitGame(lua_State* state);
 extern "C" int l_setTile(lua_State* state);

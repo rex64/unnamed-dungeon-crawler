@@ -159,6 +159,7 @@ void Game::run() {
 		}
 
 		RenderManager::manager->render();
+		checkIfStackIsEmpty(ScriptManager::manager->m_L);
 		SDL_Delay(16);
 		
 	}

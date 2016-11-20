@@ -29,30 +29,14 @@ void ScriptManager::init() {
 	//Lua
 	m_L = luaL_newstate();
 	luaL_openlibs(m_L);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-	/*
-	lua_register(m_L, "luaTestFunc", luaTestFunc);
-
-	luaL_dostring(m_L, "io.write(\"luaTestFunc\")");
-	luaL_dostring(m_L, "luaTestFunc(\"First\", \"Second\", 112233)");
-
-	luaL_dostring(m_L, "io.write(\"ciao\")");
-	*/
-
-	/*
-	lua_newtable(state);
-	lua_setglobal(state, "game");
-
-	lua_getglobal(state, "game");
-	lua_pushstring(state, "system");
-	lua_newtable(state);
-	lua_settable(state, -3);
-	lua_pop(state, -1);
-	*/
 
 	//data
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "data");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//data - reload()
 	/*lua_getglobal(m_L, "field");
@@ -64,10 +48,13 @@ void ScriptManager::init() {
 	//game
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "game");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//ui ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "ui");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 	//ui - windows
 	lua_getglobal(m_L, "ui");
@@ -75,10 +62,14 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//field ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "field");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//field - setTile(id, value)
 	lua_getglobal(m_L, "field");
@@ -86,6 +77,8 @@ void ScriptManager::init() {
 	lua_pushcfunction(m_L, l_setTile);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//field - addEntity(id, value)
 	lua_getglobal(m_L, "field");
@@ -93,6 +86,8 @@ void ScriptManager::init() {
 	lua_pushcfunction(m_L, l_addEntity);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//field - addEntity(id, value)
 	lua_getglobal(m_L, "field");
@@ -100,14 +95,20 @@ void ScriptManager::init() {
 	lua_pushcfunction(m_L, l_setEntityTile);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//battle
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "battle");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//system
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "system");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//system.quit
 	lua_getglobal(m_L, "system");
@@ -115,10 +116,14 @@ void ScriptManager::init() {
 	lua_pushcfunction(m_L, luaQuitGame);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//data
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "data");
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//data.entities
 	lua_getglobal(m_L, "data");
@@ -126,6 +131,8 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	//data.entities
 	lua_getglobal(m_L, "data");
@@ -133,6 +140,8 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	/*stackDump(m_L);
 	stackDump(m_L);*/
@@ -141,6 +150,11 @@ void ScriptManager::init() {
 
 	//Load libs
 	luaL_requiref(m_L, "MyLib", &luaopen_Windowlib, 1);
+	lua_pop(m_L, 1); // requiref leaves the library table on the stack
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+
+
 }
 
 bool ScriptManager::onInput(SDL_Event * e)
@@ -227,27 +241,34 @@ void stackDump(lua_State *L) {
 		switch (t) {
 
 		case LUA_TSTRING:  /* strings */
-			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "`%s'", lua_tostring(L, i));
+			printf("`%s'", lua_tostring(L, i));
 			break;
 
 		case LUA_TBOOLEAN:  /* booleans */
-			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, lua_toboolean(L, i) ? "true" : "false");
+			printf(lua_toboolean(L, i) ? "true" : "false");
 			break;
 
 		case LUA_TNUMBER:  /* numbers */
-			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "%g", lua_tonumber(L, i));
+			printf("%g", lua_tonumber(L, i));
 			break;
 
 		default:  /* other values */
-			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, lua_typename(L, t));
+			printf("%s", lua_typename(L, t));
 			break;
 
 		}
-		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, " "); /* put a separator */
+		printf("  ");  /* put a separator */
 	}
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "\n"); /* end the listing */
+	printf("-------------\n");  /* end the listing */
+}
 
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "--------");
+void checkIfStackIsEmpty(lua_State *L) {
+
+	if (lua_gettop(L)) {
+	
+		Game::game->showMsgBox("lua stack not empty");
+	
+	}
 }
 
 //http://www.lua.org/manual/5.3/manual.html#lua_CFunction
