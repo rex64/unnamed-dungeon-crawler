@@ -149,7 +149,7 @@ void ScriptManager::init() {
 
 
 	//Load libs
-	luaL_requiref(m_L, "MyLib", &luaopen_Windowlib, 1);
+	luaL_requiref(m_L, "Window", &luaopen_Windowlib, 1);
 	lua_pop(m_L, 1); // requiref leaves the library table on the stack
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 

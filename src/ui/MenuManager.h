@@ -11,9 +11,10 @@
 class MenuItem {
 
 public:
+	int x;
+	int y;
 	std::string text;
-
-	MenuItem(std::string);
+	MenuItem(std::string, int, int);
 };
 
 class Window {

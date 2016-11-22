@@ -50,7 +50,7 @@ void Window::draw(SDL_Surface *s) {
 
 		MenuItem *m = menuItems[i];
 		
-		renderTextLine(m->text, 0, i, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
+		renderTextLine(m->text, m->x, m->y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
 	}
 
 	
@@ -116,6 +116,8 @@ bool MenuManager::isVisible() {
 //	newW->addMenuItem(new MenuItem("Item3"));
 //}
 
-MenuItem::MenuItem(std::string s) {
-	text = s;
+MenuItem::MenuItem(std::string s, int x, int y) {
+	this->text = s;
+	this->x = x;
+	this->y = y;
 }

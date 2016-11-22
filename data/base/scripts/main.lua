@@ -27,10 +27,11 @@ omar = {
 
 function foo()
     
-    table.insert(ui.windows, MyLib.new(1,1))
-    table.insert(ui.windows, MyLib.new(8,8))
-    table.insert(ui.windows, MyLib.new(8,16))
-    table.insert(ui.windows, MyLib.new(16,8))
+    local win = Window.new(1,1);
+    win:addMenuItem({text="test1", x=0, y=0});
+    win:addMenuItem({text="test2", x=0, y=16});
+    table.insert(ui.windows, win);
+    
 
 
 end

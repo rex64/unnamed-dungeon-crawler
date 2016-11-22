@@ -12,6 +12,7 @@ int luaopen_Windowlib(lua_State *L)
 
 	static const luaL_Reg Window_lib[] = {
 		{ "method", &Window_method },
+		{ "addMenuItem", &Window_addMenuItem },
 		{ NULL, NULL }
 	};
 
@@ -69,5 +70,36 @@ int Window_method(lua_State *L) {
 	//stackDump(L);
 	printf("In Window_method\n");
 	check_Window(L, 1);
+	return 0;
+}
+
+int Window_addMenuItem(lua_State * L)
+{
+	//stolen from: http://stackoverflow.com/questions/18478379/how-to-work-with-tables-passed-as-an-argument-to-a-lua-c-function
+	// discard any extra arguments passed in
+	//stackDump(L);
+	lua_settop(L, 2);
+	//stackDump(L);
+	luaL_checktype(L, 2, LUA_TTABLE);
+
+	// Now to get the data out of the table
+	// 'unpack' the table by putting the values onto
+	// the stack first. Then convert those stack values
+	// into an appropriate C type.
+	lua_getfield(L, 2, "text");
+	lua_getfield(L, 2, "x");
+	lua_getfield(L, 2, "y");
+
+	stackDump(L);
+
+	const char *text = luaL_checkstring(L, -3);
+	int x = luaL_checkinteger(L, -2);
+	int y = luaL_checkinteger(L, -1);
+
+	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
+	(*pWindow)->addMenuItem(new MenuItem(text, x, y));
+
+	lua_pop(L, 3);
+
 	return 0;
 }
