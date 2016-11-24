@@ -20,5 +20,6 @@ extern "C" {
 	int Window__gc(lua_State *L);
 	int Window_method(lua_State *L);
 	int Window_addMenuItem(lua_State *L);
+	int Window_getMenuItem(lua_State *L);
 
 }

@@ -162,6 +162,23 @@ void RenderManager::render()
 
 			(*pWindow)->draw(game);
 
+
+			/*MENU ITEMS------------*/
+			lua_pushstring(m_L, "menuitems");
+			lua_gettable(m_L, -2);
+
+			lua_pushnil(m_L);  /* first key */
+			while (lua_next(m_L, -2) != 0) {
+			
+				MenuItem **pMenuItem = reinterpret_cast<MenuItem **>(lua_touserdata(m_L, -1));
+
+
+				/* removes 'value'; keeps 'key' for next iteration */
+				lua_pop(m_L, 1);
+			}
+
+			/*MENU ITEMS---------FINE*/
+
 			/* removes 'value'; keeps 'key' for next iteration */
 			lua_pop(m_L, 1);
 		}

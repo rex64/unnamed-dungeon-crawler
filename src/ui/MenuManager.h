@@ -14,7 +14,8 @@ public:
 	int x;
 	int y;
 	std::string text;
-	MenuItem(std::string, int, int);
+	int callbackRef;
+	MenuItem(std::string s, int x, int y, int callbackRef = -1);
 };
 
 class Window {

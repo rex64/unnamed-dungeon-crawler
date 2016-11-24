@@ -27,12 +27,25 @@ omar = {
 
 function foo()
     
+    --win
     local win = Window.new(1,1);
-    win:addMenuItem({text="test1", x=0, y=0});
-    win:addMenuItem({text="test2", x=0, y=16});
+    local menuItem = MenuItem.new("test1", 0, 0, 
+      function () 
+        print('menu callback')
+      end
+      );
+
+  --[[
+    win:addMenuItem("test1", 0, 0, 
+      function () 
+        print('menu callback')
+      end
+      );
+    ]]--
+    
     table.insert(ui.windows, win);
     
-
+    menuItem:onSelect();
 
 end
 

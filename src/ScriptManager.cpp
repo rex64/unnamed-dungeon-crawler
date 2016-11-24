@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "stage/StageManager.h"
 #include "ui/lua_window.h"
+#include "ui/lua_menuitem.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -150,6 +151,10 @@ void ScriptManager::init() {
 
 	//Load libs
 	luaL_requiref(m_L, "Window", &luaopen_Windowlib, 1);
+	lua_pop(m_L, 1); // requiref leaves the library table on the stack
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	luaL_requiref(m_L, "MenuItem", &luaopen_MenuItemLib, 1);
 	lua_pop(m_L, 1); // requiref leaves the library table on the stack
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 

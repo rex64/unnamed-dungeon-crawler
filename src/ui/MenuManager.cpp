@@ -116,8 +116,9 @@ bool MenuManager::isVisible() {
 //	newW->addMenuItem(new MenuItem("Item3"));
 //}
 
-MenuItem::MenuItem(std::string s, int x, int y) {
+MenuItem::MenuItem(std::string s, int x, int y, int callbackRef) {
 	this->text = s;
 	this->x = x;
 	this->y = y;
+	this->callbackRef = callbackRef;
 }

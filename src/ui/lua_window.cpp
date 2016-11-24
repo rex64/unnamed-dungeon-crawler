@@ -13,6 +13,7 @@ int luaopen_Windowlib(lua_State *L)
 	static const luaL_Reg Window_lib[] = {
 		{ "method", &Window_method },
 		{ "addMenuItem", &Window_addMenuItem },
+		{ "getMenuItem", &Window_getMenuItem },
 		{ NULL, NULL }
 	};
 
@@ -78,8 +79,10 @@ int Window_addMenuItem(lua_State * L)
 	//stolen from: http://stackoverflow.com/questions/18478379/how-to-work-with-tables-passed-as-an-argument-to-a-lua-c-function
 	// discard any extra arguments passed in
 	//stackDump(L);
-	lua_settop(L, 2);
+	//lua_settop(L, 2);
 	//stackDump(L);
+	
+	/*
 	luaL_checktype(L, 2, LUA_TTABLE);
 
 	// Now to get the data out of the table
@@ -89,17 +92,35 @@ int Window_addMenuItem(lua_State * L)
 	lua_getfield(L, 2, "text");
 	lua_getfield(L, 2, "x");
 	lua_getfield(L, 2, "y");
+	*/
+	stackDump(L);
+
+	const char *text = luaL_checkstring(L, -4);
+	int x = luaL_checkinteger(L, -3);
+	int y = luaL_checkinteger(L, -2);
+	int callbackFuncRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	stackDump(L);
 
-	const char *text = luaL_checkstring(L, -3);
-	int x = luaL_checkinteger(L, -2);
-	int y = luaL_checkinteger(L, -1);
-
 	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
-	(*pWindow)->addMenuItem(new MenuItem(text, x, y));
+	(*pWindow)->addMenuItem(new MenuItem(text, x, y, callbackFuncRef));
 
 	lua_pop(L, 3);
 
 	return 0;
+}
+
+int Window_getMenuItem(lua_State * L)
+{
+	
+	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
+	
+	int index = luaL_checkinteger(L, 2);
+	
+	MenuItem *menuItem = (*pWindow)->menuItems[index];
+
+	
+
+
+	return 1;
 }
