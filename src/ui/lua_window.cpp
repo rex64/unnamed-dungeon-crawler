@@ -10,30 +10,32 @@ int luaopen_Windowlib(lua_State *L)
 
 	//stackDump(L);
 
-	static const luaL_Reg Window_lib[] = {
+	/*static const luaL_Reg Window_lib[] = {
 		{ "method", &Window_method },
 		{ "addMenuItem", &Window_addMenuItem },
 		{ "getMenuItem", &Window_getMenuItem },
-		{ NULL, NULL }
-	};
-
-	static const luaL_Reg WindowLib_lib[] = {
 		{ "new", &WindowLib_new },
+		{ "__newindex", &Window__newindex },
 		{ NULL, NULL }
-	};
-
-	luaL_newlib(L, WindowLib_lib);
+	};*/
 
 	// Stack: MyLib
 	luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
-	luaL_newlib(L, Window_lib);
-	lua_setfield(L, -2, "__index"); // Stack: MyLib meta
+	stackDump(L);
 
-	lua_pushstring(L, "__gc");
-	lua_pushcfunction(L, Window__gc); // Stack: MyLib meta "__gc" fptr
-	lua_settable(L, -3); // Stack: MyLib meta
-	lua_pop(L, 1); // Stack: MyLib
+	lua_pushstring(L, "new");
+	lua_pushcfunction(L, WindowLib_new);
+	lua_settable(L, -3);
 
+	lua_pushstring(L, "__newindex");
+	lua_pushcfunction(L, Window__newindex);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__index");
+	lua_pushcfunction(L, Window__index);
+	lua_settable(L, -3);
+
+	stackDump(L);
 	return 1;
 }
 
@@ -55,8 +57,21 @@ int WindowLib_new(lua_State *L) {
 	Window **pWindow = reinterpret_cast<Window **>(lua_newuserdata(L, sizeof(Window*)));
 	*pWindow = new Window(x, y);
 
-	luaL_setmetatable(L, Obj_typename);
+	stackDump(L);
 
+	//Pops a table from the stack and 
+	//sets it as the new metatable for 
+	//the value at the given index.
+	luaL_setmetatable(L, Obj_typename); 
+
+
+	stackDump(L);
+
+	lua_newtable(L);
+	stackDump(L);
+	lua_setuservalue(L, -2);
+
+	stackDump(L);
 	return 1;
 }
 int Window__gc(lua_State *L) {
@@ -67,6 +82,22 @@ int Window__gc(lua_State *L) {
 
 	return 0;
 }
+
+int Window__newindex(lua_State *L) {
+	printf("In Window__newindex\n");
+
+	return 0;
+}
+
+int Window__index(lua_State *L) {
+	printf("In Window__index\n");
+
+	lua_pushnumber(L, 10);
+
+	return 1;
+}
+
+
 int Window_method(lua_State *L) {
 	//stackDump(L);
 	printf("In Window_method\n");
