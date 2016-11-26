@@ -16,12 +16,12 @@ extern "C" {
 	
 	int luaopen_Windowlib(lua_State *L);
 	void check_Window(lua_State *L, int i);
-	int WindowLib_new(lua_State *L);
+	int Window_new(lua_State *L);
 	int Window__gc(lua_State *L);
 	int Window__newindex(lua_State *L);
 	int Window__index(lua_State *L);
-	int Window_method(lua_State *L);
+	/*int Window_method(lua_State *L);
 	int Window_addMenuItem(lua_State *L);
-	int Window_getMenuItem(lua_State *L);
+	int Window_getMenuItem(lua_State *L);*/
 
 }

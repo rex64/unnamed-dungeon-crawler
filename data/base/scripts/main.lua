@@ -44,11 +44,12 @@ function foo()
     ]]--
     
    -- Window.omar = {};
-    win.trevi = {};
-    local a = win.trevi;
+    win.trevi = 39;
+    print(win.trevi)
+    print(win.omar)
     
-    table.insert(win.menuitems, menuItem);
-    table.insert(ui.windows, win);
+    --table.insert(win.menuitems, menuItem);
+    --table.insert(ui.windows, win);
     
     --menuItem:onSelect();
 

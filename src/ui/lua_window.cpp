@@ -24,7 +24,7 @@ int luaopen_Windowlib(lua_State *L)
 	stackDump(L);
 
 	lua_pushstring(L, "new");
-	lua_pushcfunction(L, WindowLib_new);
+	lua_pushcfunction(L, Window_new);
 	lua_settable(L, -3);
 
 	lua_pushstring(L, "__newindex");
@@ -35,6 +35,10 @@ int luaopen_Windowlib(lua_State *L)
 	lua_pushcfunction(L, Window__index);
 	lua_settable(L, -3);
 
+	lua_pushstring(L, "__gc");
+	lua_pushcfunction(L, Window__gc);
+	lua_settable(L, -3);
+
 	stackDump(L);
 	return 1;
 }
@@ -43,7 +47,7 @@ void check_Window(lua_State *L, int i) {
 	luaL_checkudata(L, i, Obj_typename);
 }
 
-int WindowLib_new(lua_State *L) {
+int Window_new(lua_State *L) {
 
 	//1  This function allocates a new block of memory with the given size, 
 	//   pushes onto the stack a new full userdata with the block address, 
@@ -57,7 +61,7 @@ int WindowLib_new(lua_State *L) {
 	Window **pWindow = reinterpret_cast<Window **>(lua_newuserdata(L, sizeof(Window*)));
 	*pWindow = new Window(x, y);
 
-	stackDump(L);
+	
 
 	//Pops a table from the stack and 
 	//sets it as the new metatable for 
@@ -65,13 +69,13 @@ int WindowLib_new(lua_State *L) {
 	luaL_setmetatable(L, Obj_typename); 
 
 
-	stackDump(L);
+	
 
 	lua_newtable(L);
-	stackDump(L);
+	
 	lua_setuservalue(L, -2);
 
-	stackDump(L);
+	
 	return 1;
 }
 int Window__gc(lua_State *L) {
@@ -83,75 +87,90 @@ int Window__gc(lua_State *L) {
 	return 0;
 }
 
-int Window__newindex(lua_State *L) {
+int Window__newindex(lua_State *L) { //userdata key (new)value
 	printf("In Window__newindex\n");
+	
+
+	lua_getuservalue(L, 1); //1 userdata
+
+
+	lua_pushvalue(L, 2);
+	lua_pushvalue(L, 3);
+
+	lua_rawset(L, 4);
+
 
 	return 0;
 }
 
-int Window__index(lua_State *L) {
+int Window__index(lua_State *L) { //userdata key
 	printf("In Window__index\n");
 
-	lua_pushnumber(L, 10);
+
+	lua_getuservalue(L, 1); //1 userdata
+	lua_pushvalue(L, 2);
+
+	lua_rawget(L, 3);
+	
 
 	return 1;
 }
 
 
-int Window_method(lua_State *L) {
-	//stackDump(L);
-	printf("In Window_method\n");
-	check_Window(L, 1);
-	return 0;
-}
+//int Window_method(lua_State *L) {
+//	//stackDump(L);
+//	printf("In Window_method\n");
+//	check_Window(L, 1);
+//	return 0;
+//}
 
-int Window_addMenuItem(lua_State * L)
-{
-	//stolen from: http://stackoverflow.com/questions/18478379/how-to-work-with-tables-passed-as-an-argument-to-a-lua-c-function
-	// discard any extra arguments passed in
-	//stackDump(L);
-	//lua_settop(L, 2);
-	//stackDump(L);
-	
-	/*
-	luaL_checktype(L, 2, LUA_TTABLE);
+//int Window_addMenuItem(lua_State * L)
+//{
+//	//stolen from: http://stackoverflow.com/questions/18478379/how-to-work-with-tables-passed-as-an-argument-to-a-lua-c-function
+//	// discard any extra arguments passed in
+//	//stackDump(L);
+//	//lua_settop(L, 2);
+//	//stackDump(L);
+//	
+//	/*
+//	luaL_checktype(L, 2, LUA_TTABLE);
+//
+//	// Now to get the data out of the table
+//	// 'unpack' the table by putting the values onto
+//	// the stack first. Then convert those stack values
+//	// into an appropriate C type.
+//	lua_getfield(L, 2, "text");
+//	lua_getfield(L, 2, "x");
+//	lua_getfield(L, 2, "y");
+//	*/
+//	stackDump(L);
+//
+//	const char *text = luaL_checkstring(L, -4);
+//	int x = luaL_checkinteger(L, -3);
+//	int y = luaL_checkinteger(L, -2);
+//	int callbackFuncRef = luaL_ref(L, LUA_REGISTRYINDEX);
+//
+//	stackDump(L);
+//
+//	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
+//	(*pWindow)->addMenuItem(new MenuItem(text, x, y, callbackFuncRef));
+//
+//	lua_pop(L, 3);
+//
+//	return 0;
+//}
 
-	// Now to get the data out of the table
-	// 'unpack' the table by putting the values onto
-	// the stack first. Then convert those stack values
-	// into an appropriate C type.
-	lua_getfield(L, 2, "text");
-	lua_getfield(L, 2, "x");
-	lua_getfield(L, 2, "y");
-	*/
-	stackDump(L);
-
-	const char *text = luaL_checkstring(L, -4);
-	int x = luaL_checkinteger(L, -3);
-	int y = luaL_checkinteger(L, -2);
-	int callbackFuncRef = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	stackDump(L);
-
-	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
-	(*pWindow)->addMenuItem(new MenuItem(text, x, y, callbackFuncRef));
-
-	lua_pop(L, 3);
-
-	return 0;
-}
-
-int Window_getMenuItem(lua_State * L)
-{
-	
-	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
-	
-	int index = luaL_checkinteger(L, 2);
-	
-	MenuItem *menuItem = (*pWindow)->menuItems[index];
-
-	
-
-
-	return 1;
-}
+//int Window_getMenuItem(lua_State * L)
+//{
+//	
+//	Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(L, 1));
+//	
+//	int index = luaL_checkinteger(L, 2);
+//	
+//	MenuItem *menuItem = (*pWindow)->menuItems[index];
+//
+//	
+//
+//
+//	return 1;
+//}
