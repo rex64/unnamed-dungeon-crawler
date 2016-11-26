@@ -103,7 +103,18 @@ if(ui ~= nil) then
   
     local win2 = ui.addWindow(16, 16, 8, 8)
 
-    win2.addMenuItem("equip", function() print('show equip menu') end)
+    win2.addMenuItem("equip", function() 
+        
+        
+        local win3 = ui.addWindow(20, 20, 8, 8)
+        
+          win3.addMenuItem("LOL", function() print('show equip menu') end)
+          win3.addMenuItem("LOL2", function() print('show equip menu') end)
+          win3.addMenuItem("LOL3", function() print('show equip menu') end)
+
+        
+      end
+      )
     win2.addMenuItem("status", function() print('show equip menu') end)
     win2.addMenuItem("close", function() ui.closeMenu() end)
   
