@@ -16,6 +16,72 @@ require('mobdebug').start()
 
 print("main");
 
+
+--************************
+--Window
+--************************
+Window = {}
+Window.__index = Window
+
+function Window.new(x, y, w, h)
+  local win = {}
+  setmetatable(win, Window)
+  win.x = x 
+  win.y = y 
+  win.w = w 
+  win.h = h 
+  win.margins = {x=12, y=0}
+  win.menuItems = {}
+  win.currMenuItem = 1  
+
+  return win
+end
+
+function Window:addMenuItem(newMenuItem)
+
+  --local newMenuItem = {text=text, callback=callback}
+
+  table.insert(self.menuItems, newMenuItem)
+  --return newMenuItem
+end
+
+function Window:render()
+
+  ui.renderWindow(self.x, self.y, self.w, self.h)
+
+  for i, menuItem in ipairs(self.menuItems) do
+
+    local x = self.x + self.margins.x
+    local y = self.y + self.margins.x
+
+    if (self.currMenuItem == i) then
+      ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
+    else
+      ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
+    end
+
+
+  end
+
+end
+
+--************************
+--MenuItem
+--************************
+MenuItem = {}
+MenuItem.__index = MenuItem
+
+function MenuItem.new(text, callback)
+  local menuItem = {}
+  setmetatable(menuItem, MenuItem)
+  menuItem.text = text
+  menuItem.callback = callback  
+
+  return menuItem
+end
+
+
+
 --UI stuff
 if(ui ~= nil) then
 
@@ -28,24 +94,9 @@ if(ui ~= nil) then
   ui.ESC    = 6
 
   ui.windows = {};
-  ui.addWindow = function(x, y, w, h)
-
-    local newWindow = {x=x, y=y, w=w, h=h}
-    newWindow.margins = {x=12, y=0}
-    newWindow.menuItems = {}
-    newWindow.currMenuItem = 1    
-
-    newWindow.addMenuItem = function(text, callback)
-
-      local newMenuItem = {text=text, callback=callback}
-
-      table.insert(newWindow.menuItems, newMenuItem)
-      return newMenuItem
-    end
-
+  ui.addWindow = function(newWindow)
 
     table.insert(ui.windows, newWindow)
-    return newWindow
 
   end
 
@@ -97,21 +148,8 @@ if(ui ~= nil) then
   ui.render = function()
 
     for i, window in ipairs(ui.windows) do
-      ui.renderWindow(window.x, window.y, window.w, window.h)
 
-      for i, menuItem in ipairs(window.menuItems) do
-
-        local x = window.x + window.margins.x
-        local y = window.y + window.margins.x
-
-        if (window.currMenuItem == i) then
-          ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
-        else
-          ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
-        end
-
-
-      end
+      window:render()
 
     end
 
@@ -119,22 +157,36 @@ if(ui ~= nil) then
 
   ui.openMenu = function()
 
-    local win2 = ui.addWindow(16, 16, 8, 8)
+    local win = Window.new(16, 16, 8, 8)
 
-    win2.addMenuItem("equip", function() 
+    local menuItem1 = MenuItem.new("equip", function() 
 
+        local win = Window.new(32, 32, 8, 8)
 
-        local win3 = ui.addWindow(20, 20, 8, 8)
+        local menuItem1 = MenuItem.new("lol1", function() print('show equip menu') end)
+        local menuItem2 = MenuItem.new("lol2", function() print('show equip menu') end)
+        local menuItem3 = MenuItem.new("lol3", function() print('show equip menu') end)
 
-        win3.addMenuItem("LOL", function() print('show equip menu') end)
-        win3.addMenuItem("LOL2", function() print('show equip menu') end)
-        win3.addMenuItem("LOL3", function() print('show equip menu') end)
+        win:addMenuItem(menuItem1)
+        win:addMenuItem(menuItem2)
+        win:addMenuItem(menuItem3)
 
+        ui.addWindow(win)
 
       end
     )
-    win2.addMenuItem("status", function() print('show equip menu') end)
-    win2.addMenuItem("close", function() ui.closeMenu() end)
+    local menuItem2 = MenuItem.new("status", function() print('show equip menu') end)
+    local menuItem3 = MenuItem.new("save", function() print('show save menu') end)
+    local menuItem4 = MenuItem.new("quit", function() print('show quit menu') end)
+
+
+    win:addMenuItem(menuItem1)
+    win:addMenuItem(menuItem2)
+    win:addMenuItem(menuItem3)
+    win:addMenuItem(menuItem4)
+
+
+    ui.addWindow(win)
 
   end
 
