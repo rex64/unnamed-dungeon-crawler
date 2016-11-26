@@ -244,6 +244,38 @@ void ScriptManager::onCreateFloor(std::string s, int floorNo) {
 
 }
 
+bool ScriptManager::uiUpdate(int button) {
+
+	lua_getglobal(m_L, "ui");
+	lua_pushstring(m_L, "update");
+	lua_gettable(m_L, 1);
+	stackDump(m_L);
+
+	lua_pushinteger(m_L, button);
+
+	stackDump(m_L);
+
+	if (lua_pcall(m_L, 1, 1, 0) != 0) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+	}
+
+	/* retrieve result */
+	if (!lua_isboolean(m_L, -1)) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+	}
+	bool ret = lua_toboolean(m_L, -1);
+	//lua_pop(L, 1);  /* pop returned value */
+
+	stackDump(m_L);
+
+	lua_pop(m_L, 1);
+	lua_pop(m_L, 1);
+
+	return ret;
+
+
+}
+
 //stolen from https://www.lua.org/pil/24.2.3.html
 void stackDump(lua_State *L) {
 

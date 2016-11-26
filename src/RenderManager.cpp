@@ -164,14 +164,12 @@ void RenderManager::render()
 	//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
 
 	//Menu-->Game
-	if (MenuManager::manager->isVisible()) {
 	
-		SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
-		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
+	SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
+	renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
 
-		//ScriptManager::manager->doString("ui.renderWindow(0,0,16,16)");
-		ScriptManager::manager->doString("ui.render()"); //TODO: lol
-	}
+	ScriptManager::manager->doString("ui.render()"); //TODO: lol
+
 
 	//Game-->Screen
 	SDL_Rect location = { 72,40,100,100 };

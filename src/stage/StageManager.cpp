@@ -29,6 +29,8 @@ void StageManager::init() {
 bool StageManager::onInput(SDL_Event * e)
 {
 
+
+
 	if (e->key.keysym.sym == SDLK_ESCAPE) {
 
 		MenuManager::manager->setVisible(true);
