@@ -8,30 +8,30 @@
 #include <SDL.h>
 #endif
 
-class MenuItem {
-
-public:
-	int x;
-	int y;
-	std::string text;
-	int callbackRef;
-	MenuItem(std::string s, int x, int y, int callbackRef = -1);
-};
-
-class Window {
-
-public:
-	//int id;
-
-	SDL_Rect rect;
-	SDL_Point margins;
-	//std::vector<MenuItem*> menuItems;
-
-	Window(int x, int y);
-	//void addMenuItem(MenuItem*);
-	void draw(SDL_Surface *s);
-
-};
+//class MenuItem {
+//
+//public:
+//	int x;
+//	int y;
+//	std::string text;
+//	int callbackRef;
+//	MenuItem(std::string s, int x, int y, int callbackRef = -1);
+//};
+//
+//class Window {
+//
+//public:
+//	//int id;
+//
+//	SDL_Rect rect;
+//	SDL_Point margins;
+//	//std::vector<MenuItem*> menuItems;
+//
+//	Window(int x, int y);
+//	//void addMenuItem(MenuItem*);
+//	void draw(SDL_Surface *s);
+//
+//};
 
 class MenuManager : public IInputReceiver
 {
@@ -50,7 +50,7 @@ public:
 
 	//void addSelectWindow();
 
-	std::vector<Window*> windows;
+	//std::vector<Window*> windows;
 
 private:
 	bool b_isVisible;

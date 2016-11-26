@@ -2,64 +2,28 @@
 #include "../ui/MenuManager.h"
 #include "../res/ResourceManager.h"
 #include "../RenderManager.h"
+#include "../ScriptManager.h"
 
 #include <iostream>
-
-Window::Window(int x, int y) {
-
-	rect.x = x;
-	rect.y = y;
-	rect.w = 8;
-	rect.h = 8;
-
-	margins.x = 16;
-	margins.y = 8;
-}
-
-//void Window::addMenuItem(MenuItem *m) {
+#include <sstream>
 //
-//	menuItems.push_back(m);
-//	
+//Window::Window(int x, int y) {
+//
+//	rect.x = x;
+//	rect.y = y;
+//	rect.w = 8;
+//	rect.h = 8;
+//
+//	margins.x = 16;
+//	margins.y = 8;
 //}
-
-void Window::draw(SDL_Surface *s) {
-
-	SDL_Surface *bmp = ResourceManager::manager->getSprite("data.base.menu.menu-window-border");
-
-	SDL_Rect srcRect = SDL_Rect{ 0 , 0, 8, 8 };
-
-	for (int y = 0; y < rect.h + 1; y++) {
-	
-		if (y == 0) srcRect.y = 0;
-		else if (y == rect.h) srcRect.y = 16;
-		else srcRect.y = 8;
-
-		for (int x = 0; x < rect.w + 1; x++) {
-
-			if (x == 0 ) srcRect.x = 0;
-			else if (x == rect.w) srcRect.x = 16;
-			else srcRect.x = 8;
-			
-			SDL_Rect dstRect = SDL_Rect{ rect.x + (8 * x), rect.y + (8 * y), 8 , 8  };
-
-			SDL_BlitSurface(bmp, &srcRect, s, &dstRect);
-
-		}
-	
-	}
-
-	//for(int i = 0; i < menuItems.size(); i++){
-
-	//	MenuItem *m = menuItems[i];
-	//	
-	//	renderTextLine(m->text, m->x, m->y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
-	//}
-
-	
-
-
-}
-
+//
+////void Window::addMenuItem(MenuItem *m) {
+////
+////	menuItems.push_back(m);
+////	
+////}
+//
 MenuManager* MenuManager::manager;
 
 MenuManager::MenuManager()
@@ -87,6 +51,26 @@ bool MenuManager::onInput(SDL_Event * e) {
 			MenuManager::manager->setVisible(false);
 
 			
+		}
+
+		auto button = -1;
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+			
+		if (state[SDL_SCANCODE_UP]) button = 0;
+		else if (state[SDL_SCANCODE_RIGHT]) button = 1;
+		else if (state[SDL_SCANCODE_DOWN]) button = 2;
+		else if (state[SDL_SCANCODE_LEFT]) button = 3;
+		else if (state[SDL_SCANCODE_RETURN]) button = 4;
+		else if (state[SDL_SCANCODE_BACKSPACE]) button = 5;
+
+		if (button != -1) {
+
+			std::ostringstream stringStream;
+			stringStream << "ui.update(" << button << ")"; //TODO: lol
+			std::string copyOfStr = stringStream.str();
+
+			ScriptManager::manager->doString(copyOfStr.c_str()); //TODO: lol
 		}
 
 		return true;
@@ -118,9 +102,9 @@ bool MenuManager::isVisible() {
 //	newW->addMenuItem(new MenuItem("Item3"));
 //}
 
-MenuItem::MenuItem(std::string s, int x, int y, int callbackRef) {
-	this->text = s;
-	this->x = x;
-	this->y = y;
-	this->callbackRef = callbackRef;
-}
+//MenuItem::MenuItem(std::string s, int x, int y, int callbackRef) {
+//	this->text = s;
+//	this->x = x;
+//	this->y = y;
+//	this->callbackRef = callbackRef;
+//}

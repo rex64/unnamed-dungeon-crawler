@@ -16,56 +16,94 @@ require('mobdebug').start()
 
 print("main");
 
-print(Game);
-
-omar = {
+--UI stuff
+if(ui ~= nil) then
   
-  x = 10,
-  y = 20
+  ui.UP     = 0
+  ui.RIGHT  = 1
+  ui.DOWN   = 2
+  ui.LEFT   = 3
+  ui.OK     = 4
+  ui.CANCEL = 5
   
-}
+  ui.windows = {};
+  ui.addWindow = function(x, y, w, h)
+  
+    local newWindow = {x=x, y=y, w=w, h=h}
+    newWindow.margins = {x=12, y=0}
+    newWindow.menuItems = {}
+    newWindow.currMenuItem = 1    
+      
+    newWindow.addMenuItem = function(text)
+    
+      local newMenuItem = {text=text}
+      
+      table.insert(newWindow.menuItems, newMenuItem)
+      return newMenuItem
+    end
+    
+      
+    table.insert(ui.windows, newWindow)
+    return newWindow
+  
+  end
+  
+  ui.update = function(button)
+  
+    print('ui update')
+    
+    local topWindowIndex = #ui.windows;
+    local topWindow = ui.windows[topWindowIndex]
+    
+    if button == ui.UP then
+      
+      
+    elseif button == ui.RIGHT then
+      
+    elseif button == ui.DOWN then
+      
+    elseif button == ui.LEFT then
+      
+    elseif button == ui.OK then
+      
+      
+    elseif button == ui.CANCEL then
+      table.remove(ui.windows, topWindowIndex)
+    end
+  
+  end
 
-function foo()
+  ui.render = function()
     
-    --win
-    local win = Window.new(1,1);
-    win.menuitems = {}
-    
-    
-    local menuItem1 = MenuItem.new("menu1", 0, 0, 
-      function () 
-        print('menu1 callback')
+    for i, window in ipairs(ui.windows) do
+      ui.renderWindow(window.x, window.y, window.w, window.h)
+      
+      for i, menuItem in ipairs(window.menuItems) do
+        
+        local x = window.x + window.margins.x
+        local y = window.y + window.margins.x
+        
+        if (window.currMenuItem == i) then
+          ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
+        else
+          ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
+        end
+        
+        
       end
-    );
-    
-    local menuItem2 = MenuItem.new("menu2", 0, 16, 
-      function () 
-        print('menu2 callback')
-      end
-      );
-
-  --[[
-    win:addMenuItem("test1", 0, 0, 
-      function () 
-        print('menu callback')
-      end
-      );
-    ]]--
-    
-   -- Window.omar = {};
-    --win.trevi = 39;
-    --print(win.trevi)
-    --print(win.omar)
-    
-    table.insert(win.menuitems, menuItem1);    
-    table.insert(win.menuitems, menuItem2);
-
-    table.insert(ui.windows, win);
-    
-    --menuItem:onSelect();
+      
+    end
+  
+  end
 
 end
 
-foo()
+ui.addWindow(0, 0, 8, 8)
+win2 = ui.addWindow(16, 16, 8, 8)
+
+win2.addMenuItem("menuItem1")
+win2.addMenuItem("menuItem2")
+win2.addMenuItem("menuItem3")
+
 
 print('main - ok');

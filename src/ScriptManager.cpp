@@ -1,8 +1,7 @@
 #include "ScriptManager.h"
 #include "Game.h"
 #include "stage/StageManager.h"
-#include "ui/lua_window.h"
-#include "ui/lua_menuitem.h"
+#include "ui/lua_menu.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -58,6 +57,8 @@ void ScriptManager::init() {
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 	//ui - windows
+
+	//ui - windows
 	lua_getglobal(m_L, "ui");
 	lua_pushstring(m_L, "windows");
 	lua_newtable(m_L);
@@ -65,6 +66,21 @@ void ScriptManager::init() {
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
+	//ui - renderWindow
+	lua_getglobal(m_L, "ui");
+	lua_pushstring(m_L, "renderWindow");
+	lua_pushcfunction(m_L, Menu_renderWindow);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//ui - renderMenuItem
+	lua_getglobal(m_L, "ui");
+	lua_pushstring(m_L, "renderMenuItem");
+	lua_pushcfunction(m_L, Menu_renderMenuItem);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 	//field ----------------------------------------------------------
 	lua_newtable(m_L);
@@ -150,15 +166,9 @@ void ScriptManager::init() {
 
 
 	//Load libs
-	luaL_requiref(m_L, "Window", &luaopen_Windowlib, 1);
-	lua_pop(m_L, 1); // requiref leaves the library table on the stack
+	//luaL_requiref(m_L, "Window", &luaopen_Windowlib, 1);
+	//lua_pop(m_L, 1); // requiref leaves the library table on the stack
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	luaL_requiref(m_L, "MenuItem", &luaopen_MenuItemLib, 1);
-	lua_pop(m_L, 1); // requiref leaves the library table on the stack
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
 
 }
 

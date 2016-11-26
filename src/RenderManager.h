@@ -12,21 +12,25 @@ class IRenderable;
 
 class RenderManager
 {
+
+public:
+	SDL_Renderer *renderer;
+	SDL_Texture *texture;
+	SDL_Surface *screen;
+	SDL_Surface *game;
+
 public:
 	RenderManager();
 	~RenderManager();
 
 	void init();
 	void render();
+	void renderWindow(SDL_Rect rect);
+	void renderMenuItem(std::string str, int x, int y);
 	static RenderManager *manager;
 
 	std::vector<IRenderable*> renderStack;
 	//void registerRenderable(IRenderable*);
-
-	SDL_Renderer *renderer;
-	SDL_Texture *texture;
-	SDL_Surface *screen;
-	SDL_Surface *game;
 
 };
 

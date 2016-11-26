@@ -52,6 +52,41 @@ void RenderManager::init()
 
 }
 
+void RenderManager::renderWindow(SDL_Rect rect) {
+
+
+	SDL_Surface *bmp = ResourceManager::manager->getSprite("data.base.menu.menu-window-border");
+
+	SDL_Rect srcRect = SDL_Rect{ 0 , 0, 8, 8 };
+
+	for (int y = 0; y < rect.h + 1; y++) {
+
+		if (y == 0) srcRect.y = 0;
+		else if (y == rect.h) srcRect.y = 16;
+		else srcRect.y = 8;
+
+		for (int x = 0; x < rect.w + 1; x++) {
+
+			if (x == 0) srcRect.x = 0;
+			else if (x == rect.w) srcRect.x = 16;
+			else srcRect.x = 8;
+
+			SDL_Rect dstRect = SDL_Rect{ rect.x + (8 * x), rect.y + (8 * y), 8 , 8 };
+
+			SDL_BlitSurface(bmp, &srcRect, game, &dstRect);
+
+		}
+
+	}
+
+}
+
+void RenderManager::renderMenuItem(std::string str, int x, int y) {
+
+	renderTextLine1(str, x, y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
+
+}
+
 void RenderManager::render()
 {
 	//clear screen surface
@@ -134,73 +169,8 @@ void RenderManager::render()
 		SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
 		renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
 
-		/*for (Window *w : MenuManager::manager->windows) {
-		
-			w->draw(game);
-		}*/
-
-
-		lua_State *m_L = ScriptManager::manager->m_L;
-		
-
-		lua_getglobal(m_L, "ui");
-		lua_pushstring(m_L, "windows");
-		lua_gettable(m_L, -2);
-
-		//stackDump(m_L);
-
-		lua_pushnil(m_L);  /* first key */
-		stackDump(m_L);
-		while (lua_next(m_L, -2) != 0) {
-			/* uses 'key' (at index -2) and 'value' (at index -1) */
-		
-			/*printf("%s - %s\n",
-				lua_typename(m_L, lua_type(m_L, -2)),
-				lua_typename(m_L, lua_type(m_L, -1)));
-			*/
-			
-			Window **pWindow = reinterpret_cast<Window **>(lua_touserdata(m_L, -1));
-
-			(*pWindow)->draw(game);
-
-
-			/*MENU ITEMS------------*/
-			lua_pushstring(m_L, "menuitems");
-			stackDump(m_L);
-			lua_gettable(m_L, -2);
-			stackDump(m_L);
-
-			lua_pushnil(m_L);  /* first key */
-			while (lua_next(m_L, -2) != 0) {
-			
-				MenuItem **pMenuItem = reinterpret_cast<MenuItem **>(lua_touserdata(m_L, -1));
-				
-				renderTextLine1(
-					(*pMenuItem)->text,
-					(*pMenuItem)->x + (*pWindow)->margins.x,
-					(*pMenuItem)->y + (*pWindow)->margins.y,
-					ResourceManager::manager->getFont("data.base.fonts.standard_font"), 
-					game);
-
-
-				/* removes 'value'; keeps 'key' for next iteration */
-				stackDump(m_L);
-				lua_pop(m_L, 1);
-				stackDump(m_L);
-			}
-
-			//lua_pop(m_L, 1); /*pop nil */
-
-			/*MENU ITEMS---------FINE*/
-
-			/* removes 'value'; keeps 'key' for next iteration */
-			stackDump(m_L);
-			lua_pop(m_L, 1);
-			lua_pop(m_L, 1);
-			stackDump(m_L);
-		}
-
-		lua_settop(m_L, 0); //pop ui & windows
+		//ScriptManager::manager->doString("ui.renderWindow(0,0,16,16)");
+		ScriptManager::manager->doString("ui.render()"); //TODO: lol
 	}
 
 	//Game-->Screen
