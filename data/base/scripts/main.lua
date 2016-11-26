@@ -34,9 +34,9 @@ if(ui ~= nil) then
     newWindow.menuItems = {}
     newWindow.currMenuItem = 1    
       
-    newWindow.addMenuItem = function(text)
+    newWindow.addMenuItem = function(text, callback)
     
-      local newMenuItem = {text=text}
+      local newMenuItem = {text=text, callback=callback}
       
       table.insert(newWindow.menuItems, newMenuItem)
       return newMenuItem
@@ -56,16 +56,19 @@ if(ui ~= nil) then
     local topWindow = ui.windows[topWindowIndex]
     
     if button == ui.UP then
-      
+      topWindow.currMenuItem = math.max(1, topWindow.currMenuItem - 1) 
       
     elseif button == ui.RIGHT then
       
     elseif button == ui.DOWN then
+      topWindow.currMenuItem = math.min(#topWindow.menuItems, topWindow.currMenuItem + 1) 
       
     elseif button == ui.LEFT then
       
     elseif button == ui.OK then
-      
+      if topWindow.menuItems[topWindow.currMenuItem].callback ~= nil then
+        topWindow.menuItems[topWindow.currMenuItem].callback()
+      end
       
     elseif button == ui.CANCEL then
       table.remove(ui.windows, topWindowIndex)
@@ -96,14 +99,27 @@ if(ui ~= nil) then
   
   end
 
+  ui.openMenu = function()
+  
+    local win2 = ui.addWindow(16, 16, 8, 8)
+
+    win2.addMenuItem("equip", function() print('show equip menu') end)
+    win2.addMenuItem("status", function() print('show equip menu') end)
+    win2.addMenuItem("close", function() ui.closeMenu() end)
+  
+  end
+
+  ui.closeMenu = function()
+    print('close menu')
+  
+  
+  end
+  
+  
+
 end
 
-ui.addWindow(0, 0, 8, 8)
-win2 = ui.addWindow(16, 16, 8, 8)
 
-win2.addMenuItem("menuItem1")
-win2.addMenuItem("menuItem2")
-win2.addMenuItem("menuItem3")
 
 
 print('main - ok');

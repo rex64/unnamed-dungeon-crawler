@@ -32,6 +32,7 @@ bool StageManager::onInput(SDL_Event * e)
 	if (e->key.keysym.sym == SDLK_ESCAPE) {
 
 		MenuManager::manager->setVisible(true);
+		ScriptManager::manager->doString("ui.openMenu()"); //TODO: lol
 
 		return true;
 	}
