@@ -12,13 +12,15 @@ Window::Window(int x, int y) {
 	rect.w = 8;
 	rect.h = 8;
 
+	margins.x = 16;
+	margins.y = 8;
 }
 
-void Window::addMenuItem(MenuItem *m) {
-
-	menuItems.push_back(m);
-	
-}
+//void Window::addMenuItem(MenuItem *m) {
+//
+//	menuItems.push_back(m);
+//	
+//}
 
 void Window::draw(SDL_Surface *s) {
 
@@ -46,12 +48,12 @@ void Window::draw(SDL_Surface *s) {
 	
 	}
 
-	for(int i = 0; i < menuItems.size(); i++){
+	//for(int i = 0; i < menuItems.size(); i++){
 
-		MenuItem *m = menuItems[i];
-		
-		renderTextLine(m->text, m->x, m->y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
-	}
+	//	MenuItem *m = menuItems[i];
+	//	
+	//	renderTextLine(m->text, m->x, m->y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), s);
+	//}
 
 	
 

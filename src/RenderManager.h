@@ -32,3 +32,4 @@ public:
 
 extern "C" void renderText(std::string str, SDL_Surface* charSet, SDL_Surface* surf);
 extern "C" void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf);
+extern "C" void renderTextLine1(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf);

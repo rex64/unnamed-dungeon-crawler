@@ -24,10 +24,11 @@ public:
 	//int id;
 
 	SDL_Rect rect;
-	std::vector<MenuItem*> menuItems;
+	SDL_Point margins;
+	//std::vector<MenuItem*> menuItems;
 
 	Window(int x, int y);
-	void addMenuItem(MenuItem*);
+	//void addMenuItem(MenuItem*);
 	void draw(SDL_Surface *s);
 
 };

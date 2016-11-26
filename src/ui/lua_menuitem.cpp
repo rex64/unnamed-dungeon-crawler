@@ -8,31 +8,23 @@ const static char *Obj_typename = "MenuItem";
 int luaopen_MenuItemLib(lua_State *L)
 {
 
-	//stackDump(L);
+	luaL_newmetatable(L, Obj_typename);
 
-	static const luaL_Reg MenuItem_lib[] = {
-		/*{ "method", &MenuItem_method },
-		{ "addMenuItem", &MenuItem_addMenuItem },*/
-		{ "onSelect", &MenuItem_onSelect },
-		{ NULL, NULL }
-	};
+	lua_pushstring(L, "new");
+	lua_pushcfunction(L, MenuItem_new);
+	lua_settable(L, -3);
 
-	static const luaL_Reg MenuItemLib_lib[] = {
-		{ "new", &MenuItemLib_new },
-		{ NULL, NULL }
-	};
+	lua_pushstring(L, "__newindex");
+	lua_pushcfunction(L, MenuItem__newindex);
+	lua_settable(L, -3);
 
-	luaL_newlib(L, MenuItemLib_lib);
-
-	// Stack: MyLib
-	luaL_newmetatable(L, Obj_typename); // Stack: MyLib meta
-	luaL_newlib(L, MenuItem_lib);
-	lua_setfield(L, -2, "__index"); // Stack: MyLib meta
+	lua_pushstring(L, "__index");
+	lua_pushcfunction(L, MenuItem__index);
+	lua_settable(L, -3);
 
 	lua_pushstring(L, "__gc");
-	lua_pushcfunction(L, MenuItem__gc); // Stack: MyLib meta "__gc" fptr
-	lua_settable(L, -3); // Stack: MyLib meta
-	lua_pop(L, 1); // Stack: MyLib
+	lua_pushcfunction(L, MenuItem__gc);
+	lua_settable(L, -3);
 
 	return 1;
 }
@@ -41,7 +33,7 @@ void check_MenuItem(lua_State *L, int i) {
 	luaL_checkudata(L, i, Obj_typename);
 }
 
-int MenuItemLib_new(lua_State *L) {
+int MenuItem_new(lua_State *L) {
 	
 	std::string s = lua_tostring(L, 1);
 	int x = lua_tointeger(L, 2);
@@ -64,11 +56,40 @@ int MenuItem__gc(lua_State *L) {
 
 	return 0;
 }
-int MenuItem_method(lua_State *L) {
-	//stackDump(L);
-	printf("In MenuItem_method\n");
-	check_MenuItem(L, 1);
+//int MenuItem_method(lua_State *L) {
+//	//stackDump(L);
+//	printf("In MenuItem_method\n");
+//	check_MenuItem(L, 1);
+//	return 0;
+//}
+
+int MenuItem__newindex(lua_State *L) { //userdata key (new)value
+	printf("In Window__newindex\n");
+
+
+	lua_getuservalue(L, 1); //1 userdata
+
+
+	lua_pushvalue(L, 2);
+	lua_pushvalue(L, 3);
+
+	lua_rawset(L, 4);
+
+
 	return 0;
+}
+
+int MenuItem__index(lua_State *L) { //userdata key
+	printf("In Window__index\n");
+
+
+	lua_getuservalue(L, 1); //1 userdata
+	lua_pushvalue(L, 2);
+
+	lua_rawget(L, 3);
+
+
+	return 1;
 }
 
 int MenuItem_onSelect(lua_State *L) {

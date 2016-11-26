@@ -150,6 +150,7 @@ void RenderManager::render()
 		//stackDump(m_L);
 
 		lua_pushnil(m_L);  /* first key */
+		stackDump(m_L);
 		while (lua_next(m_L, -2) != 0) {
 			/* uses 'key' (at index -2) and 'value' (at index -1) */
 		
@@ -165,22 +166,38 @@ void RenderManager::render()
 
 			/*MENU ITEMS------------*/
 			lua_pushstring(m_L, "menuitems");
+			stackDump(m_L);
 			lua_gettable(m_L, -2);
+			stackDump(m_L);
 
 			lua_pushnil(m_L);  /* first key */
 			while (lua_next(m_L, -2) != 0) {
 			
 				MenuItem **pMenuItem = reinterpret_cast<MenuItem **>(lua_touserdata(m_L, -1));
+				
+				renderTextLine1(
+					(*pMenuItem)->text,
+					(*pMenuItem)->x + (*pWindow)->margins.x,
+					(*pMenuItem)->y + (*pWindow)->margins.y,
+					ResourceManager::manager->getFont("data.base.fonts.standard_font"), 
+					game);
 
 
 				/* removes 'value'; keeps 'key' for next iteration */
+				stackDump(m_L);
 				lua_pop(m_L, 1);
+				stackDump(m_L);
 			}
+
+			//lua_pop(m_L, 1); /*pop nil */
 
 			/*MENU ITEMS---------FINE*/
 
 			/* removes 'value'; keeps 'key' for next iteration */
+			stackDump(m_L);
 			lua_pop(m_L, 1);
+			lua_pop(m_L, 1);
+			stackDump(m_L);
 		}
 
 		lua_settop(m_L, 0); //pop ui & windows
@@ -227,6 +244,20 @@ void renderTextLine(std::string str, int x, int y, SDL_Surface* charSet, SDL_Sur
 		int charIndex = c - 32;
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
 		SDL_Rect dst = { (8 + x) * i, y * 8 , 8, 8 };
+
+		SDL_BlitSurface(charSet, &src, surf, &dst);
+		++i;
+	}
+}
+
+void renderTextLine1(std::string str, int x, int y, SDL_Surface* charSet, SDL_Surface* surf) {
+
+	int i = 0;
+	for (char& c : str) {
+
+		int charIndex = c - 32;
+		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
+		SDL_Rect dst = { (8 * i) + x, y, 8, 8 };
 
 		SDL_BlitSurface(charSet, &src, surf, &dst);
 		++i;

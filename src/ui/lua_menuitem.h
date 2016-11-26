@@ -16,9 +16,11 @@ extern "C" {
 	
 	int luaopen_MenuItemLib(lua_State *L);
 	void check_MenuItem(lua_State *L, int i);
-	int MenuItemLib_new(lua_State *L);
+	int MenuItem_new(lua_State *L);
+	int MenuItem__newindex(lua_State *L);
+	int MenuItem__index(lua_State *L);
 	int MenuItem__gc(lua_State *L);
-	int MenuItem_method(lua_State *L);
+	//int MenuItem_method(lua_State *L);
 	int MenuItem_onSelect(lua_State *L);
 
 }
