@@ -181,17 +181,27 @@ void ScriptManager::runMain() {
 
 	stackDump(m_L);
 
+	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+
 	if (luaL_dofile(m_L, "data/base/scripts/ui.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);
 	}
 
-	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
+	if (luaL_dofile(m_L, "data/base/scripts/battle.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);
 	}
+
+
+
+	
 }
 
 void ScriptManager::doString(const char *str)
@@ -274,6 +284,30 @@ bool ScriptManager::uiOnInput(int button) {
 	//lua_pop(L, 1);  /* pop returned value */
 
 	//stackDump(m_L);
+
+	lua_pop(m_L, 1);
+	lua_pop(m_L, 1);
+
+	return ret;
+
+
+}
+
+bool ScriptManager::weBattle() {
+
+	lua_getglobal(m_L, "battle");
+	lua_pushstring(m_L, "weBattle");
+	lua_gettable(m_L, 1);
+
+	if (lua_pcall(m_L, 0, 1, 0) != 0) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+	}
+
+	/* retrieve result */
+	if (!lua_isboolean(m_L, -1)) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+	}
+	bool ret = lua_toboolean(m_L, -1);
 
 	lua_pop(m_L, 1);
 	lua_pop(m_L, 1);

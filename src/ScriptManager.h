@@ -33,6 +33,7 @@ public:
 	void onInteract(std::string);
 	void onCreateFloor(std::string, int);
 	bool uiOnInput(int);
+	bool weBattle();
 
 public:
 	lua_State *m_L;

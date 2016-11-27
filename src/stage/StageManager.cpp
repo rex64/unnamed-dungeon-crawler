@@ -29,7 +29,10 @@ void StageManager::init() {
 bool StageManager::onInput(SDL_Event * e)
 {
 
+	if (ScriptManager::manager->weBattle()) { //TODO: hack
 
+		return true;
+	}
 
 	if (e->key.keysym.sym == SDLK_ESCAPE) {
 

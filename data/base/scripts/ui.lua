@@ -239,6 +239,8 @@ if(ui ~= nil) then
 
     return false
   end
+  
+  ui.update = function() end
 
   ui.render = function()
 

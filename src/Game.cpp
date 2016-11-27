@@ -158,6 +158,11 @@ void Game::run() {
 			
 		}
 
+		if (ScriptManager::manager->weBattle()) {
+		
+			ScriptManager::manager->doString("battle.update()");
+		}
+
 		RenderManager::manager->render();
 		checkIfStackIsEmpty(ScriptManager::manager->m_L);
 		SDL_Delay(16);
