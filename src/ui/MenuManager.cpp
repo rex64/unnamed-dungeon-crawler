@@ -44,42 +44,20 @@ void MenuManager::init() {
 
 bool MenuManager::onInput(SDL_Event * e) {
 
-	//if (isVisible()) {
-	
-		/*if (e->key.keysym.sym == SDLK_ESCAPE) {
+	auto button = -1;
+	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-			MenuManager::manager->setVisible(false);
 
-			
-		}*/
+	if (state[SDL_SCANCODE_UP]) button = 0;
+	else if (state[SDL_SCANCODE_RIGHT]) button = 1;
+	else if (state[SDL_SCANCODE_DOWN]) button = 2;
+	else if (state[SDL_SCANCODE_LEFT]) button = 3;
+	else if (state[SDL_SCANCODE_RETURN]) button = 4;
+	else if (state[SDL_SCANCODE_BACKSPACE]) button = 5;
+	else if (state[SDL_SCANCODE_ESCAPE]) button = 6;
 
-		auto button = -1;
-		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-			
-		if (state[SDL_SCANCODE_UP]) button = 0;
-		else if (state[SDL_SCANCODE_RIGHT]) button = 1;
-		else if (state[SDL_SCANCODE_DOWN]) button = 2;
-		else if (state[SDL_SCANCODE_LEFT]) button = 3;
-		else if (state[SDL_SCANCODE_RETURN]) button = 4;
-		else if (state[SDL_SCANCODE_BACKSPACE]) button = 5;
-		else if (state[SDL_SCANCODE_ESCAPE]) button = 6;
-
-		if (button != -1) {
-
-			//std::ostringstream stringStream;
-			//stringStream << "ui.update(" << button << ")"; //TODO: lol
-			//std::string copyOfStr = stringStream.str();
-
-			//ScriptManager::manager->doString(copyOfStr.c_str()); //TODO: lol
-
-			return ScriptManager::manager->uiUpdate(button);
-		}
-
-		
-	//}
-
-	return false;
+	return ScriptManager::manager->uiUpdate(button);
 }
 
 void MenuManager::setVisible(bool b) {

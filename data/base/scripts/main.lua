@@ -122,6 +122,9 @@ function Window:onOk()
       self.menuItems[self.currMenuItem].callback()
     end
   elseif self:hasDialog() then
+    if self:isDismissable() then
+      self:dismiss()
+    end
   end
 
 end
