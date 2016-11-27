@@ -4,13 +4,13 @@ data.entities['data.base.entities.enemy'] = {
     print("enemy - onInteractZ")
 
     local enemyBattle = Battle.new()
-    local playerChar1 = BattleChar.new('player1')
-    local playerChar2 = BattleChar.new('player2')
-    local playerChar3 = BattleChar.new('player3')
-    local playerChar4 = BattleChar.new('player4')
+    local playerChar1 = BattleChar.new('playr1')
+    local playerChar2 = BattleChar.new('playr2')
+    local playerChar3 = BattleChar.new('playr3')
+    local playerChar4 = BattleChar.new('playr4')
     
-    local enemyChar1 = BattleChar.new('monster1')
-    local enemyChar2 = BattleChar.new('monster2')
+    local enemyChar1 = BattleChar.new('mon1')
+    local enemyChar2 = BattleChar.new('mon2')
 
     enemyBattle:addPlayerChar(playerChar1)
     enemyBattle:addPlayerChar(playerChar2)
