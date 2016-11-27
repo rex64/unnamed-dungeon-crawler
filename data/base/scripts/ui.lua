@@ -195,7 +195,7 @@ if(ui ~= nil) then
 
   end
 
-  ui.update = function(button)
+  ui.onInput = function(button)
 
     if #ui.windows == 0 then
 

@@ -57,7 +57,7 @@ bool MenuManager::onInput(SDL_Event * e) {
 	else if (state[SDL_SCANCODE_ESCAPE]) button = 6;
 
 
-	return ScriptManager::manager->uiUpdate(button);
+	return ScriptManager::manager->uiOnInput(button);
 }
 
 void MenuManager::setVisible(bool b) {

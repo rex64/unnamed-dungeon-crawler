@@ -251,10 +251,10 @@ void ScriptManager::onCreateFloor(std::string s, int floorNo) {
 
 }
 
-bool ScriptManager::uiUpdate(int button) {
+bool ScriptManager::uiOnInput(int button) {
 
 	lua_getglobal(m_L, "ui");
-	lua_pushstring(m_L, "update");
+	lua_pushstring(m_L, "onInput");
 	lua_gettable(m_L, 1);
 	//stackDump(m_L);
 

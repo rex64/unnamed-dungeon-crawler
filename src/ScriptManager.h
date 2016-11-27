@@ -32,7 +32,7 @@ public:
 
 	void onInteract(std::string);
 	void onCreateFloor(std::string, int);
-	bool uiUpdate(int);
+	bool uiOnInput(int);
 
 public:
 	lua_State *m_L;
