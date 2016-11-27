@@ -4,8 +4,8 @@ data.dungeons['data.base.dungeons.dungeon1'] = {
   
     print("dungeon1 - onCreateFloor - FloorNo:" .. floorNo)
 
-    t0 = "data.base.tiles.tile00"
-    t1 = "data.base.tiles.tile01"
+    t0 = "base.tiles.tile00"
+    t1 = "base.tiles.tile01"
 
     a = {
 	    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

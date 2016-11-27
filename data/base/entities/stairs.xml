@@ -2,5 +2,5 @@
 	<name>StairsName</name>
 	<file>stairs.lua</file>
 	<type>other</type>
-	<sprite>data.base.spritesheets.stairs</sprite>
+	<sprite>base.spritesheets.stairs</sprite>
 </entity>

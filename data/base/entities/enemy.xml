@@ -2,5 +2,5 @@
 	<name>EnemyName</name>
 	<file>enemy.lua</file>
 	<type>enemy</type>
-	<sprite>data.base.spritesheets.enemy</sprite>
+	<sprite>base.spritesheets.enemy</sprite>
 </entity>

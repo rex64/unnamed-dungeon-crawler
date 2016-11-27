@@ -159,7 +159,7 @@ void RenderManager::render()
 	//SDL_BlitSurface(testSurface, 0, game, NULL);
 
 	//Border-->Screen
-	SDL_BlitSurface(ResourceManager::manager->getBorder("data.base.borders.border"), 0, screen, 0);
+	SDL_BlitSurface(ResourceManager::manager->getBorder("base.borders.border"), 0, screen, 0);
 
 	//TextBox-->Game
 	//SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);

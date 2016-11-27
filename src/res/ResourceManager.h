@@ -57,7 +57,7 @@ public:
 	void loadFonts(std::string basePath);
 	void loadHeroes(std::string basePath);
 	void loadItems(std::string basePath);
-	//menu folder void loadDungeons(std::string basePath);
+	void loadMenu(std::string basePath);
 	void loadScripts(std::string basePath);
 	void loadSkills(std::string basePath);
 	void loadSpritesheets(std::string basePath);

@@ -79,7 +79,7 @@ void ResourceManager::loadSprite(std::string resId, std::string filePath) {
 
 	if (SDL_Surface *surf = SDL_LoadBMP(filePath.c_str())) {
 
-
+		spritesheets[resId] = surf;
 		SDL_Log("Loaded %s", resId.c_str());
 
 	}
@@ -292,10 +292,6 @@ void ResourceManager::loadEntities(std::string basePath) {
 		tinydir_file file;
 		tinydir_readfile_n(&dir, &file, i);
 
-		/*if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
-		continue;
-		}*/
-
 		if (strcmp(file.extension, "xml") == 0) {
 
 			tinyxml2::XMLDocument doc;
@@ -331,13 +327,122 @@ void ResourceManager::loadEntities(std::string basePath) {
 	}
 
 }
-void ResourceManager::loadFonts(std::string basePath) {}
+void ResourceManager::loadFonts(std::string basePath) {
+
+	const char *dataPath = basePath.append("fonts/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("font")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* name = doc.FirstChildElement("font")->FirstChildElement("name")->GetText();
+				const char* file = doc.FirstChildElement("font")->FirstChildElement("file")->GetText();
+
+				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
 void ResourceManager::loadHeroes(std::string basePath) {}
 void ResourceManager::loadItems(std::string basePath) {}
+void ResourceManager::loadMenu(std::string basePath) {}
 void ResourceManager::loadScripts(std::string basePath) {}
 void ResourceManager::loadSkills(std::string basePath) {}
-void ResourceManager::loadSpritesheets(std::string basePath) {}
-void ResourceManager::loadTiles(std::string basePath) {}
+void ResourceManager::loadSpritesheets(std::string basePath) {
+
+	const char *dataPath = basePath.append("spritesheets/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("spritesheet")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* name = doc.FirstChildElement("spritesheet")->FirstChildElement("name")->GetText();
+				const char* file = doc.FirstChildElement("spritesheet")->FirstChildElement("file")->GetText();
+
+				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+void ResourceManager::loadTiles(std::string basePath) {
+
+	const char *dataPath = basePath.append("tiles/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("tile")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* name = doc.FirstChildElement("tile")->FirstChildElement("name")->GetText();
+				const char* file = doc.FirstChildElement("tile")->FirstChildElement("file")->GetText();
+
+				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
 
 void ResourceManager::loadDataFolder() {
 
