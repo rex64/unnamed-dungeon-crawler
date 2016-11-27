@@ -36,13 +36,13 @@ data.dungeons['data.base.dungeons.dungeon1'] = {
     end
 
     --Player
-    local playerID = field.addEntity(EntityType.Player, 'data.base.entities.player')
+    local playerID = field.addEntity(EntityType.Player, 'base.entities.player')
     field.setEntityTile(playerID, 1 + 16)
 
-    local stairsID = field.addEntity(EntityType.Other, 'data.base.entities.stairs')
+    local stairsID = field.addEntity(EntityType.Other, 'base.entities.stairs')
     field.setEntityTile(stairsID, 1 + 18)
 
-    local enemyID = field.addEntity(EntityType.Enemy, 'data.base.entities.enemy')
+    local enemyID = field.addEntity(EntityType.Enemy, 'base.entities.enemy')
     field.setEntityTile(enemyID, 1 + 24)
   end
   

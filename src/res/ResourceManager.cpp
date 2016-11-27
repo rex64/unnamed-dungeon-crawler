@@ -75,18 +75,12 @@ void ResourceManager::init() {
 
 }
 
-void ResourceManager::loadSprite(std::string filePath) {
+void ResourceManager::loadSprite(std::string resId, std::string filePath) {
 
 	if (SDL_Surface *surf = SDL_LoadBMP(filePath.c_str())) {
 
-		std::size_t found = filePath.find("data/");
-		std::string sub = filePath.substr(found);
-		std::string sub2 = sub.substr(0, sub.size() - 4);
 
-		std::replace(sub2.begin(), sub2.end(), '/', '.');
-		spritesheets[sub2] = surf;
-
-		SDL_Log("Loaded %s", sub2.c_str());
+		SDL_Log("Loaded %s", resId.c_str());
 
 	}
 	else
@@ -115,15 +109,15 @@ void ResourceManager::loadSprite(std::string filePath) {
 
 void ResourceManager::loadTile(std::string f) {
 
-	loadSprite(f);
+//	loadSprite(f);
 }
 void ResourceManager::loadFont(std::string f) {
 
-	loadSprite(f);
+	//loadSprite(f);
 }
 void ResourceManager::loadBorder(std::string f) {
 
-	loadSprite(f);
+	//loadSprite(f);
 }
 
 SDL_Surface* ResourceManager::getSprite(std::string id) { 
@@ -171,97 +165,290 @@ SDL_Surface* ResourceManager::getBorder(std::string id) {
 	return ret;
 }
 
-void ResourceManager::loadDataFolder() {
+std::string ResourceManager::resIdFromPath(std::string path) {
 
-	std::string basePath(SDL_GetBasePath());
-	basePath.append("data");
-	walk(basePath);
+	std::size_t found = path.find("data/");
+	std::string sub0 = path.substr(found);
+	std::string sub1 = sub0.substr(5, sub0.size());
+	std::string sub2 = sub1.substr(0, sub1.size() - 4);
+	std::string sub3 = sub2;
+
+	std::replace(sub3.begin(), sub3.end(), '/', '.');
+	return sub3;
 
 }
 
-void ResourceManager::walk(std::string basePath) {
+std::string ResourceManager::removeFilenameFromPath(std::string filename, std::string path) {
 
-	const char *dataPath = basePath.c_str();
+	return path.substr(0, path.size() - filename.length());
+
+}
+
+void ResourceManager::loadBorders(std::string basePath) {
+
+	const char *dataPath = basePath.append("borders/").c_str();
 	tinydir_dir dir;
 	int i;
 	tinydir_open_sorted(&dir, dataPath);
 
-	for (i = 0; i < dir.n_files; i++)
-	{
+	for (i = 0; i < dir.n_files; i++) {
+
 		tinydir_file file;
 		tinydir_readfile_n(&dir, &file, i);
 
-		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
-			continue;
-		}
+		/*if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+		continue;
+		}*/
 
-		if (file.is_dir)
-		{
-			walk(std::string(basePath).append("/").append(file.name));
-		}
-		else {
+		if (strcmp(file.extension, "xml") == 0) {
 
-			if (strcmp(file.extension, "bmp") == 0) {
-				std::size_t found = basePath.find("data/");
-				std::string sub = basePath.substr(found);
-				ResourceManager::manager->loadSprite(file.path);
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("border")) {
+
+
+				const char* borderName = doc.FirstChildElement("border")->FirstChildElement("name")->GetText();
+				const char* borderfile = doc.FirstChildElement("border")->FirstChildElement("file")->GetText();
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+
+				ResourceManager::manager->loadSprite(resId, filePath.append(borderfile));
 			}
-
-			if (strcmp(file.extension, "xml") == 0) {
-
-				std::string filePath = std::string(file.path);
-				std::size_t found = filePath.find("data/");
-				std::string sub = filePath.substr(found);
-				std::string sub2 = sub.substr(0, sub.size() - 4);
-
-				std::replace(sub2.begin(), sub2.end(), '/', '.');
-
-				tinyxml2::XMLDocument doc;
-				doc.LoadFile(file.path);
-
-				//entity
-				if (doc.FirstChildElement("entity")) {
-					const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
-					const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
-					const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
-
-					EntityData *newEntityData = new EntityData{
-						sub2,
-						file.name,
-						entityName,
-						new FieldEntityData{ entitySprite }
-					};
-
-					ResourceManager::manager->entityDatas[sub2] = newEntityData;
-				}
-
-				//dungeon
-				if (doc.FirstChildElement("dungeon")) {
-
-					const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
-
-					DungeonData *newDungeonData = new DungeonData{
-						sub2,
-						file.name,
-						dungeonName
-					};
-
-					ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;
-				}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
 
 			}
-
-			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {
-				std::size_t found = basePath.find("data/");
-				std::string sub = basePath.substr(found);
-
-				ScriptManager::manager->doFile(file.path);
-			}
 		}
-
 	}
 
-	tinydir_close(&dir);
+}
 
+void ResourceManager::loadDungeons(std::string basePath) {
+
+	const char *dataPath = basePath.append("dungeons/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		/*if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+		continue;
+		}*/
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("dungeon")) {
+
+
+				const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
+				const char* dungeonFile = doc.FirstChildElement("dungeon")->FirstChildElement("file")->GetText();
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				
+
+
+				/*DungeonData *newDungeonData = new DungeonData{
+					sub2,
+					file.name,
+					dungeonName
+				};
+
+				ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;*/
+
+				ScriptManager::manager->doFile(filePath.append(dungeonFile).c_str());
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
 
 }
+void ResourceManager::loadEntities(std::string basePath) {
+
+	const char *dataPath = basePath.append("entities/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		/*if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+		continue;
+		}*/
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("entity")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+
+				const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
+				const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+				const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
+				const char* dungeonFile = doc.FirstChildElement("entity")->FirstChildElement("file")->GetText();
+
+				EntityData *newEntityData = new EntityData{
+					resId,
+					file.name,
+					entityName,
+					new FieldEntityData{ entitySprite }
+				};
+
+				ResourceManager::manager->entityDatas[resId] = newEntityData;
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+void ResourceManager::loadFonts(std::string basePath) {}
+void ResourceManager::loadHeroes(std::string basePath) {}
+void ResourceManager::loadItems(std::string basePath) {}
+void ResourceManager::loadScripts(std::string basePath) {}
+void ResourceManager::loadSkills(std::string basePath) {}
+void ResourceManager::loadSpritesheets(std::string basePath) {}
+void ResourceManager::loadTiles(std::string basePath) {}
+
+void ResourceManager::loadDataFolder() {
+
+	std::string basePath(SDL_GetBasePath());
+	basePath.append("data/");
+	basePath.append("base/");
+	//walk(basePath);
+
+	//borders folder
+	loadBorders(basePath);
+	loadDungeons(basePath);
+	loadEntities(basePath);
+	loadFonts(basePath);
+	loadHeroes(basePath);
+	loadItems(basePath);
+	//menu folder void loadDungeons(std::string basePath);
+	loadScripts(basePath);
+	loadSkills(basePath);
+	loadSpritesheets(basePath);
+	loadTiles(basePath);
+
+}
+
+//void ResourceManager::walk(std::string basePath) {
+//
+//	const char *dataPath = basePath.c_str();
+//	tinydir_dir dir;
+//	int i;
+//	tinydir_open_sorted(&dir, dataPath);
+//
+//	for (i = 0; i < dir.n_files; i++)
+//	{
+//		tinydir_file file;
+//		tinydir_readfile_n(&dir, &file, i);
+//
+//		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
+//			continue;
+//		}
+//
+//		if (file.is_dir)
+//		{
+//			walk(std::string(basePath).append("/").append(file.name));
+//		}
+//		else {
+//
+//			if (strcmp(file.extension, "bmp") == 0) {
+//				std::size_t found = basePath.find("data/");
+//				std::string sub = basePath.substr(found);
+//				//ResourceManager::manager->loadSprite(file.path);
+//			}
+//
+//			if (strcmp(file.extension, "xml") == 0) {
+//
+//				std::string filePath = std::string(file.path);
+//				std::size_t found = filePath.find("data/");
+//				std::string sub = filePath.substr(found);
+//				std::string sub2 = sub.substr(0, sub.size() - 4);
+//
+//				std::replace(sub2.begin(), sub2.end(), '/', '.');
+//
+//				tinyxml2::XMLDocument doc;
+//				doc.LoadFile(file.path);
+//
+//				//entity
+//				if (doc.FirstChildElement("entity")) {
+//					const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
+//					const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
+//					const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
+//
+//					EntityData *newEntityData = new EntityData{
+//						sub2,
+//						file.name,
+//						entityName,
+//						new FieldEntityData{ entitySprite }
+//					};
+//
+//					ResourceManager::manager->entityDatas[sub2] = newEntityData;
+//				}
+//
+//				//dungeon
+//				else if (doc.FirstChildElement("dungeon")) {
+//
+//					const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
+//
+//					DungeonData *newDungeonData = new DungeonData{
+//						sub2,
+//						file.name,
+//						dungeonName
+//					};
+//
+//					ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;
+//				}
+//				else {
+//				
+//					Game::game->showMsgBox("unrecognized xml");
+//					Game::game->showMsgBox(file.path);
+//				}
+//
+//			}
+//
+//			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {
+//				std::size_t found = basePath.find("data/");
+//				std::string sub = basePath.substr(found);
+//
+//				ScriptManager::manager->doFile(file.path);
+//			}
+//		}
+//
+//	}
+//
+//	tinydir_close(&dir);
+//
+//
+//}

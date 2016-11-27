@@ -1,5 +1,6 @@
 <dungeon>
 	<name>Dungeon1</name>
+	<file>dungeon1.lua</file>
 	<description>desc</description>
 	<difficulties>
 		<easy>1</easy>

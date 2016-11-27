@@ -1,5 +1,6 @@
 <entity>
 	<name>PlayerName</name>
+	<file>player.lua</file>
 	<type>player</type>
 	<sprite>data.base.spritesheets.player</sprite>
 </entity>

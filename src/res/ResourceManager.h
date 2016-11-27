@@ -36,9 +36,9 @@ public:
 	void init();
 
 	void loadDataFolder();
-	void walk(std::string);
+	//void walk(std::string);
 
-	void loadSprite(std::string f);
+	void loadSprite(std::string resId, std::string filePath);
 	void loadTile(std::string f);
 	void loadFont(std::string f);
 	void loadBorder(std::string f);
@@ -47,6 +47,23 @@ public:
 	SDL_Surface* getTile(std::string id);
 	SDL_Surface* getFont(std::string id);
 	SDL_Surface* getBorder(std::string id);
+
+	std::string resIdFromPath(std::string path);
+	std::string removeFilenameFromPath(std::string filename, std::string path);
+	
+	void loadBorders(std::string basePath);
+	void loadDungeons(std::string basePath);
+	void loadEntities(std::string basePath);
+	void loadFonts(std::string basePath);
+	void loadHeroes(std::string basePath);
+	void loadItems(std::string basePath);
+	//menu folder void loadDungeons(std::string basePath);
+	void loadScripts(std::string basePath);
+	void loadSkills(std::string basePath);
+	void loadSpritesheets(std::string basePath);
+	void loadTiles(std::string basePath);
+
+
 
 
 	static ResourceManager *manager;	
