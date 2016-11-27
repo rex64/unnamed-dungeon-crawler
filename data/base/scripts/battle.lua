@@ -10,6 +10,9 @@ function Battle.new()
 
   newBattle.commandWindow = nil
   newBattle.battleChars = {}
+  newBattle.playerChars = {}
+  newBattle.enemyChars  = {}
+
   newBattle.nextTurnChar = 1
 
   newBattle.timelineWin1 = Window.new(8*(8*0), 100, 8, 4, false)  
@@ -37,6 +40,18 @@ function Battle.new()
   ui.addWindow(newBattle.timelineWin4)
 
   return newBattle
+end
+
+function Battle:addPlayerChar(battleChar)
+
+  table.insert(self.playerChars, battleChar)
+  self:addChar(battleChar)
+end
+
+function Battle:addEnemyChar(battleChar)
+
+  table.insert(self.enemyChars, battleChar)
+  self:addChar(battleChar)
 end
 
 function Battle:addChar(battleChar)
@@ -70,20 +85,75 @@ function Battle:endTurn()
 
 end
 
+function Battle:getTurnChar()
+  return self.battleChars[self.nextTurnChar]
+end
+
+function Battle:getRandomPlayer()
+  local rando = math.random(#self.playerChars)
+  return self.playerChars[rando]
+end
+
+function Battle:getRandomEnemy()
+  local rando = math.random(#self.enemyChars)
+  return self.enemyChars[rando]
+end
+
+function Battle:isPlayer(char)
+
+  for i, e in ipairs(self.playerChars) do
+
+    if (char == e) then return true end
+
+  end
+
+  return false
+
+end
+
+function Battle:isEnemy(char)
+
+  for i, e in ipairs(self.enemyChars) do
+
+    if (char == e) then return true end
+
+  end
+
+  return false
+
+end
+
 function Battle:update()
 --  print('curr battle update')
 
 --TEMP
   self:newTurn()
+  
+  
   local clock = os.clock
   function sleep(n)  -- seconds
     local t0 = clock()
     while clock() - t0 <= n do end
   end
-  sleep(1)
-  
-  
-  self:endTurn()
+  sleep(0.5)
+
+-- get turn char
+  local turnChar = self:getTurnChar()
+
+-- se player menu
+  if self:isPlayer(turnChar) then
+    print(turnChar.name .. ' attacks ' .. self:getRandomEnemy().name) 
+  end
+
+-- se enemy attack
+  if self:isEnemy(turnChar) then
+    print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
+  end
+
+
+
+-- end turn
+self:endTurn()
 end
 
 function Battle:render()
