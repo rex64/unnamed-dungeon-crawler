@@ -180,6 +180,13 @@ bool ScriptManager::onInput(SDL_Event * e)
 void ScriptManager::runMain() {
 
 	stackDump(m_L);
+
+	if (luaL_dofile(m_L, "data/base/scripts/ui.lua")) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
@@ -249,11 +256,11 @@ bool ScriptManager::uiUpdate(int button) {
 	lua_getglobal(m_L, "ui");
 	lua_pushstring(m_L, "update");
 	lua_gettable(m_L, 1);
-	stackDump(m_L);
+	//stackDump(m_L);
 
 	lua_pushinteger(m_L, button);
 
-	stackDump(m_L);
+	//stackDump(m_L);
 
 	if (lua_pcall(m_L, 1, 1, 0) != 0) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
@@ -266,7 +273,7 @@ bool ScriptManager::uiUpdate(int button) {
 	bool ret = lua_toboolean(m_L, -1);
 	//lua_pop(L, 1);  /* pop returned value */
 
-	stackDump(m_L);
+	//stackDump(m_L);
 
 	lua_pop(m_L, 1);
 	lua_pop(m_L, 1);
