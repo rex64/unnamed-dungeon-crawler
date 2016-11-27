@@ -32,6 +32,7 @@ function Window.new(x, y, w, h)
   win.h = h 
   win.margins = {x=12, y=0}
   win.menuItems = {}
+  win.dialog = nil
   win.currMenuItem = 1  
 
   return win
@@ -45,14 +46,32 @@ function Window:addMenuItem(newMenuItem)
   --return newMenuItem
 end
 
+function Window:addDialog(newDialog)
+
+  self.dialog = newDialog
+
+end
+
+
 function Window:render()
 
   ui.renderWindow(self.x, self.y, self.w, self.h)
+  
+  if (self.dialog ~= nil) then
+    
+      local x = self.x + self.margins.x
+      local y = self.y + self.margins.x
+    
+      ui.renderMenuItem(self.dialog.text, x, y)
+    
+    end
 
   for i, menuItem in ipairs(self.menuItems) do
 
     local x = self.x + self.margins.x
     local y = self.y + self.margins.x
+
+    
 
     if (self.currMenuItem == i) then
       ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
@@ -80,6 +99,20 @@ function MenuItem.new(text, callback)
   return menuItem
 end
 
+--************************
+--Dialog
+--************************
+
+Dialog = {}
+Dialog.__index = Dialog
+
+function Dialog.new(text)
+  local newDialog = {}
+  setmetatable(newDialog, Dialog)
+  newDialog.text = text
+  
+  return newDialog
+end
 
 
 --UI stuff
