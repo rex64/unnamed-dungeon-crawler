@@ -2,5 +2,5 @@
 	<name>StandardFontName</name>
 	<file>standard_font.bmp</file>
 	<type>other</type>
-	<sprite>data.base.spritesheets.stairs</sprite>
+	<sprite>base.spritesheets.stairs</sprite>
 </font>

@@ -1,4 +1,4 @@
-data.dungeons['data.base.dungeons.dungeon1'] = {
+data.dungeons['base.dungeons.dungeon1'] = {
   
   onCreateFloor = function(floorNo)
   

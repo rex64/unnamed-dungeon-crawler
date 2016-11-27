@@ -306,7 +306,7 @@ void ResourceManager::loadEntities(std::string basePath) {
 				const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
 				const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
 				const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
-				const char* dungeonFile = doc.FirstChildElement("entity")->FirstChildElement("file")->GetText();
+				const char* entityFile = doc.FirstChildElement("entity")->FirstChildElement("file")->GetText();
 
 				EntityData *newEntityData = new EntityData{
 					resId,
@@ -316,6 +316,7 @@ void ResourceManager::loadEntities(std::string basePath) {
 				};
 
 				ResourceManager::manager->entityDatas[resId] = newEntityData;
+				ScriptManager::manager->doFile(filePath.append(entityFile).c_str());
 
 			}
 			else {
@@ -366,7 +367,43 @@ void ResourceManager::loadFonts(std::string basePath) {
 }
 void ResourceManager::loadHeroes(std::string basePath) {}
 void ResourceManager::loadItems(std::string basePath) {}
-void ResourceManager::loadMenu(std::string basePath) {}
+void ResourceManager::loadMenu(std::string basePath) {
+
+	const char *dataPath = basePath.append("menus/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("menu")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* name = doc.FirstChildElement("menu")->FirstChildElement("name")->GetText();
+				const char* file = doc.FirstChildElement("menu")->FirstChildElement("file")->GetText();
+
+				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
 void ResourceManager::loadScripts(std::string basePath) {}
 void ResourceManager::loadSkills(std::string basePath) {}
 void ResourceManager::loadSpritesheets(std::string basePath) {
@@ -458,7 +495,7 @@ void ResourceManager::loadDataFolder() {
 	loadFonts(basePath);
 	loadHeroes(basePath);
 	loadItems(basePath);
-	//menu folder void loadDungeons(std::string basePath);
+	loadMenu(basePath);
 	loadScripts(basePath);
 	loadSkills(basePath);
 	loadSpritesheets(basePath);

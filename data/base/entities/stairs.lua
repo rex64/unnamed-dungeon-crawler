@@ -11,4 +11,4 @@ local stairs = {
   
 }
 
-data.entities['data.base.entities.stairs'] = stairs
+data.entities['base.entities.stairs'] = stairs

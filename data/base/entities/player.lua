@@ -1,3 +1,3 @@
-data.entities['data.base.entities.player'] = {
+data.entities['base.entities.player'] = {
        
 }

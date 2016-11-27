@@ -55,7 +55,7 @@ void RenderManager::init()
 void RenderManager::renderWindow(SDL_Rect rect) {
 
 
-	SDL_Surface *bmp = ResourceManager::manager->getSprite("data.base.menu.menu-window-border");
+	SDL_Surface *bmp = ResourceManager::manager->getSprite("base.menus.menu-window-border");
 
 	SDL_Rect srcRect = SDL_Rect{ 0 , 0, 8, 8 };
 
@@ -83,7 +83,7 @@ void RenderManager::renderWindow(SDL_Rect rect) {
 
 void RenderManager::renderMenuItem(std::string str, int x, int y) {
 
-	renderTextLine1(str, x, y, ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
+	renderTextLine1(str, x, y, ResourceManager::manager->getFont("base.fonts.standard_font"), game);
 
 }
 
@@ -162,13 +162,13 @@ void RenderManager::render()
 	SDL_BlitSurface(ResourceManager::manager->getBorder("base.borders.border"), 0, screen, 0);
 
 	//TextBox-->Game
-	//SDL_BlitSurface(ResourceManager::manager->fonts["data.base.fonts.standard_font"], 0, screen, 0);
-	//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["data.base.fonts.standard_font"], game);
+	//SDL_BlitSurface(ResourceManager::manager->fonts["base.fonts.standard_font"], 0, screen, 0);
+	//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["base.fonts.standard_font"], game);
 
 	//Menu-->Game
 	/*
-	SDL_BlitSurface(ResourceManager::manager->getFont("data.base.fonts.standard_font"), 0, screen, 0);
-	renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("data.base.fonts.standard_font"), game);
+	SDL_BlitSurface(ResourceManager::manager->getFont("base.fonts.standard_font"), 0, screen, 0);
+	renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("base.fonts.standard_font"), game);
 	*/
 
 	ScriptManager::manager->doString("ui.render()"); //TODO: lol
@@ -184,7 +184,7 @@ void RenderManager::render()
 			SDL_Surface *consoleSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT - 16, 32, 0, 0, 0, 0);
 			SDL_FillRect(consoleSurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-			renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->getFont("data.base.fonts.standard_font"), consoleSurface);
+			renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->getFont("base.fonts.standard_font"), consoleSurface);
 
 			SDL_BlitSurface(consoleSurface, 0, screen, 0);
 			SDL_FreeSurface(consoleSurface);

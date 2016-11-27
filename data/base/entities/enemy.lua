@@ -1,4 +1,4 @@
-data.entities['data.base.entities.enemy'] = {
+data.entities['base.entities.enemy'] = {
 
   onInteract = function()
     print("enemy - onInteractZ")
