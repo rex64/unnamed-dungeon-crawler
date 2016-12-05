@@ -63,13 +63,13 @@ void ResourceManager::init() {
 	
 	//SDL_Surface *testSurface = SDL_LoadBMP("data/base/test.bmp");
 	
-	loadBorder("data/base/borders/border.bmp");
+	/*loadBorder("data/base/borders/border.bmp");
 	
 	loadTile("data/base/tiles/tile00.bmp");
 	
 	loadTile("data/base/tiles/tile01.bmp");
 
-	loadFont("data/base/fonts/standard_font.bmp");
+	loadFont("data/base/fonts/standard_font.bmp");*/
 
 	//SDL_Surface* tre =  getSprite("omar");
 
@@ -107,18 +107,18 @@ void ResourceManager::loadSprite(std::string resId, std::string filePath) {
 //
 //}
 
-void ResourceManager::loadTile(std::string f) {
-
-//	loadSprite(f);
-}
-void ResourceManager::loadFont(std::string f) {
-
-	//loadSprite(f);
-}
-void ResourceManager::loadBorder(std::string f) {
-
-	//loadSprite(f);
-}
+//void ResourceManager::loadTile(std::string f) {
+//
+////	loadSprite(f);
+//}
+//void ResourceManager::loadFont(std::string f) {
+//
+//	//loadSprite(f);
+//}
+//void ResourceManager::loadBorder(std::string f) {
+//
+//	//loadSprite(f);
+//}
 
 SDL_Surface* ResourceManager::getSprite(std::string id) { 
 	
@@ -142,13 +142,13 @@ SDL_Surface* ResourceManager::getTile(std::string id) {
 
 	return ret;
 }
-SDL_Surface* ResourceManager::getFont(std::string id) {
+FontData* ResourceManager::getFont(std::string id) {
 
-	SDL_Surface* ret = spritesheets[id];
+	FontData* ret = fontDatas[id];
 
 	if (ret == nullptr) {
 		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Font %s not found", id.c_str());
-		return spriteDefault;
+		return nullptr;
 	}
 
 	return ret;
@@ -347,13 +347,43 @@ void ResourceManager::loadFonts(std::string basePath) {
 
 			if (doc.FirstChildElement("font")) {
 
+				FontData *newFontData = new FontData();
+
 				std::string resId = resIdFromPath(file.path);
 				std::string filePath = removeFilenameFromPath(file.name, file.path);
 
 				const char* name = doc.FirstChildElement("font")->FirstChildElement("name")->GetText();
 				const char* file = doc.FirstChildElement("font")->FirstChildElement("file")->GetText();
+				
+				int charWidth;
+				doc.FirstChildElement("font")->FirstChildElement("charWidth")->QueryIntText(&charWidth);
 
-				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+				int charHeight;
+				doc.FirstChildElement("font")->FirstChildElement("charHeight")->QueryIntText(&charHeight);
+
+				std::string filePath2 = filePath.append(file);
+
+				SDL_Surface *surf = SDL_LoadBMP(filePath2.c_str());
+
+				if (surf) {
+
+					SDL_Log("Loaded %s", resId.c_str());
+
+				}
+				else
+				{
+					Game::game->showMsgBox(SDL_GetError());
+				}
+
+				newFontData->id = resId;
+				newFontData->name		= name;
+				newFontData->fileName	= file;
+				newFontData->filePath	= filePath2;
+				newFontData->charWidth	= charWidth;
+				newFontData->charHeight = charHeight;
+				newFontData->fontSurf	= surf;
+
+				fontDatas[resId] = newFontData;
 
 			}
 			else {
@@ -502,95 +532,3 @@ void ResourceManager::loadDataFolder() {
 	loadTiles(basePath);
 
 }
-
-//void ResourceManager::walk(std::string basePath) {
-//
-//	const char *dataPath = basePath.c_str();
-//	tinydir_dir dir;
-//	int i;
-//	tinydir_open_sorted(&dir, dataPath);
-//
-//	for (i = 0; i < dir.n_files; i++)
-//	{
-//		tinydir_file file;
-//		tinydir_readfile_n(&dir, &file, i);
-//
-//		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0) {
-//			continue;
-//		}
-//
-//		if (file.is_dir)
-//		{
-//			walk(std::string(basePath).append("/").append(file.name));
-//		}
-//		else {
-//
-//			if (strcmp(file.extension, "bmp") == 0) {
-//				std::size_t found = basePath.find("data/");
-//				std::string sub = basePath.substr(found);
-//				//ResourceManager::manager->loadSprite(file.path);
-//			}
-//
-//			if (strcmp(file.extension, "xml") == 0) {
-//
-//				std::string filePath = std::string(file.path);
-//				std::size_t found = filePath.find("data/");
-//				std::string sub = filePath.substr(found);
-//				std::string sub2 = sub.substr(0, sub.size() - 4);
-//
-//				std::replace(sub2.begin(), sub2.end(), '/', '.');
-//
-//				tinyxml2::XMLDocument doc;
-//				doc.LoadFile(file.path);
-//
-//				//entity
-//				if (doc.FirstChildElement("entity")) {
-//					const char* entityName = doc.FirstChildElement("entity")->FirstChildElement("name")->GetText();
-//					const char* entityType = doc.FirstChildElement("entity")->FirstChildElement("type")->GetText();
-//					const char* entitySprite = doc.FirstChildElement("entity")->FirstChildElement("sprite")->GetText();
-//
-//					EntityData *newEntityData = new EntityData{
-//						sub2,
-//						file.name,
-//						entityName,
-//						new FieldEntityData{ entitySprite }
-//					};
-//
-//					ResourceManager::manager->entityDatas[sub2] = newEntityData;
-//				}
-//
-//				//dungeon
-//				else if (doc.FirstChildElement("dungeon")) {
-//
-//					const char* dungeonName = doc.FirstChildElement("dungeon")->FirstChildElement("name")->GetText();
-//
-//					DungeonData *newDungeonData = new DungeonData{
-//						sub2,
-//						file.name,
-//						dungeonName
-//					};
-//
-//					ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;
-//				}
-//				else {
-//				
-//					Game::game->showMsgBox("unrecognized xml");
-//					Game::game->showMsgBox(file.path);
-//				}
-//
-//			}
-//
-//			if (strcmp(file.extension, "lua") == 0 && strcmp(file.name, "main.lua") != 0) {
-//				std::size_t found = basePath.find("data/");
-//				std::string sub = basePath.substr(found);
-//
-//				ScriptManager::manager->doFile(file.path);
-//			}
-//		}
-//
-//	}
-//
-//	tinydir_close(&dir);
-//
-//
-//}

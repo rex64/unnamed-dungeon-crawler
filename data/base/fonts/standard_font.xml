@@ -2,5 +2,6 @@
 	<name>StandardFontName</name>
 	<file>standard_font.bmp</file>
 	<type>other</type>
-	<sprite>base.spritesheets.stairs</sprite>
+	<charWidth>8</charWidth>
+	<charHeight>8</charHeight>
 </font>

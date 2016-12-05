@@ -25,6 +25,17 @@ struct DungeonData {
 	std::string name;
 };
 
+struct FontData {
+	std::string id;
+	std::string fileName;
+	std::string filePath;
+	std::string name;
+	int charWidth;
+	int charHeight;
+	SDL_Surface* fontSurf;
+	//int charSpacing;
+};
+
 
 
 class ResourceManager
@@ -39,13 +50,13 @@ public:
 	//void walk(std::string);
 
 	void loadSprite(std::string resId, std::string filePath);
-	void loadTile(std::string f);
+	/*void loadTile(std::string f);
 	void loadFont(std::string f);
-	void loadBorder(std::string f);
+	void loadBorder(std::string f);*/
 
 	SDL_Surface* getSprite(std::string id);
 	SDL_Surface* getTile(std::string id);
-	SDL_Surface* getFont(std::string id);
+	FontData* getFont(std::string id);
 	SDL_Surface* getBorder(std::string id);
 
 	std::string resIdFromPath(std::string path);
@@ -70,6 +81,7 @@ public:
 
 	std::unordered_map<std::string, EntityData*> entityDatas;
 	std::unordered_map<std::string, DungeonData*> dungeonDatas;
+	std::unordered_map<std::string, FontData*> fontDatas;
 
 private:
 
