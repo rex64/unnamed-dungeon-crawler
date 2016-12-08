@@ -15,25 +15,25 @@ function Battle.new()
 
   newBattle.nextTurnChar = 1
 
-  newBattle.timelineWin1 = Window.new(8*(8*0), 100, 8, 4, false)  
+  newBattle.timelineWin1 = Window.new(8, 8, 8, 4, false)  
   local newDialog1 = Dialog.new('1')
   newBattle.timelineWin1:addDialog(newDialog1)
   newBattle.timelineWin1:setDismissable(false)
   ui.addWindow(newBattle.timelineWin1)
 
-  newBattle.timelineWin2 = Window.new(8*(8*1), 100, 8, 4, false)
+  newBattle.timelineWin2 = Window.new(320, 8, 8, 4, false)
   local newDialog2 = Dialog.new('2')
   newBattle.timelineWin2:addDialog(newDialog2)
   newBattle.timelineWin2:setDismissable(false)
   ui.addWindow(newBattle.timelineWin2)
 
-  newBattle.timelineWin3 = Window.new(8*(8*2), 100, 8, 4, false)
+  newBattle.timelineWin3 = Window.new(8, 100, 8, 4, false)
   local newDialog3 = Dialog.new('3')
   newBattle.timelineWin3:addDialog(newDialog3)
   newBattle.timelineWin3:setDismissable(false)
   ui.addWindow(newBattle.timelineWin3)
 
-  newBattle.timelineWin4 = Window.new(8*(8*3), 100, 8, 4, false)
+  newBattle.timelineWin4 = Window.new(320, 100, 8, 4, false)
   local newDialog4 = Dialog.new('4')
   newBattle.timelineWin4:addDialog(newDialog4)
   newBattle.timelineWin4:setDismissable(false)
@@ -61,10 +61,15 @@ end
 
 function Battle:init()
 
-  self.commandWindow = Window.new(180, 8, 8, 10, false)
+  self.commandWindow = Window.new(34, 160, 36, 4, false)
   local newDialog1 = Dialog.new('0')
   self.commandWindow:addDialog(newDialog1)
   ui.addWindow(self.commandWindow)
+
+  self.timelineWin1.dialog.text = self.playerChars[1].name  
+  self.timelineWin2.dialog.text = self.playerChars[2].name
+  self.timelineWin3.dialog.text = self.playerChars[3].name
+  self.timelineWin4.dialog.text = self.playerChars[4].name
 
   --calc speed
 
@@ -80,11 +85,115 @@ end
 
 function Battle:newTurn()
 
-  self.commandWindow.dialog.text = self:getTurnChar(0).name
-  self.timelineWin4.dialog.text = self:getTurnChar(1).name
-  self.timelineWin2.dialog.text = self:getTurnChar(2).name
-  self.timelineWin3.dialog.text = self:getTurnChar(3).name
-  self.timelineWin1.dialog.text = self:getTurnChar(4).name
+  local turnChar = self:getTurnChar(0)
+
+--1
+  if turnChar.index == 1 then
+
+    self.timelineWin1.x = 8 + 20
+
+    local menuItem1 = MenuItem.new("Attack", 
+      function() 
+        local target = self:getRandomEnemy()
+        target.hp = target.hp - 10
+        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+        self:endTurn()
+        self:newTurn()
+
+      end)
+    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
+    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+
+    self.commandWindow:resetMenu()
+    self.commandWindow:addMenuItem(menuItem1)
+    self.commandWindow:addMenuItem(menuItem2)
+    self.commandWindow:addMenuItem(menuItem3)
+
+  else
+    self.timelineWin1.x = 8
+
+end
+
+--2
+if turnChar.index == 2 then
+
+    self.timelineWin2.x = 320 - 20
+
+    local menuItem1 = MenuItem.new("Attack", 
+      function() 
+        local target = self:getRandomEnemy()
+        target.hp = target.hp - 10
+        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+        self:endTurn()
+        self:newTurn()
+
+      end)
+    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
+    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+
+    self.commandWindow:resetMenu()
+    self.commandWindow:addMenuItem(menuItem1)
+    self.commandWindow:addMenuItem(menuItem2)
+    self.commandWindow:addMenuItem(menuItem3)
+
+  else
+    self.timelineWin2.x = 320
+
+end
+
+--3
+if turnChar.index == 1 then
+
+    self.timelineWin3.x = 8 + 20
+
+    local menuItem1 = MenuItem.new("Attack", 
+      function() 
+        local target = self:getRandomEnemy()
+        target.hp = target.hp - 10
+        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+        self:endTurn()
+        self:newTurn()
+
+      end)
+    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
+    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+    
+    self.commandWindow:resetMenu()
+    self.commandWindow:addMenuItem(menuItem1)
+    self.commandWindow:addMenuItem(menuItem2)
+    self.commandWindow:addMenuItem(menuItem3)
+
+  else
+    self.timelineWin3.x = 8
+
+end
+
+--4
+if turnChar.index == 1 then
+
+    self.timelineWin4.x = 320 - 20
+
+    local menuItem1 = MenuItem.new("Attack", 
+      function() 
+        local target = self:getRandomEnemy()
+        target.hp = target.hp - 10
+        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+        self:endTurn()
+        self:newTurn()
+
+      end)
+    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
+    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+
+    self.commandWindow:resetMenu()
+    self.commandWindow:addMenuItem(menuItem1)
+    self.commandWindow:addMenuItem(menuItem2)
+    self.commandWindow:addMenuItem(menuItem3)
+
+  else
+    self.timelineWin4.x = 320
+
+  end
 
 end
 
@@ -156,27 +265,23 @@ function Battle:update()
 --  print('curr battle update')
 
 --TEMP
+--[[
   local clock = os.clock
   function sleep(n)  -- seconds
     local t0 = clock()
     while clock() - t0 <= n do end
   end
   sleep(0.5)
-
+]]--
 -- get turn char
   local turnChar = self:getTurnChar(0)
-
--- se player menu
-  if self:isPlayer(turnChar) then
-    local target = self:getRandomEnemy()
-    target.hp = target.hp - 10
-    print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-
-  end
 
 -- se enemy attack
   if self:isEnemy(turnChar) then
     print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
+    
+    self:endTurn()
+    self:newTurn()
 
   end
 
@@ -184,12 +289,14 @@ function Battle:update()
     self:endBattle()
   end
 
-  self:endTurn()
-  self:newTurn()
+  
 
 end
 
 function Battle:render()
+  ui.renderSprite('base.spritesheets.testbackground', 72, 40) 
+  ui.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(400/2) - 25, math.floor(225/2) - 25)
+
 end
 
 
@@ -199,12 +306,13 @@ end
 BattleChar = {}
 BattleChar.__index = BattleChar
 
-function BattleChar.new(name)
+function BattleChar.new(name, i)
   local newBattleChar = {}
   setmetatable(newBattleChar, BattleChar)
 
   newBattleChar.name = name
   newBattleChar.hp = 100
+  newBattleChar.index = i
 
   return newBattleChar
 end

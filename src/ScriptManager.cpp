@@ -82,6 +82,14 @@ void ScriptManager::init() {
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
+	//ui - renderSprite
+	lua_getglobal(m_L, "ui");
+	lua_pushstring(m_L, "renderSprite");
+	lua_pushcfunction(m_L, Menu_renderSprite);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 	//field ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "field");

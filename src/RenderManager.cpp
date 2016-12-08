@@ -89,6 +89,18 @@ void RenderManager::renderMenuItem(std::string str, int x, int y) {
 
 }
 
+void RenderManager::renderSprite(std::string str, int x, int y) {
+
+	SDL_Surface *surf = ResourceManager::manager->getSprite(str);
+
+	SDL_Rect dstRect = SDL_Rect{ x, y, 0 , 0 };
+
+
+	SDL_BlitSurface(surf, 0, uiSurface, &dstRect);
+	
+
+}
+
 void RenderManager::render()
 {
 	//clear screen surface
@@ -176,12 +188,19 @@ void RenderManager::render()
 	renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("base.fonts.standard_font"), game);
 	*/
 
+	if (ScriptManager::manager->weBattle()) {
+
+		ScriptManager::manager->doString("battle.render()");
+	}
+
 	ScriptManager::manager->doString("ui.render()"); //TODO: lol
 
 
 	//Game-->Screen
 	SDL_Rect location = { 72,40,100,100 };
 	SDL_BlitSurface(game, 0, screen, &location);
+
+	
 
 	//UI-->Screen
 	SDL_BlitSurface(uiSurface, 0, screen, 0);

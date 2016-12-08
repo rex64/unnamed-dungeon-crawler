@@ -69,6 +69,17 @@ int Menu_renderMenuItem(lua_State *L) {
 	return 0;
 }
 
+int Menu_renderSprite(lua_State *L) {
+
+	std::string text = lua_tostring(L, 1);
+	int x = lua_tointeger(L, 2);
+	int y = lua_tointeger(L, 3);
+
+	RenderManager::manager->renderSprite(text, x, y);
+
+	return 0;
+}
+
 //void check_Menu(lua_State *L, int i) {
 //	luaL_checkudata(L, i, Obj_typename);
 //}

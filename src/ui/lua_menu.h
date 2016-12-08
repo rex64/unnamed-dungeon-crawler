@@ -17,6 +17,7 @@ extern "C" {
 	//int luaopen_Menulib(lua_State *L);
 	int Menu_renderWindow(lua_State *L);
 	int Menu_renderMenuItem(lua_State *L);
+	int Menu_renderSprite(lua_State *L);
 	/*void check_Menu(lua_State *L, int i);
 	int Menu_new(lua_State *L);
 	int Menu__gc(lua_State *L);

@@ -24,10 +24,14 @@ end
 
 function Window:addMenuItem(newMenuItem)
 
-  --local newMenuItem = {text=text, callback=callback}
-
   table.insert(self.menuItems, newMenuItem)
-  --return newMenuItem
+
+end
+
+function Window:resetMenu()
+
+  self.menuItems = {}
+
 end
 
 function Window:addDialog(newDialog)

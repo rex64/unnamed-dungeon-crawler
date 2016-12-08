@@ -29,6 +29,7 @@ public:
 	void render();
 	void renderWindow(SDL_Rect rect);
 	void renderMenuItem(std::string str, int x, int y);
+	void renderSprite(std::string str, int x, int y);
 	static RenderManager *manager;
 
 	std::vector<IRenderable*> renderStack;
