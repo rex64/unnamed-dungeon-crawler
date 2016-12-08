@@ -216,7 +216,7 @@ void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surfa
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
 		SDL_Rect dst = { (8 + x) * i, y * 8 , 8, 8 };
 
-		SDL_BlitSurface(fontData->fontSurf, &src, surf, &dst);
+		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
 		++i;
 	}
 }
@@ -224,13 +224,18 @@ void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surfa
 void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf) {
 
 	int i = 0;
+	int cursor = 0;
 	for (char& c : str) {
 
-		int charIndex = c - 32;
-		SDL_Rect src = { fontData->charWidth * charIndex, 0, fontData->charWidth, fontData->charHeight };
-		SDL_Rect dst = { (fontData->charWidth * i) + x, y, fontData->charWidth, fontData->charHeight };
+		CharData *charData = fontData->chars[std::string(1, c)];
 
-		SDL_BlitSurface(fontData->fontSurf, &src, surf, &dst);
+		SDL_Rect src = { 0, 0, charData->width, fontData->height };
+		//SDL_Rect dst = { (fontData->chars[std::string(1, c)]->width * i) + x, y, fontData->chars[std::string(1, c)]->width, fontData->height };
+		SDL_Rect dst = { cursor + x, y, charData->width, fontData->height };
+
+		cursor = cursor + charData->width + 1;
+
+		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
 		++i;
 	}
 }
@@ -249,7 +254,7 @@ void renderText(std::string str, FontData* fontData, SDL_Surface* surf) {
 		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
 		SDL_Rect dst = { 8 * i, (14 + j) * 8 , 8, 8 };
 
-		SDL_BlitSurface(fontData->fontSurf, &src, surf, &dst);
+		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
 		++i;
 	}
 }

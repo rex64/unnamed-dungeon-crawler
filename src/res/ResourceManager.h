@@ -25,16 +25,29 @@ struct DungeonData {
 	std::string name;
 };
 
+struct CharData {
+
+	std::string charz;
+	std::string fileName;
+	int width;
+	SDL_Surface *surf;
+
+};
+
 struct FontData {
 	std::string id;
 	std::string fileName;
 	std::string filePath;
 	std::string name;
-	int charWidth;
-	int charHeight;
-	SDL_Surface* fontSurf;
-	//int charSpacing;
+	
+	int height;
+
+	int hSpacing;
+	int vSpacing;
+
+	std::unordered_map<std::string, CharData*> chars;
 };
+
 
 
 

@@ -353,35 +353,46 @@ void ResourceManager::loadFonts(std::string basePath) {
 				std::string filePath = removeFilenameFromPath(file.name, file.path);
 
 				const char* name = doc.FirstChildElement("font")->FirstChildElement("name")->GetText();
-				const char* file = doc.FirstChildElement("font")->FirstChildElement("file")->GetText();
-				
-				int charWidth;
-				doc.FirstChildElement("font")->FirstChildElement("charWidth")->QueryIntText(&charWidth);
+				int height;
+				doc.FirstChildElement("font")->FirstChildElement("height")->QueryIntText(&height);
 
-				int charHeight;
-				doc.FirstChildElement("font")->FirstChildElement("charHeight")->QueryIntText(&charHeight);
-
-				std::string filePath2 = filePath.append(file);
-
-				SDL_Surface *surf = SDL_LoadBMP(filePath2.c_str());
-
-				if (surf) {
-
-					SDL_Log("Loaded %s", resId.c_str());
-
-				}
-				else
+				tinyxml2::XMLElement *charElement = doc.FirstChildElement("font")->FirstChildElement("chars");
+				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 				{
-					Game::game->showMsgBox(SDL_GetError());
+					
+
+					const char* charz = child->FirstChildElement("char")->GetText();
+					const char* file = child->FirstChildElement("file")->GetText();
+					int width;
+					child->FirstChildElement("width")->QueryIntText(&width);
+
+					std::string filePath2 = std::string(filePath).append(file);
+
+					SDL_Surface *surf = SDL_LoadBMP(filePath2.c_str());
+
+					if (surf) {
+
+						SDL_Log("Loaded %s", resId.c_str());
+						CharData *newCharData = new CharData();
+						newCharData->charz = charz;
+						newCharData->fileName = file;
+						newCharData->width = width;
+						newCharData->surf = surf;
+
+						newFontData->chars[newCharData->charz] = newCharData;
+
+					}
+					else
+					{
+						Game::game->showMsgBox(SDL_GetError());
+					}
 				}
 
 				newFontData->id = resId;
 				newFontData->name		= name;
-				newFontData->fileName	= file;
-				newFontData->filePath	= filePath2;
-				newFontData->charWidth	= charWidth;
-				newFontData->charHeight = charHeight;
-				newFontData->fontSurf	= surf;
+				newFontData->height = height;
+				newFontData->hSpacing = 1;
+				newFontData->vSpacing = 1;
 
 				fontDatas[resId] = newFontData;
 
