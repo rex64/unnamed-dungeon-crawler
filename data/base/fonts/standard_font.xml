@@ -5,7 +5,78 @@
     <!-- <charWidth>8</charWidth> -->
     <height>5</height>
     <chars>
-    	<!-- a -->
+
+    	<!-- 0 -->
+        <char>
+            <char>0</char>
+            <file>0.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 1 -->
+        <char>
+            <char>1</char>
+            <file>1.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 2 -->
+        <char>
+            <char>2</char>
+            <file>2.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 3 -->
+        <char>
+            <char>3</char>
+            <file>3.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 4 -->
+        <char>
+            <char>4</char>
+            <file>4.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 5 -->
+        <char>
+            <char>5</char>
+            <file>5.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 6 -->
+        <char>
+            <char>6</char>
+            <file>6.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 7 -->
+        <char>
+            <char>7</char>
+            <file>7.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 8 -->
+        <char>
+            <char>8</char>
+            <file>8.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- 9 -->
+        <char>
+            <char>9</char>
+            <file>9.bmp</file>
+            <width>4</width>
+        </char>
+
+        <!-- a -->
         <char>
             <char>A</char>
             <file>a.bmp</file>
