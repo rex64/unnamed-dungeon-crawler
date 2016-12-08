@@ -19,6 +19,7 @@ public:
 	SDL_Texture *texture;
 	SDL_Surface *screen;
 	SDL_Surface *game;
+	SDL_Surface *uiSurface;
 
 public:
 	RenderManager();

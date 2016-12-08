@@ -49,6 +49,8 @@ void RenderManager::init()
 
 	screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
 	game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);	
+	uiSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
+
 
 }
 
@@ -73,7 +75,7 @@ void RenderManager::renderWindow(SDL_Rect rect) {
 
 			SDL_Rect dstRect = SDL_Rect{ rect.x + (8 * x), rect.y + (8 * y), 8 , 8 };
 
-			SDL_BlitSurface(bmp, &srcRect, game, &dstRect);
+			SDL_BlitSurface(bmp, &srcRect, uiSurface, &dstRect);
 
 		}
 
@@ -83,7 +85,7 @@ void RenderManager::renderWindow(SDL_Rect rect) {
 
 void RenderManager::renderMenuItem(std::string str, int x, int y) {
 
-	renderTextLine1(str, x, y, ResourceManager::manager->getFont("base.fonts.standard_font"), game);
+	renderTextLine1(str, x, y, ResourceManager::manager->getFont("base.fonts.standard_font"), uiSurface);
 
 }
 
@@ -91,7 +93,10 @@ void RenderManager::render()
 {
 	//clear screen surface
 	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
-	SDL_FillRect(game, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
+	SDL_FillRect(game, NULL, SDL_MapRGB(game->format, 0, 255, 0));
+	SDL_FillRect(uiSurface, NULL, SDL_MapRGB(uiSurface->format, 0, 255, 0));
+	SDL_SetColorKey(uiSurface, 1, SDL_MapRGB(uiSurface->format, 0, 255, 0));
+
 
 	for (IRenderable *i : renderStack) {
 		i->onRender();
@@ -177,6 +182,9 @@ void RenderManager::render()
 	//Game-->Screen
 	SDL_Rect location = { 72,40,100,100 };
 	SDL_BlitSurface(game, 0, screen, &location);
+
+	//UI-->Screen
+	SDL_BlitSurface(uiSurface, 0, screen, 0);
 
 	//Console-->Screen
 	{
