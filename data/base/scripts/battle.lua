@@ -86,7 +86,7 @@ function Battle:init()
 
   --calc speed
 
-
+  self.nextTurnChar = 0
   self:newTurn()
 
 end
@@ -97,8 +97,34 @@ function Battle:endBattle()
 end
 
 function Battle:newTurn()
+  self.nextTurnChar = self.nextTurnChar + 1 
+  if self.nextTurnChar > #self.battleChars then
+    self.nextTurnChar = 1
+  end
 
   local turnChar = self:getTurnChar(0)
+
+  if self:isPlayer(turnChar) then
+    self:onPlayerTurn(turnChar)
+  end
+
+-- se enemy attack
+  if self:isEnemy(turnChar) then
+    print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
+
+    self:newTurn()
+
+  end
+
+  if self:youWin() then
+    self:endBattle()
+  end
+
+end
+
+function Battle:onPlayerTurn(turnChar)
+  
+  --local turnChar = self:getTurnChar(0)
 
   if self:isPlayer(turnChar) then
 
@@ -113,16 +139,15 @@ function Battle:newTurn()
         function() 
 
           --if singleTarget
-          local singleTargetWin = Window.new(30, 30, 6, 4, false)
+          local singleTargetWin = Window.new(160, 30, 6, 4, false)
 
           for h, target in ipairs(self.enemyChars) do
 
-            local skillMenuItem2 = MenuItem.new(skillName, 
+            local skillMenuItem2 = MenuItem.new(target.name, 
 
               function() 
                 data.skills[v].onSelect(turnChar, target)
                 singleTargetWin:dismiss()
-                self:endTurn()
                 self:newTurn()
               end
 
@@ -149,14 +174,6 @@ function Battle:getTurnChar(turnNo)
 
 
   return self.battleChars[index]
-end
-
-function Battle:endTurn()
-  self.nextTurnChar = self.nextTurnChar + 1 
-  if self.nextTurnChar > #self.battleChars then
-    self.nextTurnChar = 1
-  end
-
 end
 
 function Battle:getRandomPlayer()
@@ -218,11 +235,15 @@ function Battle:update()
 -- get turn char
   local turnChar = self:getTurnChar(0)
 
--- se enemy attack
+
+--[[
+  if self:isPlayer(turnChar) then
+    self:onPlayerTurn(turnChar)
+  end
+  
   if self:isEnemy(turnChar) then
     print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
 
-    self:endTurn()
     self:newTurn()
 
   end
@@ -230,7 +251,7 @@ function Battle:update()
   if self:youWin() then
     self:endBattle()
   end
-
+]]--
 
 
 end
