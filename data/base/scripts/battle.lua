@@ -61,6 +61,13 @@ end
 
 function Battle:init()
 
+  self.windows = {
+      self.timelineWin1,
+      self.timelineWin2,
+      self.timelineWin3,
+      self.timelineWin4
+    }
+
   --get Heroes info
   local partySize = save.getCurrentPartySize()
   for i = 1, partySize do
@@ -68,17 +75,14 @@ function Battle:init()
     local playerChar = BattleChar.new(partyMemberName, i)
     self:addPlayerChar(playerChar)
 
+    self.windows[i].dialog.text = self.playerChars[i].name
   end  
 
+  --command window
   self.commandWindow = Window.new(34, 160, 36, 4, false)
   local newDialog1 = Dialog.new('0')
   self.commandWindow:addDialog(newDialog1)
   ui.addWindow(self.commandWindow)
-
-  self.timelineWin1.dialog.text = self.playerChars[1].name  
-  self.timelineWin2.dialog.text = self.playerChars[2].name
-  self.timelineWin3.dialog.text = self.playerChars[3].name
-  self.timelineWin4.dialog.text = self.playerChars[4].name
 
   --calc speed
 
@@ -96,113 +100,37 @@ function Battle:newTurn()
 
   local turnChar = self:getTurnChar(0)
 
---1
-  if turnChar.index == 1 then
+  if self:isPlayer(turnChar) then
 
-    self.timelineWin1.x = 8 + 20
-
-    local menuItem1 = MenuItem.new("Attack", 
-      function() 
-        local target = self:getRandomEnemy()
-        target.hp = target.hp - 10
-        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-        self:endTurn()
-        self:newTurn()
-
-      end)
-    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
-    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+    local heroSkills = save.getHeroSkills(turnChar.index)
 
     self.commandWindow:resetMenu()
-    self.commandWindow:addMenuItem(menuItem1)
-    self.commandWindow:addMenuItem(menuItem2)
-    self.commandWindow:addMenuItem(menuItem3)
-
-  else
-    self.timelineWin1.x = 8
-
-end
-
---2
-if turnChar.index == 2 then
-
-    self.timelineWin2.x = 320 - 20
-
-    local menuItem1 = MenuItem.new("Attack", 
-      function() 
-        local target = self:getRandomEnemy()
-        target.hp = target.hp - 10
-        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-        self:endTurn()
-        self:newTurn()
-
-      end)
-    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
-    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
-
-    self.commandWindow:resetMenu()
-    self.commandWindow:addMenuItem(menuItem1)
-    self.commandWindow:addMenuItem(menuItem2)
-    self.commandWindow:addMenuItem(menuItem3)
-
-  else
-    self.timelineWin2.x = 320
-
-end
-
---3
-if turnChar.index == 1 then
-
-    self.timelineWin3.x = 8 + 20
-
-    local menuItem1 = MenuItem.new("Attack", 
-      function() 
-        local target = self:getRandomEnemy()
-        target.hp = target.hp - 10
-        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-        self:endTurn()
-        self:newTurn()
-
-      end)
-    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
-    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
-    
-    self.commandWindow:resetMenu()
-    self.commandWindow:addMenuItem(menuItem1)
-    self.commandWindow:addMenuItem(menuItem2)
-    self.commandWindow:addMenuItem(menuItem3)
-
-  else
-    self.timelineWin3.x = 8
-
-end
-
---4
-if turnChar.index == 1 then
-
-    self.timelineWin4.x = 320 - 20
-
-    local menuItem1 = MenuItem.new("Attack", 
-      function() 
-        local target = self:getRandomEnemy()
-        target.hp = target.hp - 10
-        print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-        self:endTurn()
-        self:newTurn()
-
-      end)
-    local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
-    local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
-
-    self.commandWindow:resetMenu()
-    self.commandWindow:addMenuItem(menuItem1)
-    self.commandWindow:addMenuItem(menuItem2)
-    self.commandWindow:addMenuItem(menuItem3)
-
-  else
-    self.timelineWin4.x = 320
-
+    for i,v in ipairs(heroSkills) do 
+      local skillName = save.getSkillName(v)
+      local skillMenuItem = MenuItem.new(skillName, function() print('skillName') end)
+      self.commandWindow:addMenuItem(skillMenuItem)
+    end
   end
+
+
+--[[
+  local menuItem1 = MenuItem.new("Attack", 
+    function() 
+      local target = self:getRandomEnemy()
+      target.hp = target.hp - 10
+      print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+      self:endTurn()
+      self:newTurn()
+
+    end)
+  local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
+  local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
+
+  self.commandWindow:resetMenu()
+  self.commandWindow:addMenuItem(menuItem1)
+  self.commandWindow:addMenuItem(menuItem2)
+  self.commandWindow:addMenuItem(menuItem3)
+]]--
 
 end
 

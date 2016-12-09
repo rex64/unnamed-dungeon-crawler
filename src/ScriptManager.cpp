@@ -190,6 +190,22 @@ void ScriptManager::init() {
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
+	//save - getPartyMember
+	lua_getglobal(m_L, "save");
+	lua_pushstring(m_L, "getHeroSkills");
+	lua_pushcfunction(m_L, Save_getHeroSkills);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//save - getSkillName
+	lua_getglobal(m_L, "save");
+	lua_pushstring(m_L, "getSkillName");
+	lua_pushcfunction(m_L, Save_getSkillName);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
 
 	/*stackDump(m_L);
 	stackDump(m_L);*/

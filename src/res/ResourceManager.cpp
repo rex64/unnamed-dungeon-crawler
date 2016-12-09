@@ -170,6 +170,10 @@ HeroData* ResourceManager::getHeroData(std::string id) {
 	return heroDatas[id];
 }
 
+SkillData* ResourceManager::getSkillData(std::string id) {
+
+	return skillDatas[id];
+}
 
 std::string ResourceManager::resIdFromPath(std::string path) {
 
@@ -496,7 +500,53 @@ void ResourceManager::loadMenu(std::string basePath) {
 
 }
 void ResourceManager::loadScripts(std::string basePath) {}
-void ResourceManager::loadSkills(std::string basePath) {}
+
+void ResourceManager::loadSkills(std::string basePath) {
+
+	const char *dataPath = basePath.append("skills/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("skill")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* skillName = doc.FirstChildElement("skill")->FirstChildElement("name")->GetText();
+				const char* skillScript = doc.FirstChildElement("skill")->FirstChildElement("script")->GetText();
+
+				SkillData *newSkillData = new SkillData{
+					resId,
+					file.name,
+					filePath,
+					skillName,
+					skillScript
+				};
+
+				ResourceManager::manager->skillDatas[resId] = newSkillData;
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+
 void ResourceManager::loadSpritesheets(std::string basePath) {
 
 	const char *dataPath = basePath.append("spritesheets/").c_str();

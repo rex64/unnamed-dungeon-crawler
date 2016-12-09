@@ -53,6 +53,16 @@ struct HeroData {
 	std::string name;
 };
 
+struct SkillData {
+	std::string id;
+	std::string fileName;
+	std::string filePath;
+	std::string name;
+	std::string script;
+};
+
+
+
 class ResourceManager
 {
 public:
@@ -74,6 +84,7 @@ public:
 	FontData* getFont(std::string id);
 	SDL_Surface* getBorder(std::string id);
 	HeroData* getHeroData(std::string id);
+	SkillData* getSkillData(std::string id);
 
 	std::string resIdFromPath(std::string path);
 	std::string removeFilenameFromPath(std::string filename, std::string path);
@@ -99,6 +110,7 @@ public:
 	std::unordered_map<std::string, DungeonData*> dungeonDatas;
 	std::unordered_map<std::string, FontData*> fontDatas;
 	std::unordered_map<std::string, HeroData*> heroDatas;
+	std::unordered_map<std::string, SkillData*> skillDatas;
 
 private:
 
