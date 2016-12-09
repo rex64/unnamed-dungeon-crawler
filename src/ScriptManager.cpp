@@ -3,6 +3,7 @@
 #include "stage/StageManager.h"
 #include "ui/lua_menu.h"
 #include "lua_save.h"
+#include "lua_data.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -172,6 +173,22 @@ void ScriptManager::init() {
 	lua_getglobal(m_L, "data");
 	lua_pushstring(m_L, "skills");
 	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//data.enemies
+	lua_getglobal(m_L, "data");
+	lua_pushstring(m_L, "enemies");
+	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//save - getCurrentPartySize
+	lua_getglobal(m_L, "data");
+	lua_pushstring(m_L, "getEnemyData");
+	lua_pushcfunction(m_L, Data_getEnemyData);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);

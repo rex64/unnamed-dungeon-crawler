@@ -175,6 +175,11 @@ SkillData* ResourceManager::getSkillData(std::string id) {
 	return skillDatas[id];
 }
 
+EnemyData* ResourceManager::getEnemyData(std::string id) {
+
+	return enemyDatas[id];
+}
+
 std::string ResourceManager::resIdFromPath(std::string path) {
 
 	std::size_t found = path.find("data/");
@@ -553,6 +558,80 @@ void ResourceManager::loadSkills(std::string basePath) {
 
 }
 
+void ResourceManager::loadEnemies(std::string basePath) {
+
+	const char *dataPath = basePath.append("enemies/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("enemy")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* enemyName = doc.FirstChildElement("enemy")->FirstChildElement("name")->GetText();
+				const char* enemyScript = doc.FirstChildElement("enemy")->FirstChildElement("script")->GetText();
+
+				int hp;
+				doc.FirstChildElement("enemy")->FirstChildElement("hp")->QueryIntText(&hp);
+
+				int strength;
+				doc.FirstChildElement("enemy")->FirstChildElement("strength")->QueryIntText(&strength);
+				
+				int speed;
+				doc.FirstChildElement("enemy")->FirstChildElement("speed")->QueryIntText(&speed);
+
+				int vitality;
+				doc.FirstChildElement("enemy")->FirstChildElement("vitality")->QueryIntText(&vitality);
+
+				int intelligence;
+				doc.FirstChildElement("enemy")->FirstChildElement("intelligence")->QueryIntText(&intelligence);
+
+				int mind;
+				doc.FirstChildElement("enemy")->FirstChildElement("mind")->QueryIntText(&mind);
+
+
+				EnemyData *newEnemyData = new EnemyData{
+					resId,
+					file.name,
+					filePath,
+					enemyName,
+					enemyScript,
+					hp,
+					strength,
+					speed,
+					vitality,
+					intelligence,
+					mind
+
+				};
+
+				ResourceManager::manager->enemyDatas[resId] = newEnemyData;
+				ScriptManager::manager->doFile(filePath.append(enemyScript).c_str());
+
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+
 void ResourceManager::loadSpritesheets(std::string basePath) {
 
 	const char *dataPath = basePath.append("spritesheets/").c_str();
@@ -645,6 +724,7 @@ void ResourceManager::loadDataFolder() {
 	loadMenu(basePath);
 	loadScripts(basePath);
 	loadSkills(basePath);
+	loadEnemies(basePath);
 	loadSpritesheets(basePath);
 	loadTiles(basePath);
 

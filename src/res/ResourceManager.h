@@ -61,6 +61,20 @@ struct SkillData {
 	std::string script;
 };
 
+struct EnemyData {
+	std::string id;
+	std::string fileName;
+	std::string filePath;
+	std::string name;
+	std::string script;
+	int hp;
+	int strength;
+	int speed;
+	int vitality;
+	int intelligence;
+	int mind;
+};
+
 
 
 class ResourceManager
@@ -85,6 +99,7 @@ public:
 	SDL_Surface* getBorder(std::string id);
 	HeroData* getHeroData(std::string id);
 	SkillData* getSkillData(std::string id);
+	EnemyData* getEnemyData(std::string id);
 
 	std::string resIdFromPath(std::string path);
 	std::string removeFilenameFromPath(std::string filename, std::string path);
@@ -98,6 +113,7 @@ public:
 	void loadMenu(std::string basePath);
 	void loadScripts(std::string basePath);
 	void loadSkills(std::string basePath);
+	void loadEnemies(std::string basePath);
 	void loadSpritesheets(std::string basePath);
 	void loadTiles(std::string basePath);
 
@@ -111,6 +127,7 @@ public:
 	std::unordered_map<std::string, FontData*> fontDatas;
 	std::unordered_map<std::string, HeroData*> heroDatas;
 	std::unordered_map<std::string, SkillData*> skillDatas;
+	std::unordered_map<std::string, EnemyData*> enemyDatas;
 
 private:
 

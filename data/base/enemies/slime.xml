@@ -1,0 +1,12 @@
+<enemy>
+	<name>Slime</name>
+	<script>slime.lua</script>
+	<!-- <sprite></sprite> -->
+	<hp>50</hp>
+	<strength>2</strength>
+	<speed>3</speed>
+	<vitality>4</vitality>
+	<intelligence>5</intelligence>
+	<mind>6</mind>
+	
+</enemy>

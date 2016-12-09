@@ -30,6 +30,8 @@ set( project_sources
    src/ui/lua_menu.cpp
    src/lua_save.h
    src/lua_save.cpp
+   src/lua_data.h
+   src/lua_data.cpp
    external/tinydir.h
    external/tinyxml2.h
    external/tinyxml2.cpp
