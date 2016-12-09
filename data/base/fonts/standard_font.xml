@@ -417,6 +417,13 @@
             <width>3</width>
         </char>
 
+        <!-- space -->
+        <char>
+            <char>&#032</char>
+            <file>standard_font/space.bmp</file>
+            <width>4</width>
+        </char>
+
         <!-- dash -->
         <char>
             <char>-</char>

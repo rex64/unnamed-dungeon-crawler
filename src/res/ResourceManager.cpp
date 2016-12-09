@@ -372,6 +372,10 @@ void ResourceManager::loadFonts(std::string basePath) {
 					
 
 					const char* charz = child->FirstChildElement("char")->GetText();
+					if (strcmp(charz, "&#032") == 0) {
+						charz = " ";
+					}
+
 					const char* file = child->FirstChildElement("file")->GetText();
 					int width;
 					child->FirstChildElement("width")->QueryIntText(&width);

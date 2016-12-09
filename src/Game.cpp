@@ -137,6 +137,7 @@ void Game::run() {
 	
 	Equip *sword = new Equip();
 	sword->addSkill("base.skills.skilltest1");
+	sword->addSkill("base.skills.sword_attack");
 	Hero *tank = new Hero("base.heroes.tank");
 	tank->addEquip(sword);
 
