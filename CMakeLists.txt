@@ -28,6 +28,8 @@ set( project_sources
    src/ui/MenuManager.cpp
    src/ui/lua_menu.h
    src/ui/lua_menu.cpp
+   src/lua_save.h
+   src/lua_save.cpp
    external/tinydir.h
    external/tinyxml2.h
    external/tinyxml2.cpp

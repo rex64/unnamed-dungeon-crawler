@@ -61,6 +61,15 @@ end
 
 function Battle:init()
 
+  --get Heroes info
+  local partySize = save.getCurrentPartySize()
+  for i = 1, partySize do
+    local partyMemberName = save.getPartyMemberName(i)
+    local playerChar = BattleChar.new(partyMemberName, i)
+    self:addPlayerChar(playerChar)
+
+  end  
+
   self.commandWindow = Window.new(34, 160, 36, 4, false)
   local newDialog1 = Dialog.new('0')
   self.commandWindow:addDialog(newDialog1)

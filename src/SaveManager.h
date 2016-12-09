@@ -65,6 +65,7 @@ public:
 	void addHero(Hero*);
 
 	void init();
+	int getCurrentPartySize();
 	/*void runMain();
 	void doString(const char *str);
 	void doFile(const char *str);

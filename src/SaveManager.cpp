@@ -31,3 +31,8 @@ void SaveManager::addHero(Hero *newHero) {
 
 	heroDatas[newHero->heroDataId] = newHero;
 }
+
+int SaveManager::getCurrentPartySize() {
+
+	return heroDatas.size();
+}
