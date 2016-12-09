@@ -1,0 +1,5 @@
+<skill>
+	<name>Magic Arrow</name>
+	<script>magic_arrow.lua</script>
+	<text>lol</text>
+</skill>

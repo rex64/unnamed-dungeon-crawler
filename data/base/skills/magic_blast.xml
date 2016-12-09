@@ -1,0 +1,5 @@
+<skill>
+	<name>Magic Blast</name>
+	<script>magic_blast.lua</script>
+	<text>lol</text>
+</skill>

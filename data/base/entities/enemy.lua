@@ -18,7 +18,7 @@ data.entities['base.entities.enemy'] = {
     --enemyBattle:addPlayerChar(playerChar4)
     
     newBattle:addEnemyChar(enemyChar1)
-    --enemyBattle:addEnemyChar(enemyChar2)
+    newBattle:addEnemyChar(enemyChar2)
     
     battle.setCurrentBattle(newBattle)
 

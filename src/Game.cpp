@@ -143,16 +143,19 @@ void Game::run() {
 
 	Equip *staff = new Equip();
 	staff->addSkill("base.skills.skilltest1");
+	staff->addSkill("base.skills.magic_blast");
 	Hero *heals = new Hero("base.heroes.heals");
 	heals->addEquip(staff);
 
 	Equip *knife = new Equip();
 	knife->addSkill("base.skills.skilltest1");
+	knife->addSkill("base.skills.mega_hit");
 	Hero *melee = new Hero("base.heroes.melee");
 	melee->addEquip(sword);
 
 	Equip *bow = new Equip();
 	bow->addSkill("base.skills.skilltest1");
+	bow->addSkill("base.skills.magic_arrow");
 	Hero *ranged = new Hero("base.heroes.ranged");
 	ranged->addEquip(bow);
 
