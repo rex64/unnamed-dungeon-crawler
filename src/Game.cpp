@@ -23,6 +23,7 @@
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ui\MenuManager.h"
+#include "SaveManager.h"
 
 Game* Game::game;
 
@@ -81,6 +82,9 @@ void Game::init() {
 	MenuManager *menuManager = new MenuManager();
 	menuManager->init();
 
+	SaveManager *saveManager = new SaveManager();
+	saveManager->init();
+
 	resManager->loadDataFolder();
 	
 	inputManger->registerInput(menuManager);
@@ -127,8 +131,36 @@ void Game::run() {
 
 	ScriptManager::manager->runMain();
 
+	//fake setup -------- start
 	StageManager::manager->currStage = new Stage();
 	StageManager::manager->currStage->load("base.dungeons.dungeon1", 0);
+	
+	Equip *sword = new Equip();
+	sword->addSkill("base.skills.skilltest1");
+	Hero *tank = new Hero("base.heroes.tank");
+	tank->addEquip(sword);
+
+	Equip *staff = new Equip();
+	staff->addSkill("base.skills.skilltest1");
+	Hero *heals = new Hero("base.heroes.heals");
+	heals->addEquip(staff);
+
+	Equip *knife = new Equip();
+	knife->addSkill("base.skills.skilltest1");
+	Hero *melee = new Hero("base.heroes.melee");
+	melee->addEquip(sword);
+
+	Equip *bow = new Equip();
+	bow->addSkill("base.skills.skilltest1");
+	Hero *ranged = new Hero("base.heroes.ranged");
+	ranged->addEquip(bow);
+
+	SaveManager::manager->manager->addHero(tank);
+	SaveManager::manager->manager->addHero(heals);
+	SaveManager::manager->manager->addHero(melee);
+	SaveManager::manager->manager->addHero(ranged);
+
+	//fake setup -------- end
 
 	SDL_AddTimer(260, my_callbackfunc, 0);
 

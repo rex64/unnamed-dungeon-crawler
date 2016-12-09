@@ -1,0 +1,4 @@
+<skill>
+	<name>SkillTest1</name>
+	<script>skilltest1.lua</script>
+</skill>

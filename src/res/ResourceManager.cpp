@@ -165,6 +165,12 @@ SDL_Surface* ResourceManager::getBorder(std::string id) {
 	return ret;
 }
 
+HeroData* ResourceManager::getHeroData(std::string id) {
+
+	return heroDatas[id];
+}
+
+
 std::string ResourceManager::resIdFromPath(std::string path) {
 
 	std::size_t found = path.find("data/");
@@ -406,7 +412,51 @@ void ResourceManager::loadFonts(std::string basePath) {
 	}
 
 }
-void ResourceManager::loadHeroes(std::string basePath) {}
+
+void ResourceManager::loadHeroes(std::string basePath) {
+
+	const char *dataPath = basePath.append("heroes/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("hero")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* heroName = doc.FirstChildElement("hero")->FirstChildElement("name")->GetText();
+
+				HeroData *newHeroData = new HeroData{
+					resId,
+					file.name,
+					filePath,
+					heroName
+				};
+
+				ResourceManager::manager->heroDatas[resId] = newHeroData;
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+
 void ResourceManager::loadItems(std::string basePath) {}
 void ResourceManager::loadMenu(std::string basePath) {
 

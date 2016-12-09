@@ -8,8 +8,6 @@ struct SDL_Surface;
 struct FieldEntityData {
 
 	std::string spritesheet;
-
-
 };
 
 struct EntityData {
@@ -48,8 +46,12 @@ struct FontData {
 	std::unordered_map<std::string, CharData*> chars;
 };
 
-
-
+struct HeroData {
+	std::string id;
+	std::string fileName;
+	std::string filePath;
+	std::string name;
+};
 
 class ResourceManager
 {
@@ -71,6 +73,7 @@ public:
 	SDL_Surface* getTile(std::string id);
 	FontData* getFont(std::string id);
 	SDL_Surface* getBorder(std::string id);
+	HeroData* getHeroData(std::string id);
 
 	std::string resIdFromPath(std::string path);
 	std::string removeFilenameFromPath(std::string filename, std::string path);
@@ -95,6 +98,7 @@ public:
 	std::unordered_map<std::string, EntityData*> entityDatas;
 	std::unordered_map<std::string, DungeonData*> dungeonDatas;
 	std::unordered_map<std::string, FontData*> fontDatas;
+	std::unordered_map<std::string, HeroData*> heroDatas;
 
 private:
 
