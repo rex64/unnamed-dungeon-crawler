@@ -62,11 +62,11 @@ end
 function Battle:init()
 
   self.windows = {
-      self.timelineWin1,
-      self.timelineWin2,
-      self.timelineWin3,
-      self.timelineWin4
-    }
+    self.timelineWin1,
+    self.timelineWin2,
+    self.timelineWin3,
+    self.timelineWin4
+  }
 
   --get Heroes info
   local partySize = save.getCurrentPartySize()
@@ -105,32 +105,37 @@ function Battle:newTurn()
     local heroSkills = save.getHeroSkills(turnChar.index)
 
     self.commandWindow:resetMenu()
-    for i,v in ipairs(heroSkills) do 
+    for i,v in ipairs(heroSkills) do
+
       local skillName = save.getSkillName(v)
-      local skillMenuItem = MenuItem.new(skillName, function() print('skillName') end)
+      local skillMenuItem = MenuItem.new(skillName, 
+
+        function() 
+
+          --if singleTarget
+          local singleTargetWin = Window.new(30, 30, 6, 4, false)
+
+          for h, target in ipairs(self.enemyChars) do
+
+            local skillMenuItem2 = MenuItem.new(skillName, 
+
+              function() 
+                data.skills[v].onSelect(turnChar, target)
+                singleTargetWin:dismiss()
+                self:endTurn()
+                self:newTurn()
+              end
+
+            )
+            singleTargetWin:addMenuItem(skillMenuItem2)
+          end
+          ui.addWindow(singleTargetWin)
+        end
+
+      )
       self.commandWindow:addMenuItem(skillMenuItem)
     end
   end
-
-
---[[
-  local menuItem1 = MenuItem.new("Attack", 
-    function() 
-      local target = self:getRandomEnemy()
-      target.hp = target.hp - 10
-      print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
-      self:endTurn()
-      self:newTurn()
-
-    end)
-  local menuItem2 = MenuItem.new("Guard", function() print('show guard menu') end)
-  local menuItem3 = MenuItem.new("Escape", function() print('show escape menu') end)
-
-  self.commandWindow:resetMenu()
-  self.commandWindow:addMenuItem(menuItem1)
-  self.commandWindow:addMenuItem(menuItem2)
-  self.commandWindow:addMenuItem(menuItem3)
-]]--
 
 end
 
@@ -216,7 +221,7 @@ function Battle:update()
 -- se enemy attack
   if self:isEnemy(turnChar) then
     print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
-    
+
     self:endTurn()
     self:newTurn()
 
@@ -226,7 +231,7 @@ function Battle:update()
     self:endBattle()
   end
 
-  
+
 
 end
 

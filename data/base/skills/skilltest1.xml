@@ -1,4 +1,5 @@
 <skill>
 	<name>SkillTest1</name>
 	<script>skilltest1.lua</script>
+	<text>test skill 1</text>
 </skill>

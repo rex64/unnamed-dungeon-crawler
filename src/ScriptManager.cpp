@@ -160,9 +160,17 @@ void ScriptManager::init() {
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 
-	//data.entities
+	//data.dungeons
 	lua_getglobal(m_L, "data");
 	lua_pushstring(m_L, "dungeons");
+	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//data.skills
+	lua_getglobal(m_L, "data");
+	lua_pushstring(m_L, "skills");
 	lua_newtable(m_L);
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);

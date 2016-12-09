@@ -535,6 +535,8 @@ void ResourceManager::loadSkills(std::string basePath) {
 				};
 
 				ResourceManager::manager->skillDatas[resId] = newSkillData;
+				ScriptManager::manager->doFile(filePath.append(skillScript).c_str());
+
 
 			}
 			else {
