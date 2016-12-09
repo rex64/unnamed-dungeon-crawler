@@ -1,6 +1,6 @@
 <font>
     <name>StandardFontName</name>
-    <!-- <file>standard_font.bmp</file> -->
+    <!-- <file>standard_font/standard_font.bmp</file> -->
     <type>other</type>
     <!-- <charWidth>8</charWidth> -->
     <height>5</height>
@@ -9,174 +9,174 @@
     	<!-- 0 -->
         <char>
             <char>0</char>
-            <file>0.bmp</file>
+            <file>standard_font/0.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 1 -->
         <char>
             <char>1</char>
-            <file>1.bmp</file>
+            <file>standard_font/1.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 2 -->
         <char>
             <char>2</char>
-            <file>2.bmp</file>
+            <file>standard_font/2.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 3 -->
         <char>
             <char>3</char>
-            <file>3.bmp</file>
+            <file>standard_font/3.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 4 -->
         <char>
             <char>4</char>
-            <file>4.bmp</file>
+            <file>standard_font/4.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 5 -->
         <char>
             <char>5</char>
-            <file>5.bmp</file>
+            <file>standard_font/5.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 6 -->
         <char>
             <char>6</char>
-            <file>6.bmp</file>
+            <file>standard_font/6.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 7 -->
         <char>
             <char>7</char>
-            <file>7.bmp</file>
+            <file>standard_font/7.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 8 -->
         <char>
             <char>8</char>
-            <file>8.bmp</file>
+            <file>standard_font/8.bmp</file>
             <width>4</width>
         </char>
 
         <!-- 9 -->
         <char>
             <char>9</char>
-            <file>9.bmp</file>
+            <file>standard_font/9.bmp</file>
             <width>4</width>
         </char>
 
         <!-- a -->
         <char>
             <char>A</char>
-            <file>a.bmp</file>
+            <file>standard_font/a.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>a</char>
-            <file>a.bmp</file>
+            <file>standard_font/a.bmp</file>
             <width>4</width>
         </char>
 
         <!-- b -->
         <char>
             <char>B</char>
-            <file>b.bmp</file>
+            <file>standard_font/b.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>b</char>
-            <file>b.bmp</file>
+            <file>standard_font/b.bmp</file>
             <width>4</width>
         </char>
 
         <!-- c -->
         <char>
             <char>C</char>
-            <file>c.bmp</file>
+            <file>standard_font/c.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>c</char>
-            <file>c.bmp</file>
+            <file>standard_font/c.bmp</file>
             <width>4</width>
         </char>
 
         <!-- d -->
         <char>
             <char>D</char>
-            <file>d.bmp</file>
+            <file>standard_font/d.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>d</char>
-            <file>d.bmp</file>
+            <file>standard_font/d.bmp</file>
             <width>4</width>
         </char>
 
         <!-- e -->
         <char>
             <char>E</char>
-            <file>e.bmp</file>
+            <file>standard_font/e.bmp</file>
             <width>3</width>
         </char>
 
         <char>
             <char>e</char>
-            <file>e.bmp</file>
+            <file>standard_font/e.bmp</file>
             <width>3</width>
         </char>
 
         <!-- f -->
         <char>
             <char>F</char>
-            <file>f.bmp</file>
+            <file>standard_font/f.bmp</file>
             <width>3</width>
         </char>
 
         <char>
             <char>f</char>
-            <file>f.bmp</file>
+            <file>standard_font/f.bmp</file>
             <width>3</width>
         </char>
 
         <!-- g -->
         <char>
             <char>G</char>
-            <file>g.bmp</file>
+            <file>standard_font/g.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>g</char>
-            <file>g.bmp</file>
+            <file>standard_font/g.bmp</file>
             <width>4</width>
         </char>
 
         <!-- h -->
         <char>
             <char>H</char>
-            <file>h.bmp</file>
+            <file>standard_font/h.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>h</char>
-            <file>h.bmp</file>
+            <file>standard_font/h.bmp</file>
             <width>4</width>
         </char>
 
@@ -184,13 +184,13 @@
 
 		<char>
             <char>I</char>
-            <file>i.bmp</file>
+            <file>standard_font/i.bmp</file>
             <width>1</width>
         </char>
 
         <char>
             <char>i</char>
-            <file>i.bmp</file>
+            <file>standard_font/i.bmp</file>
             <width>1</width>
         </char>
 
@@ -198,26 +198,26 @@
 
 		<char>
             <char>J</char>
-            <file>j.bmp</file>
+            <file>standard_font/j.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>j</char>
-            <file>j.bmp</file>
+            <file>standard_font/j.bmp</file>
             <width>4</width>
         </char>
 
         <!-- k -->
         <char>
             <char>K</char>
-            <file>k.bmp</file>
+            <file>standard_font/k.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>k</char>
-            <file>k.bmp</file>
+            <file>standard_font/k.bmp</file>
             <width>4</width>
         </char>
 
@@ -225,202 +225,202 @@
 
         <char>
             <char>L</char>
-            <file>l.bmp</file>
+            <file>standard_font/l.bmp</file>
             <width>3</width>
         </char>
 
         <char>
             <char>l</char>
-            <file>l.bmp</file>
+            <file>standard_font/l.bmp</file>
             <width>3</width>
         </char>
 
         <!-- m -->
         <char>
             <char>M</char>
-            <file>m.bmp</file>
+            <file>standard_font/m.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>m</char>
-            <file>m.bmp</file>
+            <file>standard_font/m.bmp</file>
             <width>5</width>
         </char>
 
         <!-- n -->
         <char>
             <char>N</char>
-            <file>n.bmp</file>
+            <file>standard_font/n.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>n</char>
-            <file>n.bmp</file>
+            <file>standard_font/n.bmp</file>
             <width>5</width>
         </char>
 
         <!-- o -->
         <char>
             <char>O</char>
-            <file>o.bmp</file>
+            <file>standard_font/o.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>o</char>
-            <file>o.bmp</file>
+            <file>standard_font/o.bmp</file>
             <width>4</width>
         </char>
 
         <!-- p -->
         <char>
             <char>P</char>
-            <file>p.bmp</file>
+            <file>standard_font/p.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>p</char>
-            <file>p.bmp</file>
+            <file>standard_font/p.bmp</file>
             <width>4</width>
         </char>
 
         <!-- q -->
         <char>
             <char>Q</char>
-            <file>q.bmp</file>
+            <file>standard_font/q.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>q</char>
-            <file>q.bmp</file>
+            <file>standard_font/q.bmp</file>
             <width>4</width>
         </char>
 
         <!-- r -->
         <char>
             <char>r</char>
-            <file>r.bmp</file>
+            <file>standard_font/r.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>R</char>
-            <file>r.bmp</file>
+            <file>standard_font/r.bmp</file>
             <width>4</width>
         </char>
 
         <!-- s -->
         <char>
             <char>S</char>
-            <file>s.bmp</file>
+            <file>standard_font/s.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>s</char>
-            <file>s.bmp</file>
+            <file>standard_font/s.bmp</file>
             <width>4</width>
         </char>
 
         <!-- t -->
         <char>
             <char>T</char>
-            <file>t.bmp</file>
+            <file>standard_font/t.bmp</file>
             <width>3</width>
         </char>
 
         <char>
             <char>t</char>
-            <file>t.bmp</file>
+            <file>standard_font/t.bmp</file>
             <width>3</width>
         </char>
 
         <!-- u -->
         <char>
             <char>U</char>
-            <file>u.bmp</file>
+            <file>standard_font/u.bmp</file>
             <width>4</width>
         </char>
 
         <char>
             <char>u</char>
-            <file>u.bmp</file>
+            <file>standard_font/u.bmp</file>
             <width>4</width>
         </char>
 
         <!-- v -->
         <char>
             <char>V</char>
-            <file>v.bmp</file>
+            <file>standard_font/v.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>v</char>
-            <file>v.bmp</file>
+            <file>standard_font/v.bmp</file>
             <width>5</width>
         </char>
 
         <!-- w -->
         <char>
             <char>W</char>
-            <file>w.bmp</file>
+            <file>standard_font/w.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>w</char>
-            <file>w.bmp</file>
+            <file>standard_font/w.bmp</file>
             <width>5</width>
         </char>
 
         <!-- x -->
         <char>
             <char>X</char>
-            <file>x.bmp</file>
+            <file>standard_font/x.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>x</char>
-            <file>x.bmp</file>
+            <file>standard_font/x.bmp</file>
             <width>5</width>
         </char>
 
         <!-- y -->
         <char>
             <char>Y</char>
-            <file>y.bmp</file>
+            <file>standard_font/y.bmp</file>
             <width>5</width>
         </char>
 
         <char>
             <char>y</char>
-            <file>y.bmp</file>
+            <file>standard_font/y.bmp</file>
             <width>5</width>
         </char>
 
         <!-- z -->
         <char>
             <char>Z</char>
-            <file>z.bmp</file>
+            <file>standard_font/z.bmp</file>
             <width>3</width>
         </char>
 
         <char>
             <char>z</char>
-            <file>z.bmp</file>
+            <file>standard_font/z.bmp</file>
             <width>3</width>
         </char>
 
         <!-- dash -->
         <char>
             <char>-</char>
-            <file>dash.bmp</file>
+            <file>standard_font/dash.bmp</file>
             <width>3</width>
         </char>
 
