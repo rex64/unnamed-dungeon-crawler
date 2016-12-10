@@ -67,7 +67,9 @@ function Battle:init()
     self.timelineWin3,
     self.timelineWin4
   }
-
+  
+  --dedup enemy names
+  
   --get Heroes info
   local partySize = save.getCurrentPartySize()
   for i = 1, partySize do
@@ -86,6 +88,7 @@ function Battle:init()
 
   --calc speed
 
+  --set new turn
   self.nextTurnChar = 0
   self:newTurn()
 
@@ -110,7 +113,9 @@ function Battle:newTurn()
 
 -- se enemy attack
   if self:isEnemy(turnChar) then
-    print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
+    -- print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
+
+    data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
 
     self:newTurn()
 
@@ -232,27 +237,9 @@ function Battle:update()
   end
   sleep(0.5)
 ]]--
+
 -- get turn char
-  local turnChar = self:getTurnChar(0)
-
-
---[[
-  if self:isPlayer(turnChar) then
-    self:onPlayerTurn(turnChar)
-  end
-  
-  if self:isEnemy(turnChar) then
-    print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
-
-    self:newTurn()
-
-  end
-
-  if self:youWin() then
-    self:endBattle()
-  end
-]]--
-
+-- local turnChar = self:getTurnChar(0)
 
 end
 
@@ -273,6 +260,7 @@ function BattleChar.new(name, i)
   local newBattleChar = {}
   setmetatable(newBattleChar, BattleChar)
 
+  newBattleChar.id = nil
   newBattleChar.name = name
   newBattleChar.hp = 100
   newBattleChar.maxHp = 100
@@ -292,8 +280,8 @@ function BattleChar.newFromId(id)
   local battleCharData = data.getEnemyData(id)
   local newBattleChar = BattleChar.new()
 
+  newBattleChar.id            = id
   newBattleChar.name          = battleCharData.name
-  --newBattleChar.index         = nil
   newBattleChar.hp            = battleCharData.hp
   newBattleChar.maxHp         = battleCharData.hp
   newBattleChar.strength      = battleCharData.strength
@@ -301,7 +289,6 @@ function BattleChar.newFromId(id)
   newBattleChar.vitality      = battleCharData.vitality
   newBattleChar.intelligence  = battleCharData.intelligence
   newBattleChar.mind          = battleCharData.mind
-
   
   return newBattleChar
 end
