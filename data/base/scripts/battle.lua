@@ -134,8 +134,23 @@ function Battle:init()
   self.nextTurnChar = 0
   --self:newTurn()
   
-  self.eventManager:addEvent(DisableInputEvent.new())
-  self.eventManager:addEvent(TransitionFromFieldEvent.new())
+  --EVENTS
+  --1 disable input
+  local disableInput = DisableInputEvent.new()
+  
+    --2 transition from field
+  local transitionFromField = TransitionFromFieldEvent.new()
+  transitionFromField.onDone = function() 
+
+    --3 move window
+    battle.currentBattle.windows[1].x = 100
+
+  end
+  
+  
+  self.eventManager:addEvent(disableInput)
+  self.eventManager:addEvent(transitionFromField)
+
 
 
 end

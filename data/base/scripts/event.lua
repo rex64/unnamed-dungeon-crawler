@@ -10,7 +10,9 @@ function Event.new(name, i)
   local newEvent = {}
   setmetatable(newEvent, Event)
 
-  newEvent.done = false;
+  newEvent.done = false;  
+  --newEvent.onDone = function() end;
+
   
   return newEvent
 end
@@ -20,6 +22,8 @@ end
 function Event:isDone()
   return self.done
 end
+
+function Event:onDone() end
 
 
 --//////////////////////////////////////////////////////////////////////
@@ -50,7 +54,8 @@ function EventManager:update(input, dt)
     event:update(input, dt)
     
     if event:isDone() then
-        table.remove(self.events, 1)
+      event.onDone()
+      table.remove(self.events, 1)
     end
     
     
