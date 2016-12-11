@@ -66,13 +66,16 @@ function CompositeEvent:isDone()
 
   end
 
-  if done then print('CompositeEvent:isDone ') end
+  if done then 
+--    print('CompositeEvent:isDone ') 
+  end
+  
   return done
 
 end
 
 function CompositeEvent:onDone() 
-  print('CompositeEvent:OnDone')
+--  print('CompositeEvent:OnDone')
 end
 
 

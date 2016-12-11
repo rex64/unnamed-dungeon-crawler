@@ -234,14 +234,9 @@ function WindowVibrationEvent.new(win, duration)
 
   self.win = win
 
-  --self.oldX = win.x
   self.oldY = win.y
 
-  --self.currentX = win.x
   self.currentY = win.y
-
-  --self.targetX = targetX
-  --self.targetY = targetY
 
   self.duration = duration
   self.currTimer = 0
@@ -257,13 +252,10 @@ function WindowVibrationEvent:update(input, dt)
   self.win.y = self.oldY + math.floor(self.currentY)
 
   if (self.currTimer == self.duration) then
-    self.done = true;
+    
     self.win.y = self.oldY
+    self.done = true;
   end
-
-
-  --print('event - move window')
-
 end
 
 
@@ -472,7 +464,7 @@ function Battle:newTurn()
 
     local res = data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
 
-    local winVibration = WindowVibrationEvent.new(res.target.userData.statusWin, 1000)
+    local winVibration = WindowVibrationEvent.new(res.target.userData.statusWin, 256)
 
     local newTurn = NewTurnEvent.new()
     
