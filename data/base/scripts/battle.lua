@@ -94,9 +94,13 @@ function MoveWindowEvent:update(input, dt)
   
   local t = self.currTimer / self.duration
   
+  --X
   self.currentX = lerp(self.oldX, self.targetX, t)
   self.win.x = math.floor(self.currentX)
-  print(self.win.x)
+  
+  --Y
+  self.currentY = lerp(self.oldY, self.targetY, t)
+  self.win.y = math.floor(self.currentY)
   
   if (self.currTimer == self.duration) then
     self.done = true;
@@ -197,8 +201,19 @@ function Battle:init()
 
     --3 move window
     --battle.currentBattle.windows[1].x = 100
-    local moveWindow = MoveWindowEvent.new(battle.currentBattle.windows[1], 100, 20, 100)
-    self.eventManager:addEvent(moveWindow)
+    local moveWindow1 = MoveWindowEvent.new(battle.currentBattle.windows[1], 100, 20, 100)
+    local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], 100, 40, 100)
+    local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], 200, 20, 100)
+    local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], 200, 40, 100)
+    
+    local compEvent = CompositeEvent.new()
+    compEvent:addEvent(moveWindow1)
+    compEvent:addEvent(moveWindow2)
+    compEvent:addEvent(moveWindow3)
+    compEvent:addEvent(moveWindow4)
+
+
+    self.eventManager:addEvent(compEvent)
 
   end  
   
