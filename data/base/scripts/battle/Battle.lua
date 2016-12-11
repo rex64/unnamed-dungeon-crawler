@@ -1,4 +1,6 @@
 local BattleConsts    = require('battle.BattleConsts')
+local Dialog          = require('ui.Dialog')
+local MenuItem        = require('ui.MenuItem')
 
 --************************
 --Battle
