@@ -1,5 +1,57 @@
 --//////////////////////////////////////////////////////////////////////
 --************************
+--Battle consts
+--************************
+if battle ~= nil then
+
+  battle.win1 = {
+    w = 8, 
+    h = 4,
+    startX    = 0,
+    startY    = 0,
+    regularX  = 8,
+    regularY  = 8,
+    selectedX = 16,
+    selectedY = 8
+  } 
+  
+  battle.win2 = {
+    w = 8, 
+    h = 4,
+    startX    = 0,
+    startY    = 0,
+    regularX  = 320,
+    regularY  = 8,
+    selectedX = 0,
+    selectedY = 0
+  } 
+  
+  battle.win3 = {
+    w = 8, 
+    h = 4,
+    startX    = 0,
+    startY    = 0,
+    regularX  = 8,
+    regularY  = 100,
+    selectedX = 0,
+    selectedY = 0
+  } 
+  
+  battle.win4 = {
+    w = 8, 
+    h = 4,
+    startX    = 0,
+    startY    = 0,
+    regularX  = 320,
+    regularY  = 100,
+    selectedX = 0,
+    selectedY = 0
+  } 
+
+end
+
+--//////////////////////////////////////////////////////////////////////
+--************************
 --Battle Events
 --************************
 
@@ -131,25 +183,45 @@ function Battle.new()
 
   newBattle.nextTurnChar = 1
 
-  newBattle.timelineWin1 = Window.new(8, 8, 8, 4, false)  
+  newBattle.timelineWin1 = Window.new(
+    battle.win1.startX, 
+    battle.win1.startY, 
+    battle.win1.w, 
+    battle.win1.h, 
+    false)  
   local newDialog1 = Dialog.new('1')
   newBattle.timelineWin1:addDialog(newDialog1)
   newBattle.timelineWin1:setDismissable(false)
   ui.addWindow(newBattle.timelineWin1)
 
-  newBattle.timelineWin2 = Window.new(320, 8, 8, 4, false)
+  newBattle.timelineWin2 = Window.new(
+    battle.win2.startX, 
+    battle.win2.startY, 
+    battle.win2.w, 
+    battle.win2.h, 
+    false) 
   local newDialog2 = Dialog.new('2')
   newBattle.timelineWin2:addDialog(newDialog2)
   newBattle.timelineWin2:setDismissable(false)
   ui.addWindow(newBattle.timelineWin2)
 
-  newBattle.timelineWin3 = Window.new(8, 100, 8, 4, false)
+  newBattle.timelineWin3 = Window.new(
+    battle.win3.startX, 
+    battle.win3.startY, 
+    battle.win3.w, 
+    battle.win3.h, 
+    false) 
   local newDialog3 = Dialog.new('3')
   newBattle.timelineWin3:addDialog(newDialog3)
   newBattle.timelineWin3:setDismissable(false)
   ui.addWindow(newBattle.timelineWin3)
 
-  newBattle.timelineWin4 = Window.new(320, 100, 8, 4, false)
+  newBattle.timelineWin4 = Window.new(
+    battle.win4.startX, 
+    battle.win4.startY, 
+    battle.win4.w, 
+    battle.win4.h, 
+    false) 
   local newDialog4 = Dialog.new('4')
   newBattle.timelineWin4:addDialog(newDialog4)
   newBattle.timelineWin4:setDismissable(false)
@@ -177,6 +249,15 @@ function Battle:init()
     self:addPlayerChar(playerChar)
 
     self.windows[i].dialog.text = self.playerChars[i].name
+    self.playerChars[i].userData.statusWin = self.windows[i]
+    
+    --TODO: fix lmao
+    if i == 1 then self.playerChars[i].userData.statusWinInfo =  battle.win1 end    
+    if i == 2 then self.playerChars[i].userData.statusWinInfo =  battle.win2 end
+    if i == 3 then self.playerChars[i].userData.statusWinInfo =  battle.win3 end
+    if i == 4 then self.playerChars[i].userData.statusWinInfo =  battle.win4 end
+
+
   end  
 
   --command window
@@ -201,10 +282,10 @@ function Battle:init()
 
     --3 move window
     --battle.currentBattle.windows[1].x = 100
-    local moveWindow1 = MoveWindowEvent.new(battle.currentBattle.windows[1], 100, 20, 100)
-    local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], 100, 40, 100)
-    local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], 200, 20, 100)
-    local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], 200, 40, 100)
+    local moveWindow1 = MoveWindowEvent.new(battle.currentBattle.windows[1], battle.win1.regularX, battle.win1.regularY, 100)
+    local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], battle.win2.regularX, battle.win2.regularY, 100)
+    local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], battle.win3.regularX, battle.win3.regularY, 100)
+    local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], battle.win4.regularX, battle.win4.regularY, 100)
     
     local compEvent = CompositeEvent.new()
     compEvent:addEvent(moveWindow1)
@@ -212,6 +293,7 @@ function Battle:init()
     compEvent:addEvent(moveWindow3)
     compEvent:addEvent(moveWindow4)
 
+    compEvent.onDone = function() battle.currentBattle:newTurn() end
 
     self.eventManager:addEvent(compEvent)
 
@@ -253,7 +335,17 @@ function Battle:newTurn()
   local turnChar = self:getTurnChar(0)
 
   if self:isPlayer(turnChar) then
-    self:onPlayerTurn(turnChar)
+    
+    local moveWin = MoveWindowEvent.new(
+      turnChar.userData.statusWin, 
+      turnChar.userData.statusWinInfo.selectedX, 
+      turnChar.userData.statusWinInfo.selectedY, 
+      10)
+    
+    moveWin.onDone = function() self:onPlayerTurn(turnChar) end
+    
+    self.eventManager:addEvent(moveWin)
+    
   end
 
 -- se enemy attack
@@ -418,6 +510,8 @@ function BattleChar.new(name, i)
   newBattleChar.vitality = 100
   newBattleChar.intelligence = 100
   newBattleChar.mind = 100
+  
+  newBattleChar.userData = {}
 
   return newBattleChar
 end

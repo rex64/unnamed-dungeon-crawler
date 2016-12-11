@@ -11,9 +11,10 @@ function Event.new(name, i)
   setmetatable(newEvent, Event)
 
   newEvent.done = false;  
+  newEvent.name = 'Event'
   --newEvent.onDone = function() end;
 
-  
+
   return newEvent
 end
 
@@ -36,6 +37,7 @@ CompositeEvent.__index = CompositeEvent
 function CompositeEvent.new(name, i)
   local self = setmetatable({}, CompositeEvent)
   self.events = {}
+  self.name = 'CompositeEvent'
 
   return self
 end
@@ -64,11 +66,14 @@ function CompositeEvent:isDone()
 
   end
 
+  if done then print('CompositeEvent:isDone ') end
   return done
 
 end
 
-function CompositeEvent:onDone() end
+function CompositeEvent:onDone() 
+  print('CompositeEvent:OnDone')
+end
 
 
 --//////////////////////////////////////////////////////////////////////
@@ -88,23 +93,24 @@ function EventManager.new(name, i)
 end
 
 function EventManager:addEvent(e)
+  print('added ' .. e.name)
   table.insert(self.events, e)
 end
 
 function EventManager:update(input, dt)
 
   if #self.events > 0 then
-  
+
     local event = self.events[1]
     event:update(input, dt)
-    
+
     if event:isDone() then
       event.onDone()
       table.remove(self.events, 1)
     end
-    
-    
+
+
   end
-  
+
 
 end
