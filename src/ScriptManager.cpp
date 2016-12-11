@@ -256,10 +256,7 @@ void ScriptManager::runMain() {
 	stackDump(m_L);
 
 	std::string path = "package.path = package.path .. ';" + std::string(SDL_GetBasePath()) + std::string("data\\base\\scripts\\?.lua'");
-	//const char* path = SDL_GetBasePath(); //0x00606798 "C:\\Users\\Culo\\Documents\\dev\\unnamed-dungeon-crawler\\build\\Debug\\"
 	std::replace(path.begin(), path.end(), '\\', '/');
-
-	printf(path.c_str());
 
 	if (luaL_dostring(m_L, path.c_str())) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
@@ -268,12 +265,6 @@ void ScriptManager::runMain() {
 	}
 
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		lua_pop(m_L, -1);
-		stackDump(m_L);
-	}
-
-	if (luaL_dofile(m_L, "data/base/scripts/event.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);

@@ -1,3 +1,7 @@
+local Event           = require('events.Event')
+local CompositeEvent  = require('events.CompositeEvent')
+local EventManager    = require('events.EventManager')
+
 --//////////////////////////////////////////////////////////////////////
 --************************
 --Battle consts
