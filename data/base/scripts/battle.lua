@@ -249,7 +249,7 @@ function Battle:render()
 
 end
 
-
+--//////////////////////////////////////////////////////////////////////
 --************************
 --BattleChar
 --************************
@@ -292,6 +292,21 @@ function BattleChar.newFromId(id)
   
   return newBattleChar
 end
+
+function BattleChar:removeHp(value)
+  self.hp = math.max(0, self.hp - value)
+end
+
+function BattleChar:addHp(value)
+  self.hp = math.min(self.maxHp, self.hp + value)
+end
+
+function BattleChar:isDead()
+  if self.hp < 1 then return true end
+end
+
+
+--//////////////////////////////////////////////////////////////////////
 
 if battle ~= nil then
 
