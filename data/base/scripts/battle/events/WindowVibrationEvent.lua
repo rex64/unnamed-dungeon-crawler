@@ -25,4 +25,18 @@ function WindowVibrationEvent.new(win, duration)
   return self
 end
 
+function WindowVibrationEvent:update(input, dt)
+
+  self.currTimer = math.min(self.currTimer + dt, self.duration)
+
+  self.currentY = math.sin(self.currTimer)
+  self.win.y = self.oldY + math.floor(self.currentY)
+
+  if (self.currTimer == self.duration) then
+    
+    self.win.y = self.oldY
+    self.done = true;
+  end
+end
+
 return WindowVibrationEvent
