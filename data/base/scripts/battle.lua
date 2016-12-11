@@ -14,7 +14,7 @@ if battle ~= nil then
     selectedX = 16,
     selectedY = 8
   } 
-  
+
   battle.win2 = {
     w = 8, 
     h = 4,
@@ -22,10 +22,10 @@ if battle ~= nil then
     startY    = 0,
     regularX  = 320,
     regularY  = 8,
-    selectedX = 0,
-    selectedY = 0
+    selectedX = 300,
+    selectedY = 8
   } 
-  
+
   battle.win3 = {
     w = 8, 
     h = 4,
@@ -33,10 +33,10 @@ if battle ~= nil then
     startY    = 0,
     regularX  = 8,
     regularY  = 100,
-    selectedX = 0,
-    selectedY = 0
+    selectedX = 16,
+    selectedY = 100
   } 
-  
+
   battle.win4 = {
     w = 8, 
     h = 4,
@@ -44,8 +44,8 @@ if battle ~= nil then
     startY    = 0,
     regularX  = 320,
     regularY  = 100,
-    selectedX = 0,
-    selectedY = 0
+    selectedX = 300,
+    selectedY = 100
   } 
 
 end
@@ -69,7 +69,7 @@ function DisableInputEvent.new()
 
   self.name = 'DisableInputEvent'
   self.done = false;
-  
+
   return self
 end
 
@@ -94,7 +94,7 @@ function TransitionFromFieldEvent.new()
 
   self.name = 'TransitionFromFieldEvent'
   self.done = false;
-  
+
   return self
 end
 
@@ -118,21 +118,21 @@ function MoveWindowEvent.new(win, targetX, targetY, duration)
 
   self.name = 'MoveWindowEvent'
   self.done = false;
-  
+
   self.win = win
-  
+
   self.oldX = win.x
   self.oldY = win.y
-  
+
   self.currentX = win.x
   self.currentY = win.y
-  
+
   self.targetX = targetX
   self.targetY = targetY
-  
+
   self.duration = duration
   self.currTimer = 0
-  
+
   return self
 end
 
@@ -143,26 +143,79 @@ function MoveWindowEvent:update(input, dt)
   local lerp = function(a, b, t)
     return a * (1-t) + (b*t)
   end
-  
+
   local t = self.currTimer / self.duration
-  
+
   --X
   self.currentX = lerp(self.oldX, self.targetX, t)
   self.win.x = math.floor(self.currentX)
-  
+
   --Y
   self.currentY = lerp(self.oldY, self.targetY, t)
   self.win.y = math.floor(self.currentY)
-  
+
   if (self.currTimer == self.duration) then
     self.done = true;
   end
-  
+
 
   --print('event - move window')
-  
+
 end
 
+--//////////////////////////////////////////////////////////////////////
+--************************
+--NewTurnEvent
+--************************
+
+NewTurnEvent = {}
+NewTurnEvent.__index = NewTurnEvent
+setmetatable(NewTurnEvent, {__index = Event})
+
+
+function NewTurnEvent.new()
+  local self = setmetatable({}, NewTurnEvent)
+
+  self.name = 'NewTurnEvent'
+  self.done = false;
+
+  return self
+end
+
+function NewTurnEvent:update(input, dt)
+
+  print('event - NewTurnEvent')
+  battle.currentBattle:newTurn()
+  self.done = true;
+end
+
+--//////////////////////////////////////////////////////////////////////
+--************************
+--PlayerTurnEvent
+--************************
+
+PlayerTurnEvent = {}
+PlayerTurnEvent.__index = PlayerTurnEvent
+setmetatable(PlayerTurnEvent, {__index = Event})
+
+
+function PlayerTurnEvent.new(turnPlayer)
+  local self = setmetatable({}, PlayerTurnEvent)
+
+  self.name = 'PlayerTurnEvent'
+  self.done = false
+  self.turnPlayer = turnPlayer
+
+  return self
+end
+
+function PlayerTurnEvent:update(input, dt)
+
+  print('event - PlayerTurnEvent')
+  battle.currentBattle:onPlayerTurn(self.turnPlayer)
+
+  self.done = true;
+end
 
 --************************
 --Battle
@@ -238,9 +291,9 @@ function Battle:init()
     self.timelineWin3,
     self.timelineWin4
   }
-  
+
   --dedup enemy names
-  
+
   --get Heroes info
   local partySize = save.getCurrentPartySize()
   for i = 1, partySize do
@@ -250,7 +303,7 @@ function Battle:init()
 
     self.windows[i].dialog.text = self.playerChars[i].name
     self.playerChars[i].userData.statusWin = self.windows[i]
-    
+
     --TODO: fix lmao
     if i == 1 then self.playerChars[i].userData.statusWinInfo =  battle.win1 end    
     if i == 2 then self.playerChars[i].userData.statusWinInfo =  battle.win2 end
@@ -271,36 +324,33 @@ function Battle:init()
   --set new turn
   self.nextTurnChar = 0
   --self:newTurn()
-  
+
   --EVENTS
   --1 disable input
   local disableInput = DisableInputEvent.new()
-  
-    --2 transition from field
+
+  --2 transition from field
   local transitionFromField = TransitionFromFieldEvent.new()
-  transitionFromField.onDone = function() 
 
-    --3 move window
-    --battle.currentBattle.windows[1].x = 100
-    local moveWindow1 = MoveWindowEvent.new(battle.currentBattle.windows[1], battle.win1.regularX, battle.win1.regularY, 100)
-    local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], battle.win2.regularX, battle.win2.regularY, 100)
-    local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], battle.win3.regularX, battle.win3.regularY, 100)
-    local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], battle.win4.regularX, battle.win4.regularY, 100)
-    
-    local compEvent = CompositeEvent.new()
-    compEvent:addEvent(moveWindow1)
-    compEvent:addEvent(moveWindow2)
-    compEvent:addEvent(moveWindow3)
-    compEvent:addEvent(moveWindow4)
+  --3 move window
+  --battle.currentBattle.windows[1].x = 100
+  local moveWindow1 = MoveWindowEvent.new(battle.currentBattle.windows[1], battle.win1.regularX, battle.win1.regularY, 100)
+  local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], battle.win2.regularX, battle.win2.regularY, 100)
+  local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], battle.win3.regularX, battle.win3.regularY, 100)
+  local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], battle.win4.regularX, battle.win4.regularY, 100)
+  local compEvent = CompositeEvent.new()
+  compEvent:addEvent(moveWindow1)
+  compEvent:addEvent(moveWindow2)
+  compEvent:addEvent(moveWindow3)
+  compEvent:addEvent(moveWindow4)
 
-    compEvent.onDone = function() battle.currentBattle:newTurn() end
+  --4 new turn
+  local newTurn = NewTurnEvent.new()
 
-    self.eventManager:addEvent(compEvent)
-
-  end  
-  
   self.eventManager:addEvent(disableInput)
   self.eventManager:addEvent(transitionFromField)
+  self.eventManager:addEvent(compEvent) 
+  self.eventManager:addEvent(newTurn) 
 
 end
 
@@ -327,6 +377,22 @@ function Battle:endBattle()
 end
 
 function Battle:newTurn()
+
+  local prevTurnChar = self:getTurnChar(0)
+
+  if self:isPlayer(prevTurnChar) then
+
+    local moveBackWin = MoveWindowEvent.new(
+      prevTurnChar.userData.statusWin, 
+      prevTurnChar.userData.statusWinInfo.regularX, 
+      prevTurnChar.userData.statusWinInfo.regularY, 
+      10
+    )
+
+    self.eventManager:addEvent(moveBackWin)
+
+  end
+
   self.nextTurnChar = self.nextTurnChar + 1 
   if self.nextTurnChar > #self.battleChars then
     self.nextTurnChar = 1
@@ -335,17 +401,19 @@ function Battle:newTurn()
   local turnChar = self:getTurnChar(0)
 
   if self:isPlayer(turnChar) then
-    
+
     local moveWin = MoveWindowEvent.new(
       turnChar.userData.statusWin, 
       turnChar.userData.statusWinInfo.selectedX, 
       turnChar.userData.statusWinInfo.selectedY, 
       10)
-    
-    moveWin.onDone = function() self:onPlayerTurn(turnChar) end
-    
+
+    local playerTurn = PlayerTurnEvent.new(turnChar)
+
     self.eventManager:addEvent(moveWin)
-    
+    self.eventManager:addEvent(playerTurn)
+
+
   end
 
 -- se enemy attack
@@ -354,7 +422,8 @@ function Battle:newTurn()
 
     data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
 
-    self:newTurn()
+    local newTurn = NewTurnEvent.new()
+    self.eventManager:addEvent(newTurn)
 
   end
 
@@ -365,7 +434,7 @@ function Battle:newTurn()
 end
 
 function Battle:onPlayerTurn(turnChar)
-  
+
   --local turnChar = self:getTurnChar(0)
 
   if self:isPlayer(turnChar) then
@@ -510,14 +579,14 @@ function BattleChar.new(name, i)
   newBattleChar.vitality = 100
   newBattleChar.intelligence = 100
   newBattleChar.mind = 100
-  
+
   newBattleChar.userData = {}
 
   return newBattleChar
 end
 
 function BattleChar.newFromId(id)
-  
+
   local battleCharData = data.getEnemyData(id)
   local newBattleChar = BattleChar.new()
 
@@ -530,7 +599,7 @@ function BattleChar.newFromId(id)
   newBattleChar.vitality      = battleCharData.vitality
   newBattleChar.intelligence  = battleCharData.intelligence
   newBattleChar.mind          = battleCharData.mind
-  
+
   return newBattleChar
 end
 
