@@ -1,3 +1,60 @@
+--//////////////////////////////////////////////////////////////////////
+--************************
+--Battle Events
+--************************
+
+--//////////////////////////////////////////////////////////////////////
+--************************
+--DisableInputEvent
+--************************
+
+DisableInputEvent = {}
+DisableInputEvent.__index = DisableInputEvent
+setmetatable(DisableInputEvent, {__index = Event})
+
+function DisableInputEvent.new(name, i)
+  local self = setmetatable({}, DisableInputEvent)
+
+  self.name = 'DisableInputEvent'
+  self.done = false;
+  
+  return self
+end
+
+function DisableInputEvent:update(input, dt)
+
+  print('event - disable input')
+  self.done = true;
+end
+
+--//////////////////////////////////////////////////////////////////////
+--************************
+--TransitionFromFieldEvent
+--************************
+
+TransitionFromFieldEvent = {}
+TransitionFromFieldEvent.__index = TransitionFromFieldEvent
+setmetatable(TransitionFromFieldEvent, {__index = Event})
+
+
+function TransitionFromFieldEvent.new(name, i)
+  local self = setmetatable({}, TransitionFromFieldEvent)
+
+  self.name = 'TransitionFromFieldEvent'
+  self.done = false;
+  
+  return self
+end
+
+function TransitionFromFieldEvent:update(input, dt)
+
+  print('event - Transition From Field')
+  self.done = true;
+end
+
+
+
+
 --************************
 --Battle
 --************************
@@ -7,6 +64,8 @@ Battle.__index = Battle
 function Battle.new()
   local newBattle = {}
   setmetatable(newBattle, Battle)
+
+  newBattle.eventManager = EventManager.new()
 
   newBattle.commandWindow = nil
   newBattle.battleChars = {}
@@ -42,23 +101,6 @@ function Battle.new()
   return newBattle
 end
 
-function Battle:addPlayerChar(battleChar)
-
-  table.insert(self.playerChars, battleChar)
-  self:addChar(battleChar)
-end
-
-function Battle:addEnemyChar(battleChar)
-
-  table.insert(self.enemyChars, battleChar)
-  self:addChar(battleChar)
-end
-
-function Battle:addChar(battleChar)
-
-  table.insert(self.battleChars, battleChar)
-end
-
 function Battle:init()
 
   self.windows = {
@@ -90,8 +132,29 @@ function Battle:init()
 
   --set new turn
   self.nextTurnChar = 0
-  self:newTurn()
+  --self:newTurn()
+  
+  self.eventManager:addEvent(DisableInputEvent.new())
+  self.eventManager:addEvent(TransitionFromFieldEvent.new())
 
+
+end
+
+function Battle:addPlayerChar(battleChar)
+
+  table.insert(self.playerChars, battleChar)
+  self:addChar(battleChar)
+end
+
+function Battle:addEnemyChar(battleChar)
+
+  table.insert(self.enemyChars, battleChar)
+  self:addChar(battleChar)
+end
+
+function Battle:addChar(battleChar)
+
+  table.insert(self.battleChars, battleChar)
 end
 
 function Battle:endBattle()
@@ -240,6 +303,8 @@ function Battle:update()
 
 -- get turn char
 -- local turnChar = self:getTurnChar(0)
+
+  self.eventManager:update(nil, nil)
 
 end
 

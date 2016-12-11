@@ -259,6 +259,12 @@ void ScriptManager::runMain() {
 		stackDump(m_L);
 	}
 
+	if (luaL_dofile(m_L, "data/base/scripts/event.lua")) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+
 	if (luaL_dofile(m_L, "data/base/scripts/ui.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
