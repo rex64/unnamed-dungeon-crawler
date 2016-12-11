@@ -12,7 +12,7 @@ DisableInputEvent = {}
 DisableInputEvent.__index = DisableInputEvent
 setmetatable(DisableInputEvent, {__index = Event})
 
-function DisableInputEvent.new(name, i)
+function DisableInputEvent.new()
   local self = setmetatable({}, DisableInputEvent)
 
   self.name = 'DisableInputEvent'
@@ -37,7 +37,7 @@ TransitionFromFieldEvent.__index = TransitionFromFieldEvent
 setmetatable(TransitionFromFieldEvent, {__index = Event})
 
 
-function TransitionFromFieldEvent.new(name, i)
+function TransitionFromFieldEvent.new()
   local self = setmetatable({}, TransitionFromFieldEvent)
 
   self.name = 'TransitionFromFieldEvent'
@@ -52,7 +52,60 @@ function TransitionFromFieldEvent:update(input, dt)
   self.done = true;
 end
 
+--//////////////////////////////////////////////////////////////////////
+--************************
+--MoveWindowEvent
+--************************
 
+MoveWindowEvent = {}
+MoveWindowEvent.__index = MoveWindowEvent
+setmetatable(MoveWindowEvent, {__index = Event})
+
+function MoveWindowEvent.new(win, targetX, targetY, duration)
+  local self = setmetatable({}, MoveWindowEvent)
+
+  self.name = 'MoveWindowEvent'
+  self.done = false;
+  
+  self.win = win
+  
+  self.oldX = win.x
+  self.oldY = win.y
+  
+  self.currentX = win.x
+  self.currentY = win.y
+  
+  self.targetX = targetX
+  self.targetY = targetY
+  
+  self.duration = duration
+  self.currTimer = 0
+  
+  return self
+end
+
+function MoveWindowEvent:update(input, dt)
+
+  self.currTimer = math.min(self.currTimer + dt, self.duration)
+
+  local lerp = function(a, b, t)
+    return a * (1-t) + (b*t)
+  end
+  
+  local t = self.currTimer / self.duration
+  
+  self.currentX = lerp(self.oldX, self.targetX, t)
+  self.win.x = math.floor(self.currentX)
+  print(self.win.x)
+  
+  if (self.currTimer == self.duration) then
+    self.done = true;
+  end
+  
+
+  --print('event - move window')
+  
+end
 
 
 --************************
@@ -143,15 +196,14 @@ function Battle:init()
   transitionFromField.onDone = function() 
 
     --3 move window
-    battle.currentBattle.windows[1].x = 100
+    --battle.currentBattle.windows[1].x = 100
+    local moveWindow = MoveWindowEvent.new(battle.currentBattle.windows[1], 100, 20, 100)
+    self.eventManager:addEvent(moveWindow)
 
-  end
-  
+  end  
   
   self.eventManager:addEvent(disableInput)
   self.eventManager:addEvent(transitionFromField)
-
-
 
 end
 
@@ -319,7 +371,7 @@ function Battle:update()
 -- get turn char
 -- local turnChar = self:getTurnChar(0)
 
-  self.eventManager:update(nil, nil)
+  self.eventManager:update(nil, 16)
 
 end
 
