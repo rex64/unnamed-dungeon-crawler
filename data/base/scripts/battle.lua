@@ -217,6 +217,56 @@ function PlayerTurnEvent:update(input, dt)
   self.done = true;
 end
 
+--//////////////////////////////////////////////////////////////////////
+--************************
+--WindowVibrationEvent
+--************************
+
+WindowVibrationEvent = {}
+WindowVibrationEvent.__index = WindowVibrationEvent
+setmetatable(WindowVibrationEvent, {__index = Event})
+
+function WindowVibrationEvent.new(win, duration)
+  local self = setmetatable({}, WindowVibrationEvent)
+
+  self.name = 'WindowVibrationEvent'
+  self.done = false;
+
+  self.win = win
+
+  --self.oldX = win.x
+  self.oldY = win.y
+
+  --self.currentX = win.x
+  self.currentY = win.y
+
+  --self.targetX = targetX
+  --self.targetY = targetY
+
+  self.duration = duration
+  self.currTimer = 0
+
+  return self
+end
+
+function WindowVibrationEvent:update(input, dt)
+
+  self.currTimer = math.min(self.currTimer + dt, self.duration)
+
+  self.currentY = math.sin(self.currTimer)
+  self.win.y = self.oldY + math.floor(self.currentY)
+
+  if (self.currTimer == self.duration) then
+    self.done = true;
+    self.win.y = self.oldY
+  end
+
+
+  --print('event - move window')
+
+end
+
+
 --************************
 --Battle
 --************************
@@ -420,9 +470,13 @@ function Battle:newTurn()
   if self:isEnemy(turnChar) then
     -- print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
 
-    data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
+    local res = data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
+
+    local winVibration = WindowVibrationEvent.new(res.target.userData.statusWin, 1000)
 
     local newTurn = NewTurnEvent.new()
+    
+    self.eventManager:addEvent(winVibration)
     self.eventManager:addEvent(newTurn)
 
   end

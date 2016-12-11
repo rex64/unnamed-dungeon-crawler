@@ -7,6 +7,12 @@ data.enemies['base.enemies.slime'] = {
     print(enemy.name .. ' attacks ' .. randoTarget.name .. ' ' .. randoTarget.hp .. '/' .. randoTarget.maxHp )
 
 
+  return {
+    
+    target = randoTarget
+    
+    }
+
   end
 
 }
