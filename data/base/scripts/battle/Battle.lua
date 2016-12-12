@@ -1,6 +1,8 @@
 local BattleConsts    = require('battle.BattleConsts')
 local Dialog          = require('ui.Dialog')
 local MenuItem        = require('ui.MenuItem')
+local ChoiceMenu      = require('ui.ChoiceMenu')
+
 
 --************************
 --Battle
@@ -100,9 +102,15 @@ function Battle:init()
 
   --command window
   self.commandWindow = Window.new(34, 160, 36, 4, false)
+  ui.addWindow(self.commandWindow)
+  
+  --command window dialog
   local newDialog1 = Dialog.new('0')
   self.commandWindow:addDialog(newDialog1)
-  ui.addWindow(self.commandWindow)
+  
+  --command window choice menu
+  local newChoiceMenu = ChoiceMenu.new()
+  self.commandWindow:addChoiceMenu(newChoiceMenu)
 
   --calc speed
 
@@ -230,7 +238,8 @@ function Battle:onPlayerTurn(turnChar)
 
     local heroSkills = save.getHeroSkills(turnChar.index)
 
-    self.commandWindow:resetMenu()
+    self.commandWindow.choiceMenu:resetMenu()
+    
     for i,v in ipairs(heroSkills) do
 
       local skillName = save.getSkillName(v)
@@ -258,7 +267,7 @@ function Battle:onPlayerTurn(turnChar)
         end
 
       )
-      self.commandWindow:addMenuItem(skillMenuItem)
+      self.commandWindow.choiceMenu:addMenuItem(skillMenuItem)
     end
   end
 
@@ -320,7 +329,7 @@ function Battle:youWin()
 
 end
 
-function Battle:update()
+function Battle:update(input, dt)
 --  print('curr battle update')
 
 --TEMP

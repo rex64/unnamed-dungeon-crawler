@@ -5,37 +5,77 @@ Window = {}
 Window.__index = Window
 
 function Window.new(x, y, w, h, dismissable)
-  local win = {}
-  setmetatable(win, Window)
-  win.x = x 
-  win.y = y 
-  win.w = w 
-  win.h = h 
-  win.margins = {x=12, y=0}
-  win.menuItems = {}
-  win.dialog = nil
-  win.currMenuItem = 1  
+  local self = setmetatable({}, Window)
+  self.x = x 
+  self.y = y 
+  self.w = w 
+  self.h = h 
+  self.margins = {x=12, y=0}
 
-  win.dismissable = dismissable
-  if type(dismissable) ~= "boolean" then win.dismissable = true end
+  self.choiceMenu = nil
+  self.dialog = nil
 
-  return win
+  self.dismissable = dismissable
+  if type(dismissable) ~= "boolean" then self.dismissable = true end
+
+  return self
 end
 
-function Window:addMenuItem(newMenuItem)
-
-  table.insert(self.menuItems, newMenuItem)
+function Window:update(input, dt)
 
 end
 
-function Window:resetMenu()
+function Window:render()
 
-  self.menuItems = {}
+  ui.renderWindow(self.x, self.y, self.w, self.h)
 
-end
+  if self.dialog ~= nil then
+    
+    local x = self.x + self.margins.x
+    local y = self.y + self.margins.x
+
+    self.dialog:render(x, y)
+  end
+
+  if self.choiceMenu ~= nil then
+
+    local x = self.x + self.margins.x
+    local y = self.y + self.margins.x
+
+    self.choiceMenu:render(x, y)
+  end
+
+
+--[[
+  if (self.dialog ~= nil) then
+
+    local x = self.x + self.margins.x
+    local y = self.y + self.margins.x
+
+    ui.renderMenuItem(self.dialog.text, x, y)
+
+  end
+
+  for i, menuItem in ipairs(self.menuItems) do
+
+    local x = self.x + self.margins.x
+    local y = self.y + self.margins.x
+
+    if (self.currMenuItem == i) then
+      ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
+    else
+      ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
+    end
+
+
+  end
+  ]]--
+
+end 
 
 function Window:addDialog(newDialog)
 
+  newDialog.win = self
   self.dialog = newDialog
 
 end
@@ -47,9 +87,16 @@ function Window:hasDialog()
   return false
 end
 
-function Window:hasMenu()
+function Window:addChoiceMenu(newChoiceMenu)
 
-  if #self.menuItems ~= 0 then
+  newChoiceMenu.win = self
+  self.choiceMenu = newChoiceMenu
+
+end
+
+function Window:hasChoiceMenu()
+
+  if self.choiceMenu ~= nil then
     return true
   end
   return false
@@ -81,6 +128,7 @@ function Window:setDismissable(dis)
   self.dismissable = dis
 end
 
+--[[
 function Window:onUp()
   if self:hasMenu() then
     self.currMenuItem = math.max(1, self.currMenuItem - 1) 
@@ -120,34 +168,6 @@ function Window:onCancel()
   end
 
 end
-
-function Window:render()
-
-  ui.renderWindow(self.x, self.y, self.w, self.h)
-
-  if (self.dialog ~= nil) then
-
-    local x = self.x + self.margins.x
-    local y = self.y + self.margins.x
-
-    ui.renderMenuItem(self.dialog.text, x, y)
-
-  end
-
-  for i, menuItem in ipairs(self.menuItems) do
-
-    local x = self.x + self.margins.x
-    local y = self.y + self.margins.x
-
-    if (self.currMenuItem == i) then
-      ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
-    else
-      ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
-    end
-
-
-  end
-
-end
+]]--
 
 return Window

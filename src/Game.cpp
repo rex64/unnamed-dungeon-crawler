@@ -196,7 +196,7 @@ void Game::run() {
 
 		if (ScriptManager::manager->weBattle()) {
 		
-			ScriptManager::manager->doString("battle.update()");
+			ScriptManager::manager->doString("battle.update()"); //TODO: fix
 		}
 
 		RenderManager::manager->render();

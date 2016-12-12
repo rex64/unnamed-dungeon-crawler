@@ -1,5 +1,6 @@
-local Window   = require('ui.Window')
-local MenuItem = require('ui.MenuItem')
+local Window      = require('ui.Window')
+local MenuItem    = require('ui.MenuItem')
+local ChoiceMenu  = require('ui.ChoiceMenu')
 
 --UI stuff
 if(ui ~= nil) then
@@ -63,7 +64,7 @@ if(ui ~= nil) then
 
     return false
   end
-  
+
   ui.update = function() end
 
   ui.render = function()
@@ -88,9 +89,13 @@ if(ui ~= nil) then
         local menuItem2 = MenuItem.new("lol2", function() print('show equip menu') end)
         local menuItem3 = MenuItem.new("lol3", function() print('show equip menu') end)
 
-        win:addMenuItem(menuItem1)
-        win:addMenuItem(menuItem2)
-        win:addMenuItem(menuItem3)
+        local choiceMenu = ChoiceMenu.new()
+
+        choiceMenu:addMenuItem(menuItem1)
+        choiceMenu:addMenuItem(menuItem2)
+        choiceMenu:addMenuItem(menuItem3)
+
+        win:addChoiceMenu(choiceMenu)
 
         ui.addWindow(win)
 
@@ -101,13 +106,14 @@ if(ui ~= nil) then
     local menuItem4 = MenuItem.new("Config", function() print('show Config menu') end)
     local menuItem5 = MenuItem.new("Quit", function() print('show quit menu') end)
 
+    local choiceMenu = ChoiceMenu.new()
 
+    choiceMenu:addMenuItem(menuItem1)
+    choiceMenu:addMenuItem(menuItem2)
+    choiceMenu:addMenuItem(menuItem3)
+    choiceMenu:addMenuItem(menuItem4)
 
-    win:addMenuItem(menuItem1)
-    win:addMenuItem(menuItem2)
-    win:addMenuItem(menuItem3)
-    win:addMenuItem(menuItem4)
-
+    win:addChoiceMenu(choiceMenu)
 
     ui.addWindow(win)
 
