@@ -3,6 +3,7 @@
 #include "../res/ResourceManager.h"
 #include "../RenderManager.h"
 #include "../ScriptManager.h"
+#include "../Game.h"
 
 #include <iostream>
 #include <sstream>
@@ -44,20 +45,8 @@ void MenuManager::init() {
 
 bool MenuManager::onInput(SDL_Event * e) {
 
-	auto button = -1;
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-
-	if (state[SDL_SCANCODE_UP]) button = 0;
-	else if (state[SDL_SCANCODE_RIGHT]) button = 1;
-	else if (state[SDL_SCANCODE_DOWN]) button = 2;
-	else if (state[SDL_SCANCODE_LEFT]) button = 3;
-	else if (state[SDL_SCANCODE_RETURN]) button = 4;
-	else if (state[SDL_SCANCODE_BACKSPACE]) button = 5;
-	else if (state[SDL_SCANCODE_ESCAPE]) button = 6;
-
-
-	return ScriptManager::manager->uiOnInput(button);
+	//auto button = -1;
+	return true;
 }
 
 void MenuManager::setVisible(bool b) {

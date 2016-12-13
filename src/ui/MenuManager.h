@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "../IInputReceiver.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -33,7 +32,7 @@
 //
 //};
 
-class MenuManager : public IInputReceiver
+class MenuManager
 {
 public:
 	MenuManager();

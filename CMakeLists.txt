@@ -16,9 +16,6 @@ set( project_sources
    src/res/default_sprite.c
    src/Console.h
    src/Console.cpp
-   src/InputManager.h
-   src/InputManager.cpp
-   src/IInputReceiver.h
    src/RenderManager.h
    src/RenderManager.cpp
    src/IRenderable.h

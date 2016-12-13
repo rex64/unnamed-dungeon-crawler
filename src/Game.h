@@ -8,6 +8,19 @@
 
 struct SDL_Window;
 
+struct Buttons {
+
+	bool up;
+	bool right;
+	bool down;
+	bool left;
+
+	bool ok;
+	bool cancel;
+
+	bool menu;
+};
+
 class Game
 {
 public:

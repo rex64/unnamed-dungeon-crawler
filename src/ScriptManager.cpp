@@ -35,32 +35,15 @@ void ScriptManager::init() {
 	luaL_openlibs(m_L);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-
-	//data
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "data");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
-	//data - reload()
-	/*lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "setTile");
-	lua_pushcfunction(m_L, l_setTile);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);*/
-
-	//game
+	//game ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "game");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
 
 	//ui ----------------------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "ui");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//ui - windows
 
 	//ui - windows
 	lua_getglobal(m_L, "ui");
@@ -118,7 +101,7 @@ void ScriptManager::init() {
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 
-	//field - addEntity(id, value)
+	//field - setEntityTile
 	lua_getglobal(m_L, "field");
 	lua_pushstring(m_L, "setEntityTile");
 	lua_pushcfunction(m_L, l_setEntityTile);
@@ -126,18 +109,47 @@ void ScriptManager::init() {
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
+	//field - onInputUp()
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "onInputUp");
+	lua_pushcfunction(m_L, Stage_onInputUp);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-	//battle
+	//field - onInputRight()
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "onInputRight");
+	lua_pushcfunction(m_L, Stage_onInputRight);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//field - onInputDown()
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "onInputDown");
+	lua_pushcfunction(m_L, Stage_onInputDown);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//field - onInputLeft()
+	lua_getglobal(m_L, "field");
+	lua_pushstring(m_L, "onInputLeft");
+	lua_pushcfunction(m_L, Stage_onInputLeft);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+
+	//battle -------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "battle");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-
-	//system
+	//system -------------------------------------------
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "system");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
 
 	//system.quit
 	lua_getglobal(m_L, "system");
@@ -147,12 +159,10 @@ void ScriptManager::init() {
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-
 	//data
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "data");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
 
 	//data.entities
 	lua_getglobal(m_L, "data");
@@ -161,7 +171,6 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
 
 	//data.dungeons
 	lua_getglobal(m_L, "data");
@@ -194,7 +203,6 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
 
 	//save ----------------------------------------------------------
 	lua_newtable(m_L);
@@ -246,11 +254,6 @@ void ScriptManager::init() {
 
 }
 
-bool ScriptManager::onInput(SDL_Event * e)
-{
-	return false;
-}
-
 void ScriptManager::runMain() {
 
 	stackDump(m_L);
@@ -265,6 +268,18 @@ void ScriptManager::runMain() {
 	}
 
 	if (luaL_dofile(m_L, "data/base/scripts/main.lua")) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+
+	if (luaL_dofile(m_L, "data/base/scripts/game.lua")) {
+		Game::game->showMsgBox(lua_tostring(m_L, -1));
+		lua_pop(m_L, -1);
+		stackDump(m_L);
+	}
+
+	if (luaL_dofile(m_L, "data/base/scripts/field.lua")) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 		lua_pop(m_L, -1);
 		stackDump(m_L);
@@ -344,35 +359,60 @@ void ScriptManager::onCreateFloor(std::string s, int floorNo) {
 
 }
 
-bool ScriptManager::uiOnInput(int button) {
+void ScriptManager::onInputGame(Buttons input) {
 
-	lua_getglobal(m_L, "ui");
+	lua_getglobal(m_L, "game");
 	lua_pushstring(m_L, "onInput");
 	lua_gettable(m_L, 1);
-	//stackDump(m_L);
 
-	lua_pushinteger(m_L, button);
+	lua_newtable(m_L);
 
-	//stackDump(m_L);
+	//UP	
+	lua_pushstring(m_L, "up");
+	lua_pushboolean(m_L, input.up);
+	lua_settable(m_L, -3);
 
-	if (lua_pcall(m_L, 1, 1, 0) != 0) {
+	//RIGHT
+	lua_pushstring(m_L, "right");
+	lua_pushboolean(m_L, input.right);
+	lua_settable(m_L, -3);
+
+	//DOWN
+	lua_pushstring(m_L, "down");
+	lua_pushboolean(m_L, input.down);
+	lua_settable(m_L, -3);
+
+	//LEFT
+	lua_pushstring(m_L, "left");
+	lua_pushboolean(m_L, input.left);
+	lua_settable(m_L, -3);
+
+	//MENU
+	lua_pushstring(m_L, "menu");
+	lua_pushboolean(m_L, input.menu);
+	lua_settable(m_L, -3);
+
+	if (lua_pcall(m_L, 1, 0, 0) != 0) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 	}
 
-	/* retrieve result */
-	if (!lua_isboolean(m_L, -1)) {
+	lua_pop(m_L, 1); //pop game
+
+}
+
+void ScriptManager::updateGame(int dt) {
+
+	lua_getglobal(m_L, "game");
+	lua_pushstring(m_L, "update");
+	lua_gettable(m_L, 1);
+
+	lua_pushinteger(m_L, dt);
+
+	if (lua_pcall(m_L, 1, 0, 0) != 0) {
 		Game::game->showMsgBox(lua_tostring(m_L, -1));
 	}
-	bool ret = lua_toboolean(m_L, -1);
-	//lua_pop(L, 1);  /* pop returned value */
 
-	//stackDump(m_L);
-
-	lua_pop(m_L, 1);
-	lua_pop(m_L, 1);
-
-	return ret;
-
+	lua_pop(m_L, 1); //pop game
 
 }
 

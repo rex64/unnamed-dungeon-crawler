@@ -12,9 +12,10 @@ extern "C" {
 #endif
 
 #include <string>
-#include "IInputReceiver.h"
 
-class ScriptManager : public IInputReceiver
+struct Buttons;
+
+class ScriptManager
 {
 public:
 	ScriptManager();
@@ -27,12 +28,12 @@ public:
 
 	static ScriptManager *manager;
 
-	bool onInput(SDL_Event* e);
 	void onQuit();
 
 	void onInteract(std::string);
 	void onCreateFloor(std::string, int);
-	bool uiOnInput(int);
+	void onInputGame(Buttons);
+	void updateGame(int);
 	bool weBattle();
 
 public:

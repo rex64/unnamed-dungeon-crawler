@@ -17,14 +17,16 @@ if battle ~= nil then
 
   battle.currentBattle = nil
 
+--[[
   battle.onInput = function (button)
 
     if battle.weBattle() then battle.currentBattle:onInput(button) end
   end
+]]--
 
-  battle.update = function() 
+  battle.update = function(input, dt) 
 
-    if battle.weBattle() then battle.currentBattle:update() end
+    if battle.weBattle() then battle.currentBattle:update(input, dt) end
   end
 
   battle.render = function() 

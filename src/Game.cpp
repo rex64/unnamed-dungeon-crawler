@@ -20,9 +20,8 @@
 #include "stage/StageManager.h"
 #include "ScriptManager.h"
 #include "Console.h"
-#include "InputManager.h"
 #include "RenderManager.h"
-#include "ui\MenuManager.h"
+#include "ui/MenuManager.h"
 #include "SaveManager.h"
 
 Game* Game::game;
@@ -73,8 +72,8 @@ void Game::init() {
 	StageManager *stageManager = new StageManager();
 	stageManager->init();
 
-	InputManager *inputManger = new InputManager();
-	inputManger->init();
+	/*InputManager *inputManger = new InputManager();
+	inputManger->init();*/
 
 	RenderManager *renderManager = new RenderManager();
 	renderManager->init();
@@ -87,11 +86,11 @@ void Game::init() {
 
 	resManager->loadDataFolder();
 	
-	inputManger->registerInput(menuManager);
+	/*inputManger->registerInput(menuManager);
 	inputManger->registerInput(console);
 	inputManger->registerInput(stageManager);
 	inputManger->registerInput(stageManager);
-	inputManger->registerInput(scriptManager);
+	inputManger->registerInput(scriptManager);*/
 
 	//Register input handlers
 
@@ -175,8 +174,22 @@ void Game::run() {
 
 		while (SDL_PollEvent(&e) != 0)
 		{
+
+			
+
 			if (e.type == SDL_KEYDOWN) {
-				InputManager::manager->onInput(&e);
+
+				const Uint8 *state = SDL_GetKeyboardState(NULL);
+				Buttons buttons = { false };
+				buttons.up = state[SDL_SCANCODE_UP];
+				buttons.right = state[SDL_SCANCODE_RIGHT];
+				buttons.down = state[SDL_SCANCODE_DOWN];
+				buttons.left = state[SDL_SCANCODE_LEFT];
+				buttons.ok = state[SDL_SCANCODE_RETURN];
+				buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
+				buttons.menu = state[SDL_SCANCODE_ESCAPE];
+
+				ScriptManager::manager->onInputGame(buttons);
 			}
 			if (e.type == SDL_TEXTINPUT) {
 
@@ -199,6 +212,7 @@ void Game::run() {
 			ScriptManager::manager->doString("battle.update()"); //TODO: fix
 		}
 
+		ScriptManager::manager->updateGame(16);
 		RenderManager::manager->render();
 		checkIfStackIsEmpty(ScriptManager::manager->m_L);
 		SDL_Delay(16);

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "IInputReceiver.h"
-class Console : public IInputReceiver
+
+class Console
 {
 public:
 	Console();
@@ -9,7 +9,7 @@ public:
 	void init();
 
 	//IInputReceiver
-	bool onInput(SDL_Event* e);
+	//bool onInput(SDL_Event* e);
 
 	static Console* console;
 
