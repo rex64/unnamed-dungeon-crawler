@@ -387,6 +387,16 @@ void ScriptManager::onInputGame(Buttons input) {
 	lua_pushboolean(m_L, input.left);
 	lua_settable(m_L, -3);
 
+	//OK
+	lua_pushstring(m_L, "ok");
+	lua_pushboolean(m_L, input.ok);
+	lua_settable(m_L, -3);
+
+	//CANCEL
+	lua_pushstring(m_L, "cancel");
+	lua_pushboolean(m_L, input.cancel);
+	lua_settable(m_L, -3);
+
 	//MENU
 	lua_pushstring(m_L, "menu");
 	lua_pushboolean(m_L, input.menu);

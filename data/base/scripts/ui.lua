@@ -20,49 +20,31 @@ if(ui ~= nil) then
 
   end
 
-  ui.onInput = function(button)
+  ui.onInput = function(input)
 
-    if #ui.windows == 0 then
+    local topWindowIndex = #ui.windows;
+    local topWindow = ui.windows[topWindowIndex]
 
-      if button == ui.ESC then
+    if input.up then
+      topWindow:onUp()
 
-        ui.openMenu()
-        return true
+    elseif input.right then
+      topWindow:onRight()
 
-      end
+    elseif input.down then
+      topWindow:onDown()
 
-    else
-      local topWindowIndex = #ui.windows;
-      local topWindow = ui.windows[topWindowIndex]
+    elseif input.left then
+      topWindow:onLeft()
 
-      if button == ui.UP then
-        topWindow:onUp()
+    elseif input.ok then
+      topWindow:onOk()
 
-      elseif button == ui.RIGHT then
-        topWindow:onRight()
+    elseif input.cancel then
+      topWindow:onCancel()
 
-      elseif button == ui.DOWN then
-        topWindow:onDown()
-
-      elseif button == ui.LEFT then
-        topWindow:onLeft()
-
-      elseif button == ui.OK then
-        topWindow:onOk()
-
-      elseif button == ui.CANCEL then
-        topWindow:onCancel()
-
-      elseif button == ui.ESC then
-
-        ui.closeMenu()
-
-      end
-
-      return true
     end
 
-    return false
   end
 
   ui.update = function() end
@@ -122,6 +104,14 @@ if(ui ~= nil) then
   ui.closeMenu = function()
     print('close menu')  
     ui.windows = {}
+  end
+
+  ui.isMainMenuOpen = function()
+    if #ui.windows ~= 0 then 
+      return true
+    else
+      return false
+    end
   end
 
 end
