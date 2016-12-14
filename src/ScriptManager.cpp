@@ -77,67 +77,12 @@ void ScriptManager::init() {
 	registerFunction("engine", "onInputDown", Stage_onInputDown);
 	registerFunction("engine", "onInputLeft", Stage_onInputLeft);
 
-
-	//battle -------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "battle");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//system -------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "system");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//system.quit
-	lua_getglobal(m_L, "system");
-	lua_pushstring(m_L, "quit");
-	lua_pushcfunction(m_L, luaQuitGame);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//data
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "data");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-	//registerGlobalObject("data");
-
-	//data.entities
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "entities");
-	lua_newtable(m_L);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-	//registerEmptyObject("data", "entities");
-
-	//data.dungeons
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "dungeons");
-	lua_newtable(m_L);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-	//registerEmptyObject("data", "dungeons");
-
-
-	//data.skills
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "skills");
-	lua_newtable(m_L);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-	//registerEmptyObject("data", "skills");
-
-	//data.enemies
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "enemies");
-	lua_newtable(m_L);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-	//registerEmptyObject("data", "enemies");
+	//data ----------------------------------------------------------
+	registerGlobalObject("data");
+	registerEmptyObject("data", "entities");
+	registerEmptyObject("data", "dungeons");
+	registerEmptyObject("data", "skills");
+	registerEmptyObject("data", "enemies");
 
 	//save - getCurrentPartySize
 	lua_getglobal(m_L, "data");

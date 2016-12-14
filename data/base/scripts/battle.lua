@@ -13,6 +13,8 @@ local WindowVibrationEvent      = require('battle.events.WindowVibrationEvent')
 
 --//////////////////////////////////////////////////////////////////////
 
+battle = {}
+
 if battle ~= nil then
 
   battle.currentBattle = nil
