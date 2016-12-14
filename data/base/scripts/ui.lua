@@ -2,6 +2,8 @@ local Window      = require('ui.Window')
 local MenuItem    = require('ui.MenuItem')
 local ChoiceMenu  = require('ui.ChoiceMenu')
 
+ui = {}
+
 --UI stuff
 if(ui ~= nil) then
 

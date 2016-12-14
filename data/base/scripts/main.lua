@@ -14,6 +14,11 @@ package.cpath = package.cpath
 
 require('mobdebug').start()
 
+dofile('data/base/scripts/game.lua');
+dofile('data/base/scripts/field.lua');
+dofile('data/base/scripts/ui.lua');
+dofile('data/base/scripts/battle.lua');
+
 print("main");
 
 print('main - ok');

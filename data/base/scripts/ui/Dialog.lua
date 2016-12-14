@@ -14,7 +14,7 @@ end
 
 function Dialog:render(x, y)
   
-  ui.renderMenuItem(self.text, x, y)
+  engine.renderMenuItem(self.text, x, y)
   
 end
 

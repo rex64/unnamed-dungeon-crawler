@@ -29,21 +29,21 @@ data.dungeons['base.dungeons.dungeon1'] = {
 
     for i,v in ipairs(a) do 
       if v == 0 then
-        field.setTile(i-1, t1, v)
+        engine.setTile(i-1, t1, v)
       else
-        field.setTile(i-1, t0, v)
+        engine.setTile(i-1, t0, v)
       end
     end
 
     --Player
-    local playerID = field.addEntity(EntityType.Player, 'base.entities.player')
-    field.setEntityTile(playerID, 1 + 16)
+    local playerID = engine.addEntity(EntityType.Player, 'base.entities.player')
+    engine.setEntityTile(playerID, 1 + 16)
 
-    local stairsID = field.addEntity(EntityType.Other, 'base.entities.stairs')
-    field.setEntityTile(stairsID, 1 + 18)
+    local stairsID = engine.addEntity(EntityType.Other, 'base.entities.stairs')
+    engine.setEntityTile(stairsID, 1 + 18)
 
-    local enemyID = field.addEntity(EntityType.Enemy, 'base.entities.enemy')
-    field.setEntityTile(enemyID, 1 + 24)
+    local enemyID = engine.addEntity(EntityType.Enemy, 'base.entities.enemy')
+    engine.setEntityTile(enemyID, 1 + 24)
   end
   
 }

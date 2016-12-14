@@ -1,4 +1,7 @@
 --FIELD stuff
+
+field = {}
+
 if(field ~= nil) then
 
   field.onInput = function(input)
@@ -29,13 +32,13 @@ if(field ~= nil) then
 
 
     if input.up then
-      field.onInputUp()
+      engine.onInputUp()
     elseif input.right then
-      field.onInputRight()
+      engine.onInputRight()
     elseif input.down then
-      field.onInputDown()
+      engine.onInputDown()
     elseif input.left then
-      field.onInputLeft()      
+      engine.onInputLeft()      
     end
 
 

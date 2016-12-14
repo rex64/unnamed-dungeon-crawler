@@ -60,7 +60,7 @@ end
 
 function Window:render()
 
-  ui.renderWindow(self.x, self.y, self.w, self.h)
+  engine.renderWindow(self.x, self.y, self.w, self.h)
 
   if self.dialog ~= nil then
     

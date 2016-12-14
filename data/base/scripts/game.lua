@@ -7,6 +7,9 @@ local CloseMenuEvent    = require('game.events.CloseMainMenuEvent')
 
 
 --GAME stuff
+
+game = {}
+
 if(game ~= nil) then
 
   game.eventManager = EventManager.new()

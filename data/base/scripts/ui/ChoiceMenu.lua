@@ -24,9 +24,9 @@ function ChoiceMenu:render(x, y)
   for i, menuItem in ipairs(self.menuItems) do
 
     if (self.currMenuItem == i) then
-      ui.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
+      engine.renderMenuItem('-' .. menuItem.text, x, y +((i-1)* 8));
     else
-      ui.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
+      engine.renderMenuItem(menuItem.text, x, y +((i-1)* 8));
     end
 
   end

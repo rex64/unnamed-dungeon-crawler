@@ -26,6 +26,33 @@ ScriptManager::~ScriptManager()
 {
 }
 
+void ScriptManager::registerGlobalObject(std::string globalObjectName) {
+
+	lua_newtable(m_L);
+	lua_setglobal(m_L, globalObjectName.c_str());
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+}
+
+void ScriptManager::registerFunction(std::string globalObjectName, std::string functionName, lua_CFunction function) {
+
+	lua_getglobal(m_L, globalObjectName.c_str());
+	lua_pushstring(m_L, functionName.c_str());
+	lua_pushcfunction(m_L, function);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+}
+
+void ScriptManager::registerEmptyObject(std::string globalObjectName, std::string objectName) {
+	
+	lua_getglobal(m_L, globalObjectName.c_str());
+	lua_pushstring(m_L, objectName.c_str());
+	lua_newtable(m_L);
+	lua_settable(m_L, -3);
+	lua_pop(m_L, -1);
+	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+}
+
 void ScriptManager::init() {
 
 	manager = this;
@@ -35,111 +62,21 @@ void ScriptManager::init() {
 	luaL_openlibs(m_L);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
-	//game ----------------------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "game");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//engine ----------------------------------------------------------
+	registerGlobalObject("engine");
+	registerFunction("engine", "renderWindow", Menu_renderWindow);
+	registerFunction("engine", "renderMenuItem", Menu_renderMenuItem);
+	registerFunction("engine", "renderSprite", Menu_renderSprite);
 
-	//ui ----------------------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "ui");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	registerFunction("engine", "setTile", l_setTile);
+	registerFunction("engine", "addEntity", l_addEntity);
+	registerFunction("engine", "setEntityTile", l_setEntityTile);
 
-	//ui - windows
-	lua_getglobal(m_L, "ui");
-	lua_pushstring(m_L, "windows");
-	lua_newtable(m_L);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	registerFunction("engine", "onInputUp", Stage_onInputUp);
+	registerFunction("engine", "onInputRight", Stage_onInputRight);
+	registerFunction("engine", "onInputDown", Stage_onInputDown);
+	registerFunction("engine", "onInputLeft", Stage_onInputLeft);
 
-	//ui - renderWindow
-	lua_getglobal(m_L, "ui");
-	lua_pushstring(m_L, "renderWindow");
-	lua_pushcfunction(m_L, Menu_renderWindow);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//ui - renderMenuItem
-	lua_getglobal(m_L, "ui");
-	lua_pushstring(m_L, "renderMenuItem");
-	lua_pushcfunction(m_L, Menu_renderMenuItem);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//ui - renderSprite
-	lua_getglobal(m_L, "ui");
-	lua_pushstring(m_L, "renderSprite");
-	lua_pushcfunction(m_L, Menu_renderSprite);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//field ----------------------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "field");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
-	//field - setTile(id, value)
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "setTile");
-	lua_pushcfunction(m_L, l_setTile);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
-	//field - addEntity(id, value)
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "addEntity");
-	lua_pushcfunction(m_L, l_addEntity);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
-	//field - setEntityTile
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "setEntityTile");
-	lua_pushcfunction(m_L, l_setEntityTile);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//field - onInputUp()
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "onInputUp");
-	lua_pushcfunction(m_L, Stage_onInputUp);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//field - onInputRight()
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "onInputRight");
-	lua_pushcfunction(m_L, Stage_onInputRight);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//field - onInputDown()
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "onInputDown");
-	lua_pushcfunction(m_L, Stage_onInputDown);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//field - onInputLeft()
-	lua_getglobal(m_L, "field");
-	lua_pushstring(m_L, "onInputLeft");
-	lua_pushcfunction(m_L, Stage_onInputLeft);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 	//battle -------------------------------------------
 	lua_newtable(m_L);
@@ -163,6 +100,7 @@ void ScriptManager::init() {
 	lua_newtable(m_L);
 	lua_setglobal(m_L, "data");
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//registerGlobalObject("data");
 
 	//data.entities
 	lua_getglobal(m_L, "data");
@@ -171,6 +109,7 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//registerEmptyObject("data", "entities");
 
 	//data.dungeons
 	lua_getglobal(m_L, "data");
@@ -179,6 +118,8 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//registerEmptyObject("data", "dungeons");
+
 
 	//data.skills
 	lua_getglobal(m_L, "data");
@@ -187,6 +128,7 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//registerEmptyObject("data", "skills");
 
 	//data.enemies
 	lua_getglobal(m_L, "data");
@@ -195,6 +137,7 @@ void ScriptManager::init() {
 	lua_settable(m_L, -3);
 	lua_pop(m_L, -1);
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
+	//registerEmptyObject("data", "enemies");
 
 	//save - getCurrentPartySize
 	lua_getglobal(m_L, "data");
@@ -272,33 +215,6 @@ void ScriptManager::runMain() {
 		lua_pop(m_L, -1);
 		stackDump(m_L);
 	}
-
-	if (luaL_dofile(m_L, "data/base/scripts/game.lua")) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		lua_pop(m_L, -1);
-		stackDump(m_L);
-	}
-
-	if (luaL_dofile(m_L, "data/base/scripts/field.lua")) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		lua_pop(m_L, -1);
-		stackDump(m_L);
-	}
-
-	if (luaL_dofile(m_L, "data/base/scripts/ui.lua")) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		lua_pop(m_L, -1);
-		stackDump(m_L);
-	}
-
-	if (luaL_dofile(m_L, "data/base/scripts/battle.lua")) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-		lua_pop(m_L, -1);
-		stackDump(m_L);
-	}
-
-
-
 	
 }
 

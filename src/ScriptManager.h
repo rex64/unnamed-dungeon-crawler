@@ -21,6 +21,9 @@ public:
 	ScriptManager();
 	~ScriptManager();
 
+	void registerGlobalObject(std::string);
+	void registerFunction(std::string, std::string, lua_CFunction);
+	void registerEmptyObject(std::string, std::string);
 	void init();
 	void runMain();
 	void doString(const char *str);
