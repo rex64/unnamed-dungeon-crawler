@@ -25,25 +25,7 @@ if(ui ~= nil) then
     local topWindowIndex = #ui.windows;
     local topWindow = ui.windows[topWindowIndex]
 
-    if input.up then
-      topWindow:onUp()
-
-    elseif input.right then
-      topWindow:onRight()
-
-    elseif input.down then
-      topWindow:onDown()
-
-    elseif input.left then
-      topWindow:onLeft()
-
-    elseif input.ok then
-      topWindow:onOk()
-
-    elseif input.cancel then
-      topWindow:onCancel()
-
-    end
+    topWindow:onInput(input)
 
   end
 

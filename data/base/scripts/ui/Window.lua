@@ -21,7 +21,40 @@ function Window.new(x, y, w, h, dismissable)
   return self
 end
 
-function Window:update(input, dt)
+function Window:onInput(input)
+
+  if input.up then
+    if self:hasChoiceMenu() then
+      self.choiceMenu.currMenuItem = math.max(1, self.choiceMenu.currMenuItem - 1) 
+    end
+  elseif input.right then
+    if self:hasChoiceMenu() then
+      self.choiceMenu.currMenuItem = math.min(#self.choiceMenu.menuItems, self.choiceMenu.currMenuItem + 1) 
+
+    end
+  elseif input.down then
+    if self:hasChoiceMenu() then
+      self.choiceMenu.currMenuItem = math.min(#self.choiceMenu.menuItems, self.choiceMenu.currMenuItem + 1) 
+
+    end
+  elseif input.left then
+  elseif input.ok then
+    if self.choiceMenu.menuItems[self.choiceMenu.currMenuItem].callback ~= nil then
+      self.choiceMenu.menuItems[self.choiceMenu.currMenuItem].callback()
+    end
+  elseif self:hasDialog() then
+    if self:isDismissable() then
+      self:dismiss()
+    end
+  elseif input.cancel then
+    if self:isDismissable() then
+      self:dismiss()
+    end
+  end
+  
+end
+
+function Window:update(dt)
 
 end
 
