@@ -39,7 +39,7 @@ data.dungeons['base.dungeons.dungeon1'] = {
 
     --Player
     local playerEntity = FloorEntity.new('base.entities.player', 'Player')
-    newFloor:addEntity(playerEntity, 1)
+    newFloor:addEntity(playerEntity, 1 + 16)
     newFloor:setPlayerEntity(playerEntity)
 
     local stairsEntity = FloorEntity.new('base.entities.stairs', 'Stairs')

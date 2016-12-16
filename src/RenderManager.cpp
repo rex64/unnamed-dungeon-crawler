@@ -309,14 +309,15 @@ int Render_renderSprite(lua_State *L) {
 	std::string spriteID = lua_tostring(L, 1);
 	int x = lua_tointeger(L, 2);
 	int y = lua_tointeger(L, 3);
+	int facing = lua_tointeger(L, 4);
 
-	SDL_Rect pos	= { x, y, 16, 16 };
-	SDL_Rect facing = { 0, 0, 16, 16 };
+	SDL_Rect posRect	= { x, y, 16, 16 };
+	SDL_Rect facingRect = { 16 * facing, 0, 16, 16 };
 	SDL_BlitSurface(
 		ResourceManager::manager->getSprite(spriteID),
-		&facing, 
+		&facingRect,
 		RenderManager::manager->game,
-		&pos);
+		&posRect);
 
 
 	return 0;

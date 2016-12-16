@@ -3,6 +3,8 @@
 --FloorEntity
 --************************
 
+local FloorConsts = require('field.FloorConsts')
+
 FloorEntity = {}
 FloorEntity.__index = FloorEntity
 
@@ -12,6 +14,7 @@ function FloorEntity.new(id, name)
   self.name = name or 'FloorEntity'
   self.floor = nil
   self.tileId = nil
+  self.facing = FloorConsts.facing.up
 
   return self
 end
@@ -24,10 +27,5 @@ end
 
 function FloorEntity:render()
 end
-
---function FloorEntity:setEntityTile(tileId)
---  self.tileId = tileId
---end
-
 
 return FloorEntity
