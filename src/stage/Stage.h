@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <string> 
+#include <string>
 #include <unordered_map>
 
 struct Point {
@@ -76,7 +76,7 @@ public:
 	bool removeEntity(Entity*);
 	bool checkIfTileIsWalkable(int tileID);
 
-	AdjEntitiesFindResult Stage::findAdjacentEntities(Entity*);
+	AdjEntitiesFindResult findAdjacentEntities(Entity*);
 	//std::vector<const Entity*> Stage::findAdjacentEntities(int tileId) const;
 
 	int arrayWidth;
@@ -97,6 +97,6 @@ private:
 
 	std::vector<Tile> tiles;
 
-	
+
 	std::unordered_map<int, Entity*> tileEntities;
 };

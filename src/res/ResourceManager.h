@@ -3,6 +3,17 @@
 #include <unordered_map>
 #include <string>
 
+#ifdef __APPLE__
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
+
+#elif _WIN32
+#include <lua.hpp>
+#endif
+
 struct SDL_Surface;
 
 struct FieldEntityData {
@@ -140,3 +151,10 @@ private:
 	SDL_Surface* borderDefault;
 	
 };
+
+extern "C" {
+
+
+	int Resource_getEntitySpriteId(lua_State *L);
+
+}

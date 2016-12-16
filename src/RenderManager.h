@@ -6,7 +6,19 @@
 #include <SDL.h>
 #endif
 
+#ifdef __APPLE__
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
+
+#elif _WIN32
+#include <lua.hpp>
+#endif
+
 #include <vector>
+#include <string>
 
 class IRenderable;
 class FontData;
@@ -40,3 +52,11 @@ public:
 extern "C" void renderText(std::string str, FontData* fontData, SDL_Surface* surf);
 extern "C" void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
 extern "C" void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
+
+extern "C" {
+
+
+	int Render_renderTile(lua_State *L);
+	int Render_renderSprite(lua_State *L);
+
+}

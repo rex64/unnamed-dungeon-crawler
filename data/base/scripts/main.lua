@@ -14,6 +14,10 @@ package.cpath = package.cpath
 
 require('mobdebug').start()
 
+--local omar = debug.getinfo(1,"S").source
+--debugger.verbose=true
+--print (omar)
+
 dofile('data/base/scripts/game.lua');
 dofile('data/base/scripts/field.lua');
 dofile('data/base/scripts/ui.lua');
@@ -22,3 +26,6 @@ dofile('data/base/scripts/battle.lua');
 print("main");
 
 print('main - ok');
+
+local newFloor = data.dungeons['base.dungeons.dungeon1'].onCreateFloor(1)
+field.setCurrentFloor(newFloor)

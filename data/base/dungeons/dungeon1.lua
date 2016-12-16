@@ -1,49 +1,55 @@
 data.dungeons['base.dungeons.dungeon1'] = {
-  
+
   onCreateFloor = function(floorNo)
-  
-    print("dungeon1 - onCreateFloor - FloorNo:" .. floorNo)
+
+    local Floor       = require('field.Floor')
+    local FloorEntity = require('field.FloorEntity')
+
+    local newFloor = Floor.new('base.dungeons.dungeon1', 16, 9)
+    newFloor.name = newFloor.dungeonId .. ' - floor: ' .. floorNo 
+
+    print(newFloor.name .. " onCreateFloor")
 
     t0 = "base.tiles.tile00"
     t1 = "base.tiles.tile01"
 
-    a = {
-	    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
-	    0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-	    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    newFloor.tileCollisions = {
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     }
 
-    EntityType = {
-
-      Player = 0,
-      Enemy = 1,
-      Other = 2,
-
+    newFloor.tileSets = {
+      t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1,
+      t1, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t1, t1, t1, t0, t0, t0, t0, t0, t0, t1,
+      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
+      t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1,
     }
-
-    for i,v in ipairs(a) do 
-      if v == 0 then
-        engine.setTile(i-1, t1, v)
-      else
-        engine.setTile(i-1, t0, v)
-      end
-    end
 
     --Player
-    local playerID = engine.addEntity(EntityType.Player, 'base.entities.player')
-    engine.setEntityTile(playerID, 1 + 16)
+    local playerEntity = FloorEntity.new('base.entities.player', 'Player')
+    newFloor:addEntity(playerEntity, 1)
+    newFloor:setPlayerEntity(playerEntity)
 
-    local stairsID = engine.addEntity(EntityType.Other, 'base.entities.stairs')
-    engine.setEntityTile(stairsID, 1 + 18)
+    local stairsEntity = FloorEntity.new('base.entities.stairs', 'Stairs')
+    newFloor:addEntity(stairsEntity, 1 + 18)
 
-    local enemyID = engine.addEntity(EntityType.Enemy, 'base.entities.enemy')
-    engine.setEntityTile(enemyID, 1 + 24)
+    local enemyEntity = FloorEntity.new('base.entities.enemy', 'Enemy')
+    newFloor:addEntity(enemyEntity, 1 + 24)
+    
+    return newFloor
+
   end
-  
+
 }

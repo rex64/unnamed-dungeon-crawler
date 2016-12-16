@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <cstring>
 
 #endif
 
@@ -85,7 +86,7 @@ void Game::init() {
 	saveManager->init();
 
 	resManager->loadDataFolder();
-	
+
 	/*inputManger->registerInput(menuManager);
 	inputManger->registerInput(console);
 	inputManger->registerInput(stageManager);
@@ -121,9 +122,9 @@ extern "C" Uint32 my_callbackfunc(Uint32 interval, void *param)
 }
 
 void Game::run() {
-	
+
 	SDL_Event e;
-	
+
 	SDL_StartTextInput();
 
 	m_bQuit = false;
@@ -131,9 +132,9 @@ void Game::run() {
 	ScriptManager::manager->runMain();
 
 	//fake setup -------- start
-	StageManager::manager->currStage = new Stage();
-	StageManager::manager->currStage->load("base.dungeons.dungeon1", 0);
-	
+	/*StageManager::manager->currStage = new Stage();
+	StageManager::manager->currStage->load("base.dungeons.dungeon1", 0);*/
+
 	Equip *sword = new Equip();
 	sword->addSkill("base.skills.skilltest1");
 	sword->addSkill("base.skills.sword_attack");
@@ -175,7 +176,7 @@ void Game::run() {
 		while (SDL_PollEvent(&e) != 0)
 		{
 
-			
+
 
 			if (e.type == SDL_KEYDOWN) {
 
@@ -204,11 +205,11 @@ void Game::run() {
 				m_bQuit = true;
 			}
 
-			
+
 		}
 
 		if (ScriptManager::manager->weBattle()) {
-		
+
 			ScriptManager::manager->doString("battle.update()"); //TODO: fix
 		}
 
@@ -216,14 +217,14 @@ void Game::run() {
 		RenderManager::manager->render();
 		checkIfStackIsEmpty(ScriptManager::manager->m_L);
 		SDL_Delay(16);
-		
+
 	}
 
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Quitting..");
 
 	ScriptManager::manager->onQuit();
 
-	
+
 
 	//SDL_FreeSurface(testSurface);
 	SDL_DestroyWindow(window);

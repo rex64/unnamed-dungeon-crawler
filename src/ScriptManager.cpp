@@ -4,6 +4,8 @@
 #include "ui/lua_menu.h"
 #include "lua_save.h"
 #include "lua_data.h"
+#include "RenderManager.h"
+#include "res/ResourceManager.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
@@ -72,10 +74,10 @@ void ScriptManager::init() {
 	registerFunction("engine", "addEntity", l_addEntity);
 	registerFunction("engine", "setEntityTile", l_setEntityTile);
 
-	registerFunction("engine", "onInputUp", Stage_onInputUp);
+	/*registerFunction("engine", "onInputUp", Stage_onInputUp);
 	registerFunction("engine", "onInputRight", Stage_onInputRight);
 	registerFunction("engine", "onInputDown", Stage_onInputDown);
-	registerFunction("engine", "onInputLeft", Stage_onInputLeft);
+	registerFunction("engine", "onInputLeft", Stage_onInputLeft);*/
 
 	//data ----------------------------------------------------------
 	registerGlobalObject("data");
@@ -133,6 +135,9 @@ void ScriptManager::init() {
 	/*stackDump(m_L);
 	stackDump(m_L);*/
 
+	registerFunction("engine", "renderTile",		Render_renderTile);
+	registerFunction("engine", "renderSprite",		Render_renderSprite);
+	registerFunction("engine", "getEntitySpriteId",	Resource_getEntitySpriteId);
 
 
 	//Load libs
@@ -377,7 +382,7 @@ int l_setTile(lua_State* state)
 	int tileType = lua_tointeger(state, 3);
 
 
-	StageManager::manager->currStage->setTile(id, value, (TileType)tileType);
+	//StageManager::manager->currStage->setTile(id, value, (TileType)tileType);
 	return 0; /* number of results */
 }
 
@@ -389,9 +394,9 @@ int l_addEntity(lua_State* state)
 	EntityType entityType = (EntityType) lua_tointeger(state, 1);
 	std::string entityDataID = lua_tostring(state, 2);
 
-	int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, entityDataID, Up }, -1);
+	//int newEntityID = StageManager::manager->currStage->addEntity(new Entity{ NULL, NULL, entityType, entityDataID, Up }, -1);
 
-	lua_pushnumber(state, newEntityID);
+	//lua_pushnumber(state, newEntityID);
 
 	return 1; /* number of results */
 }
@@ -404,7 +409,7 @@ int l_setEntityTile(lua_State* state)
 	int entityID = lua_tointeger(state, 1);
 	int tileID = lua_tointeger(state, 2);
 
-	StageManager::manager->currStage->moveEntity(entityID, tileID);
+	//StageManager::manager->currStage->moveEntity(entityID, tileID);
 
 	return 0; /* number of results */
 }

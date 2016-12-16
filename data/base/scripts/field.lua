@@ -4,6 +4,8 @@ field = {}
 
 if(field ~= nil) then
 
+  field.currentFloor = nil
+
   field.onInput = function(input)
 
 
@@ -30,27 +32,30 @@ if(field ~= nil) then
 
     ]]--
 
-
-    if input.up then
-      engine.onInputUp()
-    elseif input.right then
-      engine.onInputRight()
-    elseif input.down then
-      engine.onInputDown()
-    elseif input.left then
-      engine.onInputLeft()      
+    if field.currentFloor ~= nil then
+      field.currentFloor:onInput(input)
     end
+
+
+
 
 
   end
 
 
   field.update = function(dt)
-    
+
   end
 
   field.render = function()
+    if field.currentFloor ~= nil then
+      field.currentFloor:render()
 
+    end
+  end
+
+  field.setCurrentFloor = function(floor)
+    field.currentFloor = floor
   end
 
 end

@@ -729,3 +729,14 @@ void ResourceManager::loadDataFolder() {
 	loadTiles(basePath);
 
 }
+
+int Resource_getEntitySpriteId(lua_State *L) {
+
+	std::string entityID = lua_tostring(L, 1);
+	
+	std::string spriteID = ResourceManager::manager->entityDatas[entityID]->data->spritesheet;
+
+	lua_pushstring(L, spriteID.c_str());
+
+	return 1;
+}

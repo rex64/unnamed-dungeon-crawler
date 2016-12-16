@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project (unnamed-dungeon-crawler)
+set(CMAKE_BUILD_TYPE Debug)
 
 set( project_sources
    src/main.cpp

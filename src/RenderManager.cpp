@@ -109,24 +109,25 @@ void RenderManager::render()
 	SDL_FillRect(uiSurface, NULL, SDL_MapRGB(uiSurface->format, 0, 255, 0));
 	SDL_SetColorKey(uiSurface, 1, SDL_MapRGB(uiSurface->format, 0, 255, 0));
 
+	ScriptManager::manager->doString("game.render()"); //TODO: fix
 
 	for (IRenderable *i : renderStack) {
 		i->onRender();
 	}
 
-	int cameraOffsetX = 0;
-	int cameraOffsetY = 0;
+	/*int cameraOffsetX = 0;
+	int cameraOffsetY = 0;*/
 
-	if (Entity *player = StageManager::manager->currStage->player) {
+	/*if (Entity *player = StageManager::manager->currStage->player) {
 	
 		Point playerPos = StageManager::manager->currStage->toXY(player->tileId);
 
 		cameraOffsetX = (-16 * playerPos.x) + (16*7);
 		cameraOffsetY = (-16 * playerPos.y) + (16*4);
-	}
+	}*/
 
 	//render tiles
-	for (size_t i = 0; i < StageManager::manager->currStage->arrayWidth * StageManager::manager->currStage->arrayHeight; i++)
+	/*for (size_t i = 0; i < StageManager::manager->currStage->arrayWidth * StageManager::manager->currStage->arrayHeight; i++)
 	{
 		int x = i % StageManager::manager->currStage->arrayWidth;
 		int y = (i / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
@@ -141,7 +142,7 @@ void RenderManager::render()
 			game,
 			&pos
 		);
-	}
+	}*/
 
 	//render player
 	//{
@@ -154,23 +155,23 @@ void RenderManager::render()
 	//	SDL_BlitSurface(ResourceManager::manager->getSprite(player->entityResID), NULL, game, &pos);
 	//}
 
-	for (auto kv : StageManager::manager->currStage->entities) {
-	
-		if (Entity *entity = kv.second) {
+	//for (auto kv : StageManager::manager->currStage->entities) {
+	//
+	//	if (Entity *entity = kv.second) {
 
-			int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
-			int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
+	//		int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
+	//		int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
 
-			//Player-->Game
-			SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
-			SDL_Rect rez{ 0 + (16 * entity->facing),0 (16 * entity->facing),16,16 };
+	//		//Player-->Game
+	//		SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
+	//		SDL_Rect rez{ 0 + (16 * entity->facing),0 (16 * entity->facing),16,16 };
 
-			std::string spriteID = ((FieldEntityData*)(ResourceManager::manager->entityDatas[entity->entityDataID]->data))->spritesheet;
+	//		std::string spriteID = ((FieldEntityData*)(ResourceManager::manager->entityDatas[entity->entityDataID]->data))->spritesheet;
 
-			SDL_BlitSurface(ResourceManager::manager->getSprite(spriteID), &rez, game, &pos);
-			
-		};
-	}
+	//		SDL_BlitSurface(ResourceManager::manager->getSprite(spriteID), &rez, game, &pos);
+	//		
+	//	};
+	//}
 
 
 	//SDL_BlitSurface(testSurface, 0, game, NULL);
@@ -284,4 +285,39 @@ void renderText(std::string str, FontData* fontData, SDL_Surface* surf) {
 		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
 		++i;
 	}
+}
+
+int Render_renderTile(lua_State *L) {
+
+	std::string spriteID = lua_tostring(L, 1);
+	int x = lua_tointeger(L, 2);
+	int y = lua_tointeger(L, 3);
+
+	SDL_Rect pos = { x, y, 16, 16 };
+
+	SDL_BlitSurface(
+		ResourceManager::manager->getSprite(spriteID), 
+		nullptr, 
+		RenderManager::manager->game, 
+		&pos);
+
+	return 0;
+}
+
+int Render_renderSprite(lua_State *L) {
+
+	std::string spriteID = lua_tostring(L, 1);
+	int x = lua_tointeger(L, 2);
+	int y = lua_tointeger(L, 3);
+
+	SDL_Rect pos	= { x, y, 16, 16 };
+	SDL_Rect facing = { 0, 0, 16, 16 };
+	SDL_BlitSurface(
+		ResourceManager::manager->getSprite(spriteID),
+		&facing, 
+		RenderManager::manager->game,
+		&pos);
+
+
+	return 0;
 }

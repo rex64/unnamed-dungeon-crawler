@@ -50,7 +50,7 @@ if(game ~= nil) then
   end
 
   game.render = function()
-
+    field.render()
   end
 
 end

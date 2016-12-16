@@ -45,19 +45,19 @@ Entity* Stage::getEntity(int entityId) {
 Entity* Stage::getTileEntity(int tileId) {
 
 	if (checkBoundaries(tileId)) {
-		
+
 		return tileEntities[tileId];
 
 	}
 
 	return nullptr;
-	
+
 }
 
 int Stage::addEntity(Entity *newEntity, int tileId)
 {
 	int entityID = nextEntityId++;
-	
+
 	newEntity->id = entityID;
 	entities[entityID] = newEntity;
 
@@ -87,7 +87,7 @@ bool Stage::moveEntity(Entity *entityToMove, int tileId)
 {
 
 	if (checkIfTileIsWalkable(tileId)) {
-		
+
 		tileEntities.erase(entityToMove->tileId);
 
 		entityToMove->tileId = tileId;
@@ -111,7 +111,7 @@ void Stage::setEntityFacing(Entity* e, Facing f) {
 
 bool Stage::checkIfTileIsWalkable(int tileID)
 {
-	//TODO: http://stackoverflow.com/questions/17153038/unordered-map-insert-with-void-as-value-is-not-working-properly
+	//TODO: http://stackoverflow.com/questions/17153038/unordered-map-insert-with-void-as-valnue-is-not-working-properly
 	if (getTile(tileID).tileType == Floor && tileEntities[tileID] == nullptr) {
 		return true;
 	}
@@ -125,12 +125,12 @@ int Stage::to1D(Point p) {
 }
 
 int Stage::to1D(int x, int y) {
-		
+
 	return x + arrayWidth*y;
 }
 
 Point Stage::toXY(int i) {
-	
+
 	int x = i % arrayWidth;
 	int y = (i / arrayWidth) % arrayHeight;
 
@@ -166,7 +166,7 @@ AdjEntitiesFindResult Stage::findAdjacentEntities(Entity* e) {
 
 	if (Entity* rightEntity = getTileEntity(to1D(p.x+1, p.y))) {
 		res.rightEntity = rightEntity;
-	}	
+	}
 
 	return res;
 }

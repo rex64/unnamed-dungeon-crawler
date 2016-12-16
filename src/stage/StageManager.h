@@ -20,23 +20,23 @@ public:
 
 	void init();
 	static StageManager *manager;
-	Stage *currStage;
+	//Stage *currStage;
 
-	void onInputUp();
-	void onInputRight();
-	void onInputDown();
-	void onInputLeft();
+	//void onInputUp();
+	//void onInputRight();
+	//void onInputDown();
+	//void onInputLeft();
 
 private:
 	
 };
 
-extern "C" {
-
-
-	int Stage_onInputUp(lua_State *L);
-	int Stage_onInputRight(lua_State *L);
-	int Stage_onInputDown(lua_State *L);
-	int Stage_onInputLeft(lua_State *L);
-
-}
+//extern "C" {
+//
+//
+//	int Stage_onInputUp(lua_State *L);
+//	int Stage_onInputRight(lua_State *L);
+//	int Stage_onInputDown(lua_State *L);
+//	int Stage_onInputLeft(lua_State *L);
+//
+//}
