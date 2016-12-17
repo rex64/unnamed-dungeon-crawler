@@ -122,6 +122,49 @@ SDL_Surface* RenderManager::convertRGBtoIndexed(std::string resId, SDL_Surface *
 
 	//SDL_Surface *sprite3 = SDL_create SDL_CreateRGBSurfaceWithFormat(0, sprite->w, sprite->h, 8, SDL_PIXELFORMAT_RGBA32);
 
+	int i = 0;
+
+	for (int y = 0; y < surf->h; y++) {
+
+		for (int x = 0; x < surf->w; x++) {
+		
+		
+			int bpp = surf->format->BytesPerPixel;
+			Uint8 r = *(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 0);
+			Uint8 g = *(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 1);
+			Uint8 b = *(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 2);
+
+
+			Uint8 value = -1;
+
+			if ((r == 250) && (g == 0) && (b == 250)) {
+				value = 0;
+			}
+			else if ((r == 255) && (g == 255) && (b == 255)) {
+					value = 1;
+				}else if ((r == 185) && (g == 185) && (b == 185)) {
+						value = 2;
+
+					} else if ((r == 105) && (g == 105) && (b == 105)) {
+
+							value = 3;
+
+						} else if ((r == 0) && (g == 0) && (b == 0)) {
+								value = 4;
+							} else {
+
+								Game::game->showMsgBox((resId + " RGB error").c_str());
+
+							}
+
+						int bpp2 = surfRet->format->BytesPerPixel;
+						*(((Uint8 *)surfRet->pixels + y * surfRet->pitch + x * bpp2) + 0) = value;
+
+							//i = i + 1;
+		}
+	}
+
+	/*
 	for (int i = 0; i < surfRet->w * surfRet->h; i++)
 	{
 
@@ -166,16 +209,16 @@ SDL_Surface* RenderManager::convertRGBtoIndexed(std::string resId, SDL_Surface *
 
 						else {
 
-							Game::game->showMsgBox((resId + " RGB error").c_str());
+							//Game::game->showMsgBox((resId + " RGB error").c_str());
 
 						}
 
 						//SDL_UnlockSurface(sprite);
 	}
-
+	*/
 	SDL_SetColorKey(surfRet, 1, SDL_MapRGB(surfRet->format, 250, 0, 250));
 
-	SDL_FreeSurface(surf);
+	//SDL_FreeSurface(surf);
 
 	return surfRet;
 
@@ -307,7 +350,8 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 	for (char& c : str) {
 
 		CharData *charData = fontData->chars[std::string(1, c)];
-		SDL_Surface *charSurf = fontData->chars[std::string(1, c)]->surfInverted;
+		SDL_Surface *charSurf = inverted ? 
+			fontData->chars[std::string(1, c)]->surfInverted : fontData->chars[std::string(1, c)]->surfNormal;
 
 		SDL_Rect src = { 0, 0, charSurf->w, charSurf->h};
 		SDL_Rect dst = { cursor + x, y, charSurf->w, charSurf->h };
@@ -315,7 +359,7 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 		cursor = cursor + charData->width + 1;
 
 		
-		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surfInverted, &src, surf, &dst);
+		SDL_BlitSurface(charSurf, &src, surf, &dst);
 		++i;
 	}
 }

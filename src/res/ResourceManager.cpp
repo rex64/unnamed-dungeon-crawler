@@ -370,10 +370,12 @@ void ResourceManager::loadFonts(std::string basePath) {
 						newCharData->charz = charz;
 						newCharData->fileName = file;
 						newCharData->width = width;
-						newCharData->surfNormal   = surf;
-						newCharData->surfInverted = RenderManager::manager->invertPixels(resId +" - " + charz, surf);
+						newCharData->surfNormal = RenderManager::manager->convertRGBtoIndexed(resId + " - " + charz, surf);
+						newCharData->surfInverted = RenderManager::manager->convertRGBtoIndexed(resId + " - " + charz, RenderManager::manager->invertPixels(resId + " - " + charz, surf));
 
 						newFontData->chars[newCharData->charz] = newCharData;
+
+						SDL_FreeSurface(surf);
 
 					}
 					else
@@ -383,7 +385,7 @@ void ResourceManager::loadFonts(std::string basePath) {
 				}
 
 				newFontData->id = resId;
-				newFontData->name		= name;
+				newFontData->name = name;
 				newFontData->height = height;
 				newFontData->hSpacing = 1;
 				newFontData->vSpacing = 1;
