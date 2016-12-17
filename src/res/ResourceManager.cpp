@@ -11,6 +11,7 @@
 #include <tinydir.h>
 #include "tinyxml2.h"
 #include "../ScriptManager.h"
+#include "../RenderManager.h"
 
 ResourceManager* ResourceManager::manager;
 
@@ -75,10 +76,13 @@ void ResourceManager::init() {
 
 }
 
-void ResourceManager::loadSprite(std::string resId, std::string filePath) {
+void ResourceManager::loadSprite(std::string resId, std::string filePath, bool convertRGBtoIndexed) {
 
 	if (SDL_Surface *surf = SDL_LoadBMP(filePath.c_str())) {
 
+		if (convertRGBtoIndexed) {
+			surf = RenderManager::manager->convertRGBtoIndexed(resId, surf);
+		}
 		spritesheets[resId] = surf;
 		SDL_Log("Loaded %s", resId.c_str());
 
@@ -89,36 +93,6 @@ void ResourceManager::loadSprite(std::string resId, std::string filePath) {
 	}
 
 }
-
-//void ResourceManager::loadSprite(std::string f) {
-//
-//	if (SDL_Surface *surf = SDL_LoadBMP(f.c_str())) {
-//
-//		std::string resID = f.substr(0, f.size() -4);
-//		std::replace(resID.begin(), resID.end(), '/', '.');
-//		
-//		spritesheets[resID] = surf;
-//
-//	}
-//	else
-//	{
-//		Game::game->showMsgBox(SDL_GetError());
-//	}
-//
-//}
-
-//void ResourceManager::loadTile(std::string f) {
-//
-////	loadSprite(f);
-//}
-//void ResourceManager::loadFont(std::string f) {
-//
-//	//loadSprite(f);
-//}
-//void ResourceManager::loadBorder(std::string f) {
-//
-//	//loadSprite(f);
-//}
 
 SDL_Surface* ResourceManager::getSprite(std::string id) { 
 	
@@ -230,7 +204,7 @@ void ResourceManager::loadBorders(std::string basePath) {
 				std::string filePath = removeFilenameFromPath(file.name, file.path);
 
 
-				ResourceManager::manager->loadSprite(resId, filePath.append(borderfile));
+				ResourceManager::manager->loadSprite(resId, filePath.append(borderfile), false);
 			}
 			else {
 				Game::game->showMsgBox("unrecognized xml");
@@ -396,7 +370,8 @@ void ResourceManager::loadFonts(std::string basePath) {
 						newCharData->charz = charz;
 						newCharData->fileName = file;
 						newCharData->width = width;
-						newCharData->surf = surf;
+						newCharData->surfNormal   = surf;
+						newCharData->surfInverted = RenderManager::manager->invertPixels(resId +" - " + charz, surf);
 
 						newFontData->chars[newCharData->charz] = newCharData;
 
@@ -496,7 +471,7 @@ void ResourceManager::loadMenu(std::string basePath) {
 				const char* name = doc.FirstChildElement("menu")->FirstChildElement("name")->GetText();
 				const char* file = doc.FirstChildElement("menu")->FirstChildElement("file")->GetText();
 
-				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+				ResourceManager::manager->loadSprite(resId, filePath.append(file), true);
 
 			}
 			else {
@@ -657,7 +632,7 @@ void ResourceManager::loadSpritesheets(std::string basePath) {
 				const char* name = doc.FirstChildElement("spritesheet")->FirstChildElement("name")->GetText();
 				const char* file = doc.FirstChildElement("spritesheet")->FirstChildElement("file")->GetText();
 
-				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+				ResourceManager::manager->loadSprite(resId, filePath.append(file), true);
 
 			}
 			else {
@@ -694,7 +669,7 @@ void ResourceManager::loadTiles(std::string basePath) {
 				const char* name = doc.FirstChildElement("tile")->FirstChildElement("name")->GetText();
 				const char* file = doc.FirstChildElement("tile")->FirstChildElement("file")->GetText();
 
-				ResourceManager::manager->loadSprite(resId, filePath.append(file));
+				ResourceManager::manager->loadSprite(resId, filePath.append(file), true);
 
 			}
 			else {

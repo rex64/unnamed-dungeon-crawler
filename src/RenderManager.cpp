@@ -51,6 +51,133 @@ void RenderManager::init()
 	game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);	
 	uiSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
 
+	initPalette();
+}
+
+void RenderManager::initPalette() {
+
+	SDL_Color colors[5];
+
+	//Chroma Key
+	colors[0].r = (Uint8)250;
+	colors[0].g = (Uint8)0;
+	colors[0].b = (Uint8)250;
+
+	//Color 1
+	colors[1].r = (Uint8)156;
+	colors[1].g = (Uint8)189;
+	colors[1].b = (Uint8)15;
+
+	//Color 2
+	colors[2].r = (Uint8)140;
+	colors[2].g = (Uint8)173;
+	colors[2].b = (Uint8)15;
+
+	//Color 3
+	colors[3].r = (Uint8)48;
+	colors[3].g = (Uint8)98;
+	colors[3].b = (Uint8)48;
+
+	//Color 4
+	colors[4].r = (Uint8)15;
+	colors[4].g = (Uint8)56;
+	colors[4].b = (Uint8)15;
+
+	palette = SDL_AllocPalette(256);
+	format = SDL_AllocFormat(SDL_PIXELFORMAT_INDEX8);
+	SDL_SetPaletteColors(palette, colors, 0, 5);
+	SDL_SetPixelFormatPalette(format, palette);
+
+}
+
+SDL_Surface* RenderManager::invertPixels(std::string resId, SDL_Surface *surf) {
+
+	SDL_Surface *surfRet = SDL_ConvertSurface(surf, surf->format, 0);
+
+	SDL_LockSurface(surf);
+
+	SDL_LockSurface(surfRet);
+
+	for (int y = 0; y < surf->h; y++) {
+	
+		for (int x = 0; x < surf->w; x++) {
+		
+			int bpp = surf->format->BytesPerPixel;
+			*(((Uint8 *)surfRet->pixels + y * surfRet->pitch + x * bpp) + 0) = ~*(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 0);
+			*(((Uint8 *)surfRet->pixels + y * surfRet->pitch + x * bpp) + 1) = ~*(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 1);
+			*(((Uint8 *)surfRet->pixels + y * surfRet->pitch + x * bpp) + 2) = ~*(((Uint8 *)surf->pixels + y * surf->pitch + x * bpp) + 2);
+		}
+	}
+
+	SDL_UnlockSurface(surfRet);
+	SDL_UnlockSurface(surf);
+
+
+	return surfRet;
+}
+
+SDL_Surface* RenderManager::convertRGBtoIndexed(std::string resId, SDL_Surface *surf) {
+
+	SDL_Surface *surfRet = SDL_ConvertSurface(surf, this->format, 0);
+
+	//SDL_Surface *sprite3 = SDL_create SDL_CreateRGBSurfaceWithFormat(0, sprite->w, sprite->h, 8, SDL_PIXELFORMAT_RGBA32);
+
+	for (int i = 0; i < surfRet->w * surfRet->h; i++)
+	{
+
+		Uint32 temp, pixel;
+
+		uint32_t* pixelPtr = (uint32_t*)surf->pixels;
+		char * lol = (char*)pixelPtr;
+		lol = lol + (i * 3);
+		uint32_t* pixelPtr2 = (uint32_t*)lol;
+
+		pixel = *pixelPtr2;
+
+		Uint8 red, green, blue;
+		SDL_GetRGB(pixel, surf->format, &red, &green, &blue);
+
+		if ((red == 250) && (green == 0) && (blue == 250)) {
+			*(((Uint8 *)surfRet->pixels) + i) = 0;
+		}
+		else
+		if ((red == 255) && (green == 255) && (blue == 255)) {
+			*(((Uint8 *)surfRet->pixels) + i) = 1;
+		}
+		else
+			if ((red == 185) && (green == 185) && (blue == 185)) {
+					*(((Uint8 *)surfRet->pixels) + i) = 2;
+
+				}
+				else
+
+					if ((red == 105) && (green == 105) && (blue == 105)) {
+
+						*(((Uint8 *)surfRet->pixels) + i) = 3;
+
+					}
+					else
+
+
+
+						if ((red == 0) && (green == 0) && (blue == 0)) {
+							*(((Uint8 *)surfRet->pixels) + i) = 4;
+						}
+
+						else {
+
+							Game::game->showMsgBox((resId + " RGB error").c_str());
+
+						}
+
+						//SDL_UnlockSurface(sprite);
+	}
+
+	SDL_SetColorKey(surfRet, 1, SDL_MapRGB(surfRet->format, 250, 0, 250));
+
+	SDL_FreeSurface(surf);
+
+	return surfRet;
 
 }
 
@@ -121,65 +248,6 @@ void RenderManager::render()
 		i->onRender();
 	}
 
-	/*int cameraOffsetX = 0;
-	int cameraOffsetY = 0;*/
-
-	/*if (Entity *player = StageManager::manager->currStage->player) {
-	
-		Point playerPos = StageManager::manager->currStage->toXY(player->tileId);
-
-		cameraOffsetX = (-16 * playerPos.x) + (16*7);
-		cameraOffsetY = (-16 * playerPos.y) + (16*4);
-	}*/
-
-	//render tiles
-	/*for (size_t i = 0; i < StageManager::manager->currStage->arrayWidth * StageManager::manager->currStage->arrayHeight; i++)
-	{
-		int x = i % StageManager::manager->currStage->arrayWidth;
-		int y = (i / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-		
-
-		SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
-
-		SDL_BlitSurface(
-			ResourceManager::manager->getTile(StageManager::manager->currStage->getTile(i).tileResID),
-			NULL,
-			game,
-			&pos
-		);
-	}*/
-
-	//render player
-	//{
-	//	Entity *player = StageManager::manager->currStage->player;
-	//	int x = player->tileId % StageManager::manager->currStage->arrayWidth;
-	//	int y = (player->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-	//	//Player-->Game
-	//	SDL_Rect pos = { x * 16, y * 16, 16, 16 };
-	//	SDL_BlitSurface(ResourceManager::manager->getSprite(player->entityResID), NULL, game, &pos);
-	//}
-
-	//for (auto kv : StageManager::manager->currStage->entities) {
-	//
-	//	if (Entity *entity = kv.second) {
-
-	//		int x = entity->tileId % StageManager::manager->currStage->arrayWidth;
-	//		int y = (entity->tileId / StageManager::manager->currStage->arrayWidth) % StageManager::manager->currStage->arrayHeight;
-
-	//		//Player-->Game
-	//		SDL_Rect pos = { x * 16 + cameraOffsetX, y * 16 + cameraOffsetY, 16, 16 };
-	//		SDL_Rect rez{ 0 + (16 * entity->facing),0 (16 * entity->facing),16,16 };
-
-	//		std::string spriteID = ((FieldEntityData*)(ResourceManager::manager->entityDatas[entity->entityDataID]->data))->spritesheet;
-
-	//		SDL_BlitSurface(ResourceManager::manager->getSprite(spriteID), &rez, game, &pos);
-	//		
-	//	};
-	//}
-
-
 	//SDL_BlitSurface(testSurface, 0, game, NULL);
 
 	//Border-->Screen
@@ -239,33 +307,15 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 	for (char& c : str) {
 
 		CharData *charData = fontData->chars[std::string(1, c)];
+		SDL_Surface *charSurf = fontData->chars[std::string(1, c)]->surfInverted;
 
-		SDL_Rect src = { 0, 0, charData->width, fontData->height };
-		SDL_Rect dst = { cursor + x, y, charData->width, fontData->height };
+		SDL_Rect src = { 0, 0, charSurf->w, charSurf->h};
+		SDL_Rect dst = { cursor + x, y, charSurf->w, charSurf->h };
 
 		cursor = cursor + charData->width + 1;
 
 		
-		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
-		++i;
-	}
-}
-
-void renderText(std::string str, FontData* fontData, SDL_Surface* surf) {
-
-	int i = 0;
-	int j = 0;
-	for (char& c : str) {
-		if (((int)c) == 10) {
-			++j;
-			i = 0;
-			continue;
-		};
-		int charIndex = c - 32;
-		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
-		SDL_Rect dst = { 8 * i, (14 + j) * 8 , 8, 8 };
-
-		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
+		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surfInverted, &src, surf, &dst);
 		++i;
 	}
 }

@@ -33,11 +33,17 @@ public:
 	SDL_Surface *game;
 	SDL_Surface *uiSurface;
 
+	SDL_Palette *palette;
+	SDL_PixelFormat *format;
+
 public:
 	RenderManager();
 	~RenderManager();
 
 	void init();
+	void initPalette();
+	SDL_Surface* invertPixels(std::string, SDL_Surface*);
+	SDL_Surface* convertRGBtoIndexed(std::string, SDL_Surface*);
 	void render();
 	void renderWindow(SDL_Rect rect);
 	void renderTextLine(std::string str, int x, int y, bool inverted);

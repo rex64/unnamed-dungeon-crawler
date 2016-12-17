@@ -39,7 +39,8 @@ struct CharData {
 	std::string charz;
 	std::string fileName;
 	int width;
-	SDL_Surface *surf;
+	SDL_Surface *surfNormal;
+	SDL_Surface *surfInverted;
 
 };
 
@@ -99,7 +100,7 @@ public:
 	void loadDataFolder();
 	//void walk(std::string);
 
-	void loadSprite(std::string resId, std::string filePath);
+	void loadSprite(std::string resId, std::string filePath, bool);
 	/*void loadTile(std::string f);
 	void loadFont(std::string f);
 	void loadBorder(std::string f);*/
