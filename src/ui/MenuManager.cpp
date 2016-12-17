@@ -61,20 +61,3 @@ bool MenuManager::isVisible() {
 	return b_isVisible;
 
 }
-
-//void MenuManager::addSelectWindow() {
-//
-//	Window *newW = new Window();
-//	windows.push_back(newW);
-//
-//	newW->addMenuItem(new MenuItem("Item1"));
-//	newW->addMenuItem(new MenuItem("Item2"));
-//	newW->addMenuItem(new MenuItem("Item3"));
-//}
-
-//MenuItem::MenuItem(std::string s, int x, int y, int callbackRef) {
-//	this->text = s;
-//	this->x = x;
-//	this->y = y;
-//	this->callbackRef = callbackRef;
-//}

@@ -67,7 +67,7 @@ void ScriptManager::init() {
 	//engine ----------------------------------------------------------
 	registerGlobalObject("engine");
 	registerFunction("engine", "renderWindow", Menu_renderWindow);
-	registerFunction("engine", "renderMenuItem", Menu_renderMenuItem);
+	registerFunction("engine", "renderTextLine", Menu_renderTextLine);
 	registerFunction("engine", "renderSprite", Menu_renderSprite);
 
 	registerFunction("engine", "setTile", l_setTile);

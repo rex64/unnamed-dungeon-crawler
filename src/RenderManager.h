@@ -40,7 +40,7 @@ public:
 	void init();
 	void render();
 	void renderWindow(SDL_Rect rect);
-	void renderMenuItem(std::string str, int x, int y);
+	void renderTextLine(std::string str, int x, int y, bool inverted);
 	void renderSprite(std::string str, int x, int y);
 	static RenderManager *manager;
 
@@ -50,8 +50,8 @@ public:
 };
 
 extern "C" void renderText(std::string str, FontData* fontData, SDL_Surface* surf);
-extern "C" void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
-extern "C" void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
+//extern "C" void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
+extern "C" void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted);
 
 extern "C" {
 

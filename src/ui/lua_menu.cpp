@@ -58,13 +58,15 @@ int Menu_renderWindow(lua_State *L) {
 	return 0;
 }
 
-int Menu_renderMenuItem(lua_State *L) {
+int Menu_renderTextLine(lua_State *L) {
 
 	std::string text = lua_tostring(L, 1);
 	int x = lua_tointeger(L, 2);
 	int y = lua_tointeger(L, 3);
+	bool inverted = false;
+	if (lua_isboolean(L, 4)) inverted = lua_toboolean(L, 4);
 
-	RenderManager::manager->renderMenuItem(text, x, y);
+	RenderManager::manager->renderTextLine(text, x, y, inverted);
 
 	return 0;
 }

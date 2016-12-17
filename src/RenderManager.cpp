@@ -83,9 +83,15 @@ void RenderManager::renderWindow(SDL_Rect rect) {
 
 }
 
-void RenderManager::renderMenuItem(std::string str, int x, int y) {
+void RenderManager::renderTextLine(std::string str, int x, int y, bool inverted) {
 
-	renderTextLine1(str, x, y, ResourceManager::manager->getFont("base.fonts.standard_font"), uiSurface);
+	renderTextLine1(
+		str, 
+		x, y, 
+		ResourceManager::manager->getFont("base.fonts.standard_font"), 
+		RenderManager::manager->uiSurface, 
+		inverted
+	);
 
 }
 
@@ -212,7 +218,8 @@ void RenderManager::render()
 			SDL_Surface *consoleSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT - 16, 32, 0, 0, 0, 0);
 			SDL_FillRect(consoleSurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-			renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->getFont("base.fonts.standard_font"), consoleSurface);
+			//TODO: fix
+			//renderTextLine(">" + Console::console->cmd, 0, 24, ResourceManager::manager->getFont("base.fonts.standard_font"), consoleSurface);
 
 			SDL_BlitSurface(consoleSurface, 0, screen, 0);
 			SDL_FreeSurface(consoleSurface);
@@ -225,31 +232,7 @@ void RenderManager::render()
 	SDL_RenderPresent(renderer);
 }
 
-//void RenderManager::registerRenderable(IRenderable *)
-//{
-//
-//}
-
-
-void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf) {
-
-	if (Console::console->showCursor) {
-		str = str + '_';
-	}
-
-	int i = 0;
-	for (char& c : str) {
-
-		int charIndex = c - 32;
-		SDL_Rect src = { 8 * charIndex, 0, 8, 8 };
-		SDL_Rect dst = { (8 + x) * i, y * 8 , 8, 8 };
-
-		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
-		++i;
-	}
-}
-
-void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf) {
+void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted) {
 
 	int i = 0;
 	int cursor = 0;
@@ -258,11 +241,11 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 		CharData *charData = fontData->chars[std::string(1, c)];
 
 		SDL_Rect src = { 0, 0, charData->width, fontData->height };
-		//SDL_Rect dst = { (fontData->chars[std::string(1, c)]->width * i) + x, y, fontData->chars[std::string(1, c)]->width, fontData->height };
 		SDL_Rect dst = { cursor + x, y, charData->width, fontData->height };
 
 		cursor = cursor + charData->width + 1;
 
+		
 		SDL_BlitSurface(fontData->chars[std::string(1, c)]->surf, &src, surf, &dst);
 		++i;
 	}
