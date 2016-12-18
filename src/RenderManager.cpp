@@ -350,6 +350,12 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 	for (char& c : str) {
 
 		CharData *charData = fontData->chars[std::string(1, c)];
+
+		if (charData == nullptr) {
+			Game::game->showMsgBox((std::string("character not found: ") + c).c_str());
+			throw std::exception(":(");
+		}
+
 		SDL_Surface *charSurf = inverted ? 
 			fontData->chars[std::string(1, c)]->surfInverted : fontData->chars[std::string(1, c)]->surfNormal;
 

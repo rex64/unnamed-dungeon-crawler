@@ -431,5 +431,12 @@
             <width>3</width>
         </char>
 
+        <!-- dot -->
+        <char>
+            <char>.</char>
+            <file>standard_font/dot.bmp</file>
+            <width>.</width>
+        </char>
+
     </chars>
 </font>

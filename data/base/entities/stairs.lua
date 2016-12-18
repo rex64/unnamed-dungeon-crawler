@@ -1,14 +1,10 @@
-local stairs = {
+data.entities['base.entities.stairs'] = {
   
   onInteract = function()
+    
+    local ShowDialogEvent = require('ui.events.ShowDialogEvent')
     print("stairs - onInteract")
-    --local win = Window.new(0, 80, 31, 7)
-    --local newDialog = Dialog.new('This is a dialog.\nThis is line 2')
-    --win:addDialog(newDialog)
-    --win:setDismissable(true)
-    --ui.addWindow(win)
+    game.eventManager:addEvent(ShowDialogEvent.new('This is a dialog.'))
   end
   
 }
-
-data.entities['base.entities.stairs'] = stairs
