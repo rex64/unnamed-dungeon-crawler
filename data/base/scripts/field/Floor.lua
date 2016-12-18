@@ -22,6 +22,7 @@ function Floor.new(dungeonId, width, height, name)
   self.player = nil
   self.tileCollisions = nil
   self.tileSets = nil
+  self.interactableEntity = nil
 
   return self
 end
@@ -50,6 +51,11 @@ end
 function Floor:render()
   self:renderTiles()
   self:renderEntities()
+
+  if (self.interactableEntity ~= nil) then
+    engine.renderTextLine('you can interact with ' .. self.interactableEntity.name, 0, 0);
+  end
+
 end
 
 function Floor:onPlayerMove(input)
@@ -98,14 +104,18 @@ function Floor:onPlayerMove(input)
 
     if self.tilesEntities[tileEntityIndex] ~= nil then
       print ('you can interact with ' .. self.tilesEntities[tileEntityIndex].name)
-    end
+      self.interactableEntity = self.tilesEntities[tileEntityIndex]
 
+    else
+      self.interactableEntity = nil
+    end
 
 
   end
 
-end
 
+
+end
 
 function Floor:renderEntities()
 

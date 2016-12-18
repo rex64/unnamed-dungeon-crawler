@@ -52,7 +52,7 @@ if(game ~= nil) then
   game.render = function()
     field.render()
     
-    engine.renderTextLine('11110123456789abcdefghijklmnopqrstuvwxyz', 0, 0);
+    --engine.renderTextLine('11110123456789abcdefghijklmnopqrstuvwxyz', 0, 0);
   end
 
 end

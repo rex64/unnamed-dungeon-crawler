@@ -48,7 +48,7 @@ void RenderManager::init()
 	//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR", SDL_GetError(), window);
 
 	screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
-	game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);	
+	game = SDL_CreateRGBSurface(0, GAME_WIDTH, GAME_HEIGHT, 32, 0, 0, 0, 0);
 	uiSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
 
 	initPalette();
@@ -64,9 +64,9 @@ void RenderManager::initPalette() {
 	colors[0].b = (Uint8)250;
 
 	//Color 1
-	colors[1].r = (Uint8)156;
-	colors[1].g = (Uint8)189;
-	colors[1].b = (Uint8)15;
+	colors[1].r = (Uint8)246;
+	colors[1].g = (Uint8)245;
+	colors[1].b = (Uint8)149;
 
 	//Color 2
 	colors[2].r = (Uint8)140;
@@ -280,10 +280,10 @@ void RenderManager::renderSprite(std::string str, int x, int y) {
 void RenderManager::render()
 {
 	//clear screen surface
-	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 0, 0));
-	SDL_FillRect(game, NULL, SDL_MapRGB(game->format, 0, 255, 0));
-	SDL_FillRect(uiSurface, NULL, SDL_MapRGB(uiSurface->format, 0, 255, 0));
-	SDL_SetColorKey(uiSurface, 1, SDL_MapRGB(uiSurface->format, 0, 255, 0));
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 250, 0, 250));
+	SDL_FillRect(game, NULL, SDL_MapRGB(game->format, 250, 0, 250));
+	SDL_FillRect(uiSurface, NULL, SDL_MapRGB(uiSurface->format, 250, 0, 250));
+	SDL_SetColorKey(uiSurface, 1, SDL_MapRGB(uiSurface->format, 250, 0, 250));
 
 	ScriptManager::manager->doString("game.render()"); //TODO: fix
 
