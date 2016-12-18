@@ -36,7 +36,9 @@ function Floor:onInput(input)
       self:onPlayerMove(input)
 
     elseif input.ok then
-
+      if (self.interactableEntity ~= nil) then
+        data.entities[self.interactableEntity.id].onInteract()
+      end
     elseif input.cancel then
 
     end

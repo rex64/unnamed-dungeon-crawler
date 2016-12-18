@@ -191,22 +191,6 @@ void ScriptManager::onQuit() {
 
 }
 
-void ScriptManager::onInteract(std::string s) {
-
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "entities");
-	lua_gettable(m_L, -2);
-	lua_getfield(m_L, -1, s.c_str());
-	lua_getfield(m_L, -1, "onInteract");
-	
-	if (lua_pcall(m_L, 0, 0, 0)) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-	}
-
-	lua_pop(m_L, 3);
-
-}
-
 void ScriptManager::onCreateFloor(std::string s, int floorNo) {
 
 	lua_getglobal(m_L, "data");

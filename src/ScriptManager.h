@@ -33,7 +33,6 @@ public:
 
 	void onQuit();
 
-	void onInteract(std::string);
 	void onCreateFloor(std::string, int);
 	void onInputGame(Buttons);
 	void updateGame(int);
