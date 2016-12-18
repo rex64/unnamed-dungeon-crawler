@@ -1,4 +1,4 @@
-local Dialog = require('ui.Dialog')
+local DialogWindow = require('ui.DialogWindow')
 --//////////////////////////////////////////////////////////////////////
 --************************
 --ShowDialogEvent
@@ -25,11 +25,7 @@ function ShowDialogEvent:update(input, dt)
 
   --print('Dialog :' .. type(Dialog))
 
-  local newWin = Window.new(0, 80, 31, 7)
-  local newDialog = Dialog.new(self.text)
-  --print('newDialog :' .. type(newDialog))
-  
-  newWin:addDialog(newDialog)
+  local newWin = DialogWindow.new(0, 80, 31, 7, self.text)
   ui.addWindow(newWin)
 end
 
