@@ -208,11 +208,6 @@ void Game::run() {
 
 		}
 
-		if (ScriptManager::manager->weBattle()) {
-
-			ScriptManager::manager->doString("battle.update()"); //TODO: fix
-		}
-
 		ScriptManager::manager->updateGame(16);
 		RenderManager::manager->render();
 		checkIfStackIsEmpty(ScriptManager::manager->m_L);

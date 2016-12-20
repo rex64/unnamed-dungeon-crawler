@@ -23,9 +23,9 @@ dofile('data/base/scripts/field.lua');
 dofile('data/base/scripts/ui.lua');
 dofile('data/base/scripts/battle.lua');
 
+local ChangeFloorEvent = require('field.events.ChangeFloorEvent')
 print("main");
 
 print('main - ok');
 
-local newFloor = data.dungeons['base.dungeons.dungeon1'].onCreateFloor(1)
-field.setCurrentFloor(newFloor)
+game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1))

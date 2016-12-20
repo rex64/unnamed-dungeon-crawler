@@ -44,7 +44,8 @@ if(game ~= nil) then
 
     -- battle.update(dt)
     -- field.update(dt)
-
+    
+    battle.update(dt) 
     game.eventManager:update(nil, dt)
 
   end
@@ -53,7 +54,7 @@ if(game ~= nil) then
     field.render()
     battle.render()
     ui.render()
-    
+
     --engine.renderTextLine('11110123456789abcdefghijklmnopqrstuvwxyz', 0, 0);
   end
 

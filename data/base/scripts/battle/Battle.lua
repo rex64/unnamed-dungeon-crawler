@@ -314,21 +314,7 @@ function Battle:youWin()
 
 end
 
-function Battle:update(input, dt)
---  print('curr battle update')
-
---TEMP
---[[
-  local clock = os.clock
-  function sleep(n)  -- seconds
-    local t0 = clock()
-    while clock() - t0 <= n do end
-  end
-  sleep(0.5)
-]]--
-
--- get turn char
--- local turnChar = self:getTurnChar(0)
+function Battle:update(dt)
 
   self.eventManager:update(nil, 16)
 

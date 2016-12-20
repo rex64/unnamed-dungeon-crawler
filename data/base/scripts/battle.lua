@@ -26,9 +26,9 @@ if battle ~= nil then
   end
 ]]--
 
-  battle.update = function(input, dt) 
+  battle.update = function(dt) 
 
-    if battle.weBattle() then battle.currentBattle:update(input, dt) end
+    if battle.weBattle() then battle.currentBattle:update(dt) end
   end
 
   battle.render = function() 
