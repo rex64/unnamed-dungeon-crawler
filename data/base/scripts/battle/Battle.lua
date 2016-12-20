@@ -1,5 +1,6 @@
 local BattleConsts    = require('battle.BattleConsts')
 local Dialog          = require('ui.Dialog')
+local DialogWindow    = require('ui.DialogWindow')
 local MenuItem        = require('ui.MenuItem')
 local ChoiceMenu      = require('ui.ChoiceMenu')
 
@@ -23,16 +24,31 @@ function Battle.new()
 
   newBattle.nextTurnChar = 1
 
+--[[
   newBattle.timelineWin1 = Window.new(
     BattleConsts.win1.startX, 
     BattleConsts.win1.startY, 
     BattleConsts.win1.w, 
     BattleConsts.win1.h, 
     false)  
-  local newDialog1 = Dialog.new('1')
-  newBattle.timelineWin1:addDialog(newDialog1)
-  newBattle.timelineWin1:setDismissable(false)
+  ]]--
+  --local newDialog1 = Dialog.new('1')
+  --newBattle.timelineWin1:addDialog(newDialog1)
+  --newBattle.timelineWin1:setDismissable(false)
+  --ui.addWindow(newBattle.timelineWin1)
+
+  --local timelineWin1 = ChoiceWindow.new(32, 32, 8, 8, choiceMenu)
+  --timelineWin1:setDismissable(false)
+  --ui.addWindow(timelineWin1)
+
+  newBattle.timelineWin1 = DialogWindow.new(
+    BattleConsts.win1.startX, 
+    BattleConsts.win1.startY, 
+    BattleConsts.win1.w, 
+    BattleConsts.win1.h, 
+    '1')
   ui.addWindow(newBattle.timelineWin1)
+--[[
 
   newBattle.timelineWin2 = Window.new(
     BattleConsts.win2.startX, 
@@ -44,6 +60,15 @@ function Battle.new()
   newBattle.timelineWin2:addDialog(newDialog2)
   newBattle.timelineWin2:setDismissable(false)
   ui.addWindow(newBattle.timelineWin2)
+  ]]--
+  newBattle.timelineWin2 = DialogWindow.new(
+    BattleConsts.win2.startX, 
+    BattleConsts.win2.startY, 
+    BattleConsts.win2.w, 
+    BattleConsts.win2.h, 
+    '1')
+  ui.addWindow(newBattle.timelineWin2)
+--[[
 
   newBattle.timelineWin3 = Window.new(
     BattleConsts.win3.startX, 
@@ -55,6 +80,15 @@ function Battle.new()
   newBattle.timelineWin3:addDialog(newDialog3)
   newBattle.timelineWin3:setDismissable(false)
   ui.addWindow(newBattle.timelineWin3)
+  ]]--
+  newBattle.timelineWin3 = DialogWindow.new(
+    BattleConsts.win3.startX, 
+    BattleConsts.win3.startY, 
+    BattleConsts.win3.w, 
+    BattleConsts.win3.h,
+    '1')
+  ui.addWindow(newBattle.timelineWin3)
+--[[
 
   newBattle.timelineWin4 = Window.new(
     BattleConsts.win4.startX, 
@@ -65,6 +99,14 @@ function Battle.new()
   local newDialog4 = Dialog.new('4')
   newBattle.timelineWin4:addDialog(newDialog4)
   newBattle.timelineWin4:setDismissable(false)
+  ui.addWindow(newBattle.timelineWin4)
+  ]]--
+  newBattle.timelineWin4 = DialogWindow.new(
+    BattleConsts.win4.startX, 
+    BattleConsts.win4.startY, 
+    BattleConsts.win4.w, 
+    BattleConsts.win4.h,
+    '1')
   ui.addWindow(newBattle.timelineWin4)
 
   return newBattle
@@ -101,16 +143,20 @@ function Battle:init()
   end  
 
   --command window
-  self.commandWindow = Window.new(34, 160, 36, 4, false)
-  ui.addWindow(self.commandWindow)
-  
+  --self.commandWindow = Window.new(34, 160, 36, 4, false)
+  --ui.addWindow(self.commandWindow)
+
   --command window dialog
-  local newDialog1 = Dialog.new('0')
-  self.commandWindow:addDialog(newDialog1)
-  
+  --local newDialog1 = Dialog.new('0')
+  --self.commandWindow:addDialog(newDialog1)
+
   --command window choice menu
-  local newChoiceMenu = ChoiceMenu.new()
-  self.commandWindow:addChoiceMenu(newChoiceMenu)
+  --local newChoiceMenu = ChoiceMenu.new()
+  --self.commandWindow:addChoiceMenu(newChoiceMenu)
+
+  self.commandWindow = ChoiceWindow.new(32, 160, 36, 4, ChoiceMenu.new())
+  self.commandWindow:setDismissable(false)
+  ui.addWindow(self.commandWindow)
 
   --calc speed
 
@@ -218,7 +264,7 @@ function Battle:newTurn()
     local winVibration = WindowVibrationEvent.new(res.target.userData.statusWin, 256)
 
     local newTurn = NewTurnEvent.new()
-    
+
     self.eventManager:addEvent(winVibration)
     self.eventManager:addEvent(newTurn)
 
@@ -239,7 +285,7 @@ function Battle:onPlayerTurn(turnChar)
     local heroSkills = save.getHeroSkills(turnChar.index)
 
     self.commandWindow.choiceMenu:resetMenu()
-    
+
     for i,v in ipairs(heroSkills) do
 
       local skillName = save.getSkillName(v)
@@ -248,7 +294,7 @@ function Battle:onPlayerTurn(turnChar)
         function() 
 
           --if singleTarget
-          local singleTargetWin = Window.new(160, 30, 6, 4, false)
+          local singleTargetWin = ChoiceWindow.new(160, 30, 6, 4, ChoiceMenu.new())
 
           for h, target in ipairs(self.enemyChars) do
 
@@ -261,7 +307,7 @@ function Battle:onPlayerTurn(turnChar)
               end
 
             )
-            singleTargetWin:addMenuItem(skillMenuItem2)
+            singleTargetWin.choiceMenu:addMenuItem(skillMenuItem2)
           end
           ui.addWindow(singleTargetWin)
         end
