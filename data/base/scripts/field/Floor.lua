@@ -138,7 +138,7 @@ function Floor:renderEntities()
 
     local entityPos = self:toXY(entity.tileId)
 
-    engine.renderSprite(
+    engine.renderSpriteSheet(
       engine.getEntitySpriteId(entity.id),
       entityPos.x * 16 + cameraOffsetX,
       entityPos.y * 16 + cameraOffsetY,

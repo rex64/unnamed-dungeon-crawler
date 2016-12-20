@@ -120,8 +120,6 @@ SDL_Surface* RenderManager::convertRGBtoIndexed(std::string resId, SDL_Surface *
 
 	SDL_Surface *surfRet = SDL_ConvertSurface(surf, this->format, 0);
 
-	//SDL_Surface *sprite3 = SDL_create SDL_CreateRGBSurfaceWithFormat(0, sprite->w, sprite->h, 8, SDL_PIXELFORMAT_RGBA32);
-
 	int i = 0;
 
 	for (int y = 0; y < surf->h; y++) {
@@ -160,65 +158,10 @@ SDL_Surface* RenderManager::convertRGBtoIndexed(std::string resId, SDL_Surface *
 						int bpp2 = surfRet->format->BytesPerPixel;
 						*(((Uint8 *)surfRet->pixels + y * surfRet->pitch + x * bpp2) + 0) = value;
 
-							//i = i + 1;
 		}
 	}
-
-	/*
-	for (int i = 0; i < surfRet->w * surfRet->h; i++)
-	{
-
-		Uint32 temp, pixel;
-
-		uint32_t* pixelPtr = (uint32_t*)surf->pixels;
-		char * lol = (char*)pixelPtr;
-		lol = lol + (i * 3);
-		uint32_t* pixelPtr2 = (uint32_t*)lol;
-
-		pixel = *pixelPtr2;
-
-		Uint8 red, green, blue;
-		SDL_GetRGB(pixel, surf->format, &red, &green, &blue);
-
-		if ((red == 250) && (green == 0) && (blue == 250)) {
-			*(((Uint8 *)surfRet->pixels) + i) = 0;
-		}
-		else
-		if ((red == 255) && (green == 255) && (blue == 255)) {
-			*(((Uint8 *)surfRet->pixels) + i) = 1;
-		}
-		else
-			if ((red == 185) && (green == 185) && (blue == 185)) {
-					*(((Uint8 *)surfRet->pixels) + i) = 2;
-
-				}
-				else
-
-					if ((red == 105) && (green == 105) && (blue == 105)) {
-
-						*(((Uint8 *)surfRet->pixels) + i) = 3;
-
-					}
-					else
-
-
-
-						if ((red == 0) && (green == 0) && (blue == 0)) {
-							*(((Uint8 *)surfRet->pixels) + i) = 4;
-						}
-
-						else {
-
-							//Game::game->showMsgBox((resId + " RGB error").c_str());
-
-						}
-
-						//SDL_UnlockSurface(sprite);
-	}
-	*/
 	SDL_SetColorKey(surfRet, 1, SDL_MapRGB(surfRet->format, 250, 0, 250));
 
-	//SDL_FreeSurface(surf);
 
 	return surfRet;
 
@@ -296,24 +239,6 @@ void RenderManager::render()
 	//Border-->Screen
 	SDL_BlitSurface(ResourceManager::manager->getBorder("base.borders.border"), 0, screen, 0);
 
-	//TextBox-->Game
-	//SDL_BlitSurface(ResourceManager::manager->fonts["base.fonts.standard_font"], 0, screen, 0);
-	//renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->fonts["base.fonts.standard_font"], game);
-
-	//Menu-->Game
-	/*
-	SDL_BlitSurface(ResourceManager::manager->getFont("base.fonts.standard_font"), 0, screen, 0);
-	renderText("TEXT MESSAGE BOX\nHello World!", ResourceManager::manager->getFont("base.fonts.standard_font"), game);
-	*/
-
-	//if (ScriptManager::manager->weBattle()) {
-
-	//	ScriptManager::manager->doString("battle.render()");
-	//}
-
-	//ScriptManager::manager->doString("ui.render()"); //TODO: lol
-
-
 	//Game-->Screen
 	SDL_Rect location = { 72,40,100,100 };
 	SDL_BlitSurface(game, 0, screen, &location);
@@ -385,7 +310,7 @@ int Render_renderTile(lua_State *L) {
 	return 0;
 }
 
-int Render_renderSprite(lua_State *L) {
+int Render_renderSpriteSheet(lua_State *L) {
 
 	std::string spriteID = lua_tostring(L, 1);
 	int x = lua_tointeger(L, 2);
@@ -397,6 +322,24 @@ int Render_renderSprite(lua_State *L) {
 	SDL_BlitSurface(
 		ResourceManager::manager->getSprite(spriteID),
 		&facingRect,
+		RenderManager::manager->game,
+		&posRect);
+
+
+	return 0;
+}
+
+int Render_renderSprite(lua_State *L) {
+
+	std::string spriteID = lua_tostring(L, 1);
+	int x = lua_tointeger(L, 2);
+	int y = lua_tointeger(L, 3);
+
+	SDL_Rect posRect = { x, y, 16, 16 };
+
+	SDL_BlitSurface(
+		ResourceManager::manager->getSprite(spriteID),
+		0,
 		RenderManager::manager->game,
 		&posRect);
 

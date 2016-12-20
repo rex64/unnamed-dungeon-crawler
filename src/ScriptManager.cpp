@@ -69,6 +69,7 @@ void ScriptManager::init() {
 	registerFunction("engine", "renderWindow", Menu_renderWindow);
 	registerFunction("engine", "renderTextLine", Menu_renderTextLine);
 	registerFunction("engine", "renderSprite", Menu_renderSprite);
+	registerFunction("engine", "renderSpriteSheet", Render_renderSpriteSheet);
 
 	registerFunction("engine", "setTile", l_setTile);
 	registerFunction("engine", "addEntity", l_addEntity);

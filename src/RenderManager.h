@@ -55,14 +55,13 @@ public:
 
 };
 
-extern "C" void renderText(std::string str, FontData* fontData, SDL_Surface* surf);
-//extern "C" void renderTextLine(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf);
-extern "C" void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted);
 
 extern "C" {
-
+	
+	void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted);
 
 	int Render_renderTile(lua_State *L);
+	int Render_renderSpriteSheet(lua_State *L);
 	int Render_renderSprite(lua_State *L);
 
 }

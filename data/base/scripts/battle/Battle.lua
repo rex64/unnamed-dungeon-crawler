@@ -335,10 +335,9 @@ function Battle:update(input, dt)
 end
 
 function Battle:render()
-  engine.renderSprite('base.spritesheets.enemy', 0, 0) 
-
-  engine.renderSprite('base.spritesheets.testbackground', 72, 40) 
-  engine.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(400/2) - 25, math.floor(225/2) - 25)
+  
+  engine.renderSprite('base.spritesheets.testbackground', 0, 0) 
+  engine.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(256/2) - 25, math.floor(144/2) - 25)
 
 end
 
