@@ -12,6 +12,7 @@ function Event.new(name, i)
 
   newEvent.done = false;  
   newEvent.name = 'Event'
+  newEvent.debugString = ''
   --newEvent.onDone = function() end;
 
 
@@ -25,5 +26,24 @@ function Event:isDone()
 end
 
 function Event:onDone() end
+
+function Event:debug(debugString) 
+  self.debugString = debugString
+  return self
+end
+
+function Event:toString() 
+
+  if self.debugString == nil then 
+   
+    print('NO') 
+     return self.name .. ' - ' --.. self.debugString
+  else
+    return self.name .. ' - ' .. self.debugString
+
+  end
+
+
+end
 
 return Event

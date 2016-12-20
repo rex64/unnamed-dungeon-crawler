@@ -9,7 +9,7 @@ setmetatable(TransitionFromFieldEvent, {__index = Event})
 
 
 function TransitionFromFieldEvent.new()
-  local self = setmetatable({}, TransitionFromFieldEvent)
+  local self = setmetatable(Event.new(), TransitionFromFieldEvent)
 
   self.name = 'TransitionFromFieldEvent'
   self.done = false;

@@ -15,7 +15,7 @@ function EventManager.new(name, i)
 end
 
 function EventManager:addEvent(e)
-  print('added ' .. e.name)
+  print('added ' .. e:toString())
   table.insert(self.events, e)
 end
 
@@ -27,6 +27,7 @@ function EventManager:update(input, dt)
     event:update(input, dt)
 
     if event:isDone() then
+      print('done ' .. event:toString())
       event.onDone()
       table.remove(self.events, 1)
     end

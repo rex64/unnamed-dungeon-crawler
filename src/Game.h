@@ -1,5 +1,16 @@
 #pragma once
 
+#ifdef __APPLE__
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
+
+#elif _WIN32
+#include <lua.hpp>
+#endif
+
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
 
@@ -33,10 +44,17 @@ public:
 	void showMsgBox(const char *msg);
 	void quit();
 
-
+public:
 	static Game *game;
 	SDL_Window *window;
+	bool inputEnabled;
 private:
 	bool m_bQuit;
 };
 
+extern "C" {
+
+	int Game_enableInput(lua_State *L);
+	int Game_disableInput(lua_State *L);
+
+}

@@ -8,7 +8,7 @@ WindowVibrationEvent.__index = WindowVibrationEvent
 setmetatable(WindowVibrationEvent, {__index = Event})
 
 function WindowVibrationEvent.new(win, duration)
-  local self = setmetatable({}, WindowVibrationEvent)
+  local self = setmetatable(Event.new(), WindowVibrationEvent)
 
   self.name = 'WindowVibrationEvent'
   self.done = false;

@@ -9,7 +9,7 @@ setmetatable(PlayerTurnEvent, {__index = Event})
 
 
 function PlayerTurnEvent.new(turnPlayer)
-  local self = setmetatable({}, PlayerTurnEvent)
+  local self = setmetatable(Event.new(), PlayerTurnEvent)
 
   self.name = 'PlayerTurnEvent'
   self.done = false

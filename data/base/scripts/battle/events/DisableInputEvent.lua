@@ -8,7 +8,7 @@ DisableInputEvent.__index = DisableInputEvent
 setmetatable(DisableInputEvent, {__index = Event})
 
 function DisableInputEvent.new()
-  local self = setmetatable({}, DisableInputEvent)
+  local self = setmetatable(Event.new(), DisableInputEvent)
 
   self.name = 'DisableInputEvent'
   self.done = false;
@@ -20,6 +20,9 @@ function DisableInputEvent:update(input, dt)
 
   print('event - disable input')
   self.done = true;
+  
+  engine.disableInput()
+  
 end
 
 return DisableInputEvent

@@ -28,4 +28,4 @@ print("main");
 
 print('main - ok');
 
-game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1))
+game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1):debug('main.lua 31'))

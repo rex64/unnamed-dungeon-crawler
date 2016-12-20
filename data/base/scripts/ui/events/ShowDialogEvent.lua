@@ -9,7 +9,7 @@ ShowDialogEvent.__index = ShowDialogEvent
 setmetatable(ShowDialogEvent, {__index = Event})
 
 function ShowDialogEvent.new(text)
-  local self = setmetatable({}, ShowDialogEvent)
+  local self = setmetatable(Event.new(), ShowDialogEvent)
 
   self.name = 'ShowDialogEvent'
   self.done = false;

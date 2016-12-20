@@ -75,6 +75,10 @@ void ScriptManager::init() {
 	registerFunction("engine", "addEntity", l_addEntity);
 	registerFunction("engine", "setEntityTile", l_setEntityTile);
 
+	registerFunction("engine", "enableInput", Game_enableInput);
+	registerFunction("engine", "disableInput", Game_disableInput);
+
+
 	/*registerFunction("engine", "onInputUp", Stage_onInputUp);
 	registerFunction("engine", "onInputRight", Stage_onInputRight);
 	registerFunction("engine", "onInputDown", Stage_onInputDown);

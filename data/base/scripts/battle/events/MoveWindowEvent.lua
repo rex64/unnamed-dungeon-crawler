@@ -8,7 +8,7 @@ MoveWindowEvent.__index = MoveWindowEvent
 setmetatable(MoveWindowEvent, {__index = Event})
 
 function MoveWindowEvent.new(win, targetX, targetY, duration)
-  local self = setmetatable({}, MoveWindowEvent)
+  local self = setmetatable(Event.new(), MoveWindowEvent)
 
   self.name = 'MoveWindowEvent'
   self.done = false;

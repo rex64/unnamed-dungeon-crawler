@@ -97,6 +97,7 @@ void Game::init() {
 
 	//Register renderer
 
+	inputEnabled = true;
 }
 
 extern "C" Uint32 my_callbackfunc(Uint32 interval, void *param)
@@ -190,7 +191,9 @@ void Game::run() {
 				buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
 				buttons.menu = state[SDL_SCANCODE_ESCAPE];
 
-				ScriptManager::manager->onInputGame(buttons);
+				if (inputEnabled) {
+					ScriptManager::manager->onInputGame(buttons);
+				}
 			}
 			if (e.type == SDL_TEXTINPUT) {
 
@@ -230,9 +233,24 @@ void Game::run() {
 void Game::showMsgBox(const char *msg)
 {
 	SDL_ShowSimpleMessageBox(0, "READ CAREFULLY", msg, window);
+	printf("[showMsgBox] %s\n", msg);
 }
 
 void Game::quit() {
 
 	m_bQuit = true;
+}
+
+int Game_enableInput(lua_State *L) {
+
+	Game::game->inputEnabled = true;
+
+	return 0;
+}
+
+int Game_disableInput(lua_State *L) {
+
+	Game::game->inputEnabled = false;
+
+	return 0;
 }

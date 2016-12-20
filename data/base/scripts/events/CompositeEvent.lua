@@ -5,9 +5,11 @@
 
 CompositeEvent = {}
 CompositeEvent.__index = CompositeEvent
+setmetatable(CompositeEvent, {__index = Event})
 
 function CompositeEvent.new(name, i)
-  local self = setmetatable({}, CompositeEvent)
+  local self = setmetatable(Event.new(), CompositeEvent)
+
   self.events = {}
   self.name = 'CompositeEvent'
 

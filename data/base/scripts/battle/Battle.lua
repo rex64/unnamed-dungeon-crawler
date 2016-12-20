@@ -1,9 +1,9 @@
-local BattleConsts    = require('battle.BattleConsts')
-local Dialog          = require('ui.Dialog')
-local DialogWindow    = require('ui.DialogWindow')
-local MenuItem        = require('ui.MenuItem')
-local ChoiceMenu      = require('ui.ChoiceMenu')
-
+local BattleConsts      = require('battle.BattleConsts')
+local Dialog            = require('ui.Dialog')
+local DialogWindow      = require('ui.DialogWindow')
+local MenuItem          = require('ui.MenuItem')
+local ChoiceMenu        = require('ui.ChoiceMenu')
+local EnableInputEvent  = require('battle.events.EnableInputEvent')
 
 --************************
 --Battle
@@ -105,10 +105,10 @@ function Battle:init()
 
   --EVENTS
   --1 disable input
-  local disableInput = DisableInputEvent.new()
+  local disableInput = DisableInputEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
 
   --2 transition from field
-  local transitionFromField = TransitionFromFieldEvent.new()
+  local transitionFromField = TransitionFromFieldEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
 
   --3 move window
   --battle.currentBattle.windows[1].x = 100
@@ -116,19 +116,20 @@ function Battle:init()
   local moveWindow2 = MoveWindowEvent.new(battle.currentBattle.windows[2], BattleConsts.win2.regularX, BattleConsts.win2.regularY, 100)
   local moveWindow3 = MoveWindowEvent.new(battle.currentBattle.windows[3], BattleConsts.win3.regularX, BattleConsts.win3.regularY, 100)
   local moveWindow4 = MoveWindowEvent.new(battle.currentBattle.windows[4], BattleConsts.win4.regularX, BattleConsts.win4.regularY, 100)
-  local compEvent = CompositeEvent.new()
+  local compEvent = CompositeEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
   compEvent:addEvent(moveWindow1)
   compEvent:addEvent(moveWindow2)
   compEvent:addEvent(moveWindow3)
   compEvent:addEvent(moveWindow4)
 
   --4 new turn
-  local newTurn = NewTurnEvent.new()
+  local newTurn = NewTurnEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
 
   self.eventManager:addEvent(disableInput)
   self.eventManager:addEvent(transitionFromField)
   self.eventManager:addEvent(compEvent) 
-  self.eventManager:addEvent(newTurn) 
+  self.eventManager:addEvent(newTurn)   
+  --self.eventManager:addEvent(enableInput) 
 
 end
 
@@ -187,9 +188,15 @@ function Battle:newTurn()
       10)
 
     local playerTurn = PlayerTurnEvent.new(turnChar)
+    
+    local enableInput = EnableInputEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
 
     self.eventManager:addEvent(moveWin)
     self.eventManager:addEvent(playerTurn)
+    
+    self.eventManager:addEvent(enableInput)
+
+    
 
 
   end
@@ -321,7 +328,7 @@ function Battle:update(dt)
 end
 
 function Battle:render()
-  
+
   engine.renderSprite('base.spritesheets.testbackground', 0, 0) 
   engine.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(256/2) - 25, math.floor(144/2) - 25)
 
