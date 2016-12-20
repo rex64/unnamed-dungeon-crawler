@@ -71,5 +71,11 @@ function ChoiceWindow:addChoiceMenu(newChoiceMenu)
 
 end
 
+function ChoiceWindow:addMenuItem(newMenuItem)
+
+  self.choiceMenu:addMenuItem(newMenuItem)
+
+end
+
 
 return ChoiceWindow

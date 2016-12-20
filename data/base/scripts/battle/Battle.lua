@@ -24,23 +24,7 @@ function Battle.new()
 
   newBattle.nextTurnChar = 1
 
---[[
-  newBattle.timelineWin1 = Window.new(
-    BattleConsts.win1.startX, 
-    BattleConsts.win1.startY, 
-    BattleConsts.win1.w, 
-    BattleConsts.win1.h, 
-    false)  
-  ]]--
-  --local newDialog1 = Dialog.new('1')
-  --newBattle.timelineWin1:addDialog(newDialog1)
-  --newBattle.timelineWin1:setDismissable(false)
-  --ui.addWindow(newBattle.timelineWin1)
-
-  --local timelineWin1 = ChoiceWindow.new(32, 32, 8, 8, choiceMenu)
-  --timelineWin1:setDismissable(false)
-  --ui.addWindow(timelineWin1)
-
+  --1
   newBattle.timelineWin1 = DialogWindow.new(
     BattleConsts.win1.startX, 
     BattleConsts.win1.startY, 
@@ -48,19 +32,8 @@ function Battle.new()
     BattleConsts.win1.h, 
     '1')
   ui.addWindow(newBattle.timelineWin1)
---[[
 
-  newBattle.timelineWin2 = Window.new(
-    BattleConsts.win2.startX, 
-    BattleConsts.win2.startY, 
-    BattleConsts.win2.w, 
-    BattleConsts.win2.h, 
-    false) 
-  local newDialog2 = Dialog.new('2')
-  newBattle.timelineWin2:addDialog(newDialog2)
-  newBattle.timelineWin2:setDismissable(false)
-  ui.addWindow(newBattle.timelineWin2)
-  ]]--
+  --2
   newBattle.timelineWin2 = DialogWindow.new(
     BattleConsts.win2.startX, 
     BattleConsts.win2.startY, 
@@ -68,19 +41,8 @@ function Battle.new()
     BattleConsts.win2.h, 
     '1')
   ui.addWindow(newBattle.timelineWin2)
---[[
 
-  newBattle.timelineWin3 = Window.new(
-    BattleConsts.win3.startX, 
-    BattleConsts.win3.startY, 
-    BattleConsts.win3.w, 
-    BattleConsts.win3.h, 
-    false) 
-  local newDialog3 = Dialog.new('3')
-  newBattle.timelineWin3:addDialog(newDialog3)
-  newBattle.timelineWin3:setDismissable(false)
-  ui.addWindow(newBattle.timelineWin3)
-  ]]--
+  --3
   newBattle.timelineWin3 = DialogWindow.new(
     BattleConsts.win3.startX, 
     BattleConsts.win3.startY, 
@@ -88,19 +50,8 @@ function Battle.new()
     BattleConsts.win3.h,
     '1')
   ui.addWindow(newBattle.timelineWin3)
---[[
 
-  newBattle.timelineWin4 = Window.new(
-    BattleConsts.win4.startX, 
-    BattleConsts.win4.startY, 
-    BattleConsts.win4.w, 
-    BattleConsts.win4.h, 
-    false) 
-  local newDialog4 = Dialog.new('4')
-  newBattle.timelineWin4:addDialog(newDialog4)
-  newBattle.timelineWin4:setDismissable(false)
-  ui.addWindow(newBattle.timelineWin4)
-  ]]--
+  --4
   newBattle.timelineWin4 = DialogWindow.new(
     BattleConsts.win4.startX, 
     BattleConsts.win4.startY, 
@@ -141,18 +92,6 @@ function Battle:init()
 
 
   end  
-
-  --command window
-  --self.commandWindow = Window.new(34, 160, 36, 4, false)
-  --ui.addWindow(self.commandWindow)
-
-  --command window dialog
-  --local newDialog1 = Dialog.new('0')
-  --self.commandWindow:addDialog(newDialog1)
-
-  --command window choice menu
-  --local newChoiceMenu = ChoiceMenu.new()
-  --self.commandWindow:addChoiceMenu(newChoiceMenu)
 
   self.commandWindow = ChoiceWindow.new(32, 160, 36, 4, ChoiceMenu.new())
   self.commandWindow:setDismissable(false)
@@ -307,13 +246,13 @@ function Battle:onPlayerTurn(turnChar)
               end
 
             )
-            singleTargetWin.choiceMenu:addMenuItem(skillMenuItem2)
+            singleTargetWin:addMenuItem(skillMenuItem2)
           end
           ui.addWindow(singleTargetWin)
         end
 
       )
-      self.commandWindow.choiceMenu:addMenuItem(skillMenuItem)
+      self.commandWindow:addMenuItem(skillMenuItem)
     end
   end
 
@@ -396,6 +335,8 @@ function Battle:update(input, dt)
 end
 
 function Battle:render()
+  engine.renderSprite('base.spritesheets.enemy', 0, 0) 
+
   engine.renderSprite('base.spritesheets.testbackground', 72, 40) 
   engine.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(400/2) - 25, math.floor(225/2) - 25)
 
