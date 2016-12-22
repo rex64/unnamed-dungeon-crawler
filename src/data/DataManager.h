@@ -15,7 +15,7 @@ extern "C" {
 #include <string>
 #include <vector>
 //#include "IInputReceiver.h"
-#include "res/ResourceManager.h"
+#include "../res/ResourceManager.h"
 
 class Equip {
 public:
@@ -53,13 +53,13 @@ public:
 
 };
 
-class SaveManager
+class DataManager
 {
 public:
-	SaveManager();
-	~SaveManager();
+	DataManager();
+	~DataManager();
 
-	static SaveManager *manager;
+	static DataManager *manager;
 	std::unordered_map<std::string, Hero*> heroDatas;
 
 	void addHero(Hero*);

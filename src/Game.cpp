@@ -23,7 +23,7 @@
 #include "Console.h"
 #include "RenderManager.h"
 #include "ui/MenuManager.h"
-#include "SaveManager.h"
+#include "data/DataManager.h"
 
 Game* Game::game;
 
@@ -82,7 +82,7 @@ void Game::init() {
 	MenuManager *menuManager = new MenuManager();
 	menuManager->init();
 
-	SaveManager *saveManager = new SaveManager();
+	DataManager *saveManager = new DataManager();
 	saveManager->init();
 
 	resManager->loadDataFolder();
@@ -160,10 +160,10 @@ void Game::run() {
 	Hero *ranged = new Hero("base.heroes.ranged");
 	ranged->addEquip(bow);
 
-	SaveManager::manager->manager->addHero(tank);
-	SaveManager::manager->manager->addHero(heals);
-	SaveManager::manager->manager->addHero(melee);
-	SaveManager::manager->manager->addHero(ranged);
+	DataManager::manager->manager->addHero(tank);
+	DataManager::manager->manager->addHero(heals);
+	DataManager::manager->manager->addHero(melee);
+	DataManager::manager->manager->addHero(ranged);
 
 	//fake setup -------- end
 

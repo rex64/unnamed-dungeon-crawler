@@ -1,7 +1,7 @@
 #include "lua_save.h"
 #include <stdio.h>
 #include "ScriptManager.h"
-#include "SaveManager.h"
+#include "data/DataManager.h"
 
 
 int Save_getCurrentPartySize(lua_State *L) {
@@ -11,7 +11,7 @@ int Save_getCurrentPartySize(lua_State *L) {
 	int h = lua_tointeger(L, 3);
 	int w = lua_tointeger(L, 4);
 
-	int curPartySize = SaveManager::manager->getCurrentPartySize();
+	int curPartySize = DataManager::manager->getCurrentPartySize();
 
 	lua_pushinteger(L, curPartySize);
 
@@ -24,7 +24,7 @@ int Save_getPartyMemberName(lua_State *L) {
 
 	int i = 1;
 
-	for (auto kv : SaveManager::manager->heroDatas)
+	for (auto kv : DataManager::manager->heroDatas)
 	{
 		if (i == y) {
 			Hero *h = kv.second;
@@ -46,7 +46,7 @@ int Save_getHeroSkills(lua_State *L) {
 
 	Hero *h = nullptr;
 
-	for (auto kv : SaveManager::manager->heroDatas)
+	for (auto kv : DataManager::manager->heroDatas)
 	{
 		if (i == y) {
 			h = kv.second;

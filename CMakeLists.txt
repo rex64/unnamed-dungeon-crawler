@@ -33,8 +33,8 @@ set( project_sources
    external/tinydir.h
    external/tinyxml2.h
    external/tinyxml2.cpp
-   src/SaveManager.h
-   src/SaveManager.cpp
+   src/data/DataManager.h
+   src/data/DataManager.cpp
 )
 
 add_executable(unnamed-dungeon-crawler ${project_sources})
