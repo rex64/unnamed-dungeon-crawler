@@ -136,7 +136,7 @@ void Game::run() {
 	/*StageManager::manager->currStage = new Stage();
 	StageManager::manager->currStage->load("base.dungeons.dungeon1", 0);*/
 
-	Equip *sword = new Equip();
+	/*Equip *sword = new Equip();
 	sword->addSkill("base.skills.skilltest1");
 	sword->addSkill("base.skills.sword_attack");
 	Hero *tank = new Hero("base.heroes.tank");
@@ -163,7 +163,7 @@ void Game::run() {
 	DataManager::manager->manager->addHero(tank);
 	DataManager::manager->manager->addHero(heals);
 	DataManager::manager->manager->addHero(melee);
-	DataManager::manager->manager->addHero(ranged);
+	DataManager::manager->manager->addHero(ranged);*/
 
 	//fake setup -------- end
 

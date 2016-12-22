@@ -20,7 +20,7 @@ int Save_getCurrentPartySize(lua_State *L) {
 
 int Save_getPartyMemberName(lua_State *L) {
 
-	int y = lua_tointeger(L, 1);
+	/*int y = lua_tointeger(L, 1);
 
 	int i = 1;
 
@@ -33,14 +33,16 @@ int Save_getPartyMemberName(lua_State *L) {
 		}
 
 		i++;
-	}
+	}*/
+
+	lua_pushstring(L, "noheroname");
 
 	return 1;
 }
 
 int Save_getHeroSkills(lua_State *L) {
 
-	int y = lua_tointeger(L, 1);
+	/*int y = lua_tointeger(L, 1);
 
 	int i = 1;
 
@@ -75,18 +77,25 @@ int Save_getHeroSkills(lua_State *L) {
 		lua_rawseti(L, -2, x);
 
 		x++;
-	}
+	}*/
+
+	lua_newtable(L);
+
+	lua_pushstring(L, "noskillid");
+	lua_rawseti(L, -2, 1);
 
 	return 1;
 }
 
 int Save_getSkillName(lua_State *L) {
 
-	std::string skillId = lua_tostring(L, 1);
+	/*std::string skillId = lua_tostring(L, 1);
 
 	std::string skillName = ResourceManager::manager->getSkillData(skillId)->name;
 
-	lua_pushstring(L, skillName.c_str());
+	lua_pushstring(L, skillName.c_str());*/
+
+	lua_pushstring(L, "noskillname");
 
 	return 1;
 }

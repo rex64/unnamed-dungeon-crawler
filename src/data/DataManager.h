@@ -17,42 +17,6 @@ extern "C" {
 //#include "IInputReceiver.h"
 #include "../res/ResourceManager.h"
 
-class Equip {
-public:
-	std::string name;
-	bool isWeapon;
-	bool isMirage;
-	std::vector<std::string> skillIds;
-
-	void addSkill(std::string id) {
-	
-		skillIds.push_back(id);
-	}
-};
-
-class Hero {
-
-public:
-	std::string heroDataId;
-
-	std::vector<Equip*> equips;
-
-
-	Hero(std::string id) {
-		heroDataId = id;
-	}
-	
-	std::string getHeroName() {
-	
-		return ResourceManager::manager->getHeroData(heroDataId)->name;
-	}
-
-	void addEquip(Equip* e) {
-		equips.push_back(e);
-	}
-
-};
-
 class DataManager
 {
 public:
@@ -60,9 +24,9 @@ public:
 	~DataManager();
 
 	static DataManager *manager;
-	std::unordered_map<std::string, Hero*> heroDatas;
+	//std::unordered_map<std::string, Hero*> heroDatas;
 
-	void addHero(Hero*);
+	//void addHero(Hero*);
 
 	void init();
 	int getCurrentPartySize();

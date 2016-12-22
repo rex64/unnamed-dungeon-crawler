@@ -27,12 +27,12 @@ void DataManager::init() {
 	manager = this;
 }
 
-void DataManager::addHero(Hero *newHero) {
-
-	heroDatas[newHero->heroDataId] = newHero;
-}
+//void DataManager::addHero(Hero *newHero) {
+//
+//	heroDatas[newHero->heroDataId] = newHero;
+//}
 
 int DataManager::getCurrentPartySize() {
 
-	return heroDatas.size();
+	return 4;
 }
