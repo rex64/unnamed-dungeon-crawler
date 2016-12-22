@@ -144,6 +144,11 @@ HeroData* ResourceManager::getHeroData(std::string id) {
 	return heroDatas[id];
 }
 
+EquipData* ResourceManager::getEquipData(std::string id) {
+
+	return equipDatas[id];
+}
+
 SkillData* ResourceManager::getSkillData(std::string id) {
 
 	return skillDatas[id];
@@ -447,6 +452,62 @@ void ResourceManager::loadHeroes(std::string basePath) {
 
 }
 
+void ResourceManager::loadEquips(std::string basePath) {
+
+	const char *dataPath = basePath.append("equips/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("equip")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* equipName = doc.FirstChildElement("equip")->FirstChildElement("name")->GetText();
+				int equipType;
+				doc.FirstChildElement("equip")->FirstChildElement("type")->QueryIntText(&equipType);
+
+
+				EquipData *newEquipData = new EquipData{
+					resId,
+					file.name,
+					filePath,
+					equipName,
+					(EquipType) equipType
+				};
+
+				tinyxml2::XMLElement *charElement = doc.FirstChildElement("equip")->FirstChildElement("skills");
+				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+				{
+					const char* skillId = child->/*FirstChildElement("skill")->*/GetText();
+					newEquipData->skillsIds.push_back(skillId);
+
+				}
+
+				ResourceManager::manager->equipDatas[resId] = newEquipData;
+
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+
 void ResourceManager::loadItems(std::string basePath) {}
 void ResourceManager::loadMenu(std::string basePath) {
 
@@ -697,6 +758,7 @@ void ResourceManager::loadDataFolder() {
 	loadEntities(basePath);
 	loadFonts(basePath);
 	loadHeroes(basePath);
+	loadEquips(basePath);
 	loadItems(basePath);
 	loadMenu(basePath);
 	loadScripts(basePath);

@@ -23,7 +23,7 @@
 #include "Console.h"
 #include "RenderManager.h"
 #include "ui/MenuManager.h"
-#include "data/DataManager.h"
+#include "save/SaveManager.h"
 
 Game* Game::game;
 
@@ -82,7 +82,7 @@ void Game::init() {
 	MenuManager *menuManager = new MenuManager();
 	menuManager->init();
 
-	DataManager *saveManager = new DataManager();
+	SaveManager *saveManager = new SaveManager();
 	saveManager->init();
 
 	resManager->loadDataFolder();

@@ -6,6 +6,7 @@
 #include "lua_data.h"
 #include "RenderManager.h"
 #include "res/ResourceManager.h"
+#include "save/SaveManager.h"
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>

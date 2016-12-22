@@ -17,19 +17,48 @@ extern "C" {
 //#include "IInputReceiver.h"
 #include "../res/ResourceManager.h"
 
-class DataManager
+class EquipSave {
+
+public:
+	std::string id;
+
+	EquipSave(std::string id) { this->id; };
+};
+
+class HeroSave {
+
+public:
+	
+	std::string id;
+
+	EquipSave* weapon;
+	EquipSave* head;
+	EquipSave* body;
+	EquipSave* accessory;
+
+	HeroSave(std::string id) : 
+		weapon(nullptr),
+		head(nullptr),
+		body(nullptr),
+		accessory(nullptr)
+		{ this->id = id; };
+
+};
+
+class SaveManager
 {
 public:
-	DataManager();
-	~DataManager();
+	SaveManager();
+	~SaveManager();
 
-	static DataManager *manager;
+	static SaveManager *manager;
 	//std::unordered_map<std::string, Hero*> heroDatas;
+	std::vector<HeroSave*> heroes;
 
 	//void addHero(Hero*);
 
 	void init();
-	int getCurrentPartySize();
+	//int getCurrentPartySize();
 	/*void runMain();
 	void doString(const char *str);
 	void doFile(const char *str);
@@ -47,6 +76,18 @@ public:
 public:
 	//lua_State *m_L;
 };
+
+extern "C" {
+
+	int Save_addHero(lua_State *L);
+	int Save_heroEquipEquip(lua_State *L);
+
+	int Save_getCurrentPartySize(lua_State *L);
+	int Save_getPartyMemberName(lua_State *L);
+	int Save_getHeroSkills(lua_State *L);
+	int Save_getSkillName(lua_State *L);
+
+}
 
 //extern "C" void stackDump(lua_State *L);
 //extern "C" void checkIfStackIsEmpty(lua_State *L);

@@ -13,9 +13,6 @@ extern "C" {
 
 extern "C" {
 	
-	int Save_getCurrentPartySize(lua_State *L);
-	int Save_getPartyMemberName(lua_State *L);
-	int Save_getHeroSkills(lua_State *L);
-	int Save_getSkillName(lua_State *L);
+	
 	
 }

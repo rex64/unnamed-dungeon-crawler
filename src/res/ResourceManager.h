@@ -65,6 +65,26 @@ struct HeroData {
 	std::string name;
 };
 
+enum EquipType{
+
+	WEAPON = 0, 
+	HEAD,
+	BODY,
+	ACCESSORY
+
+};
+
+struct EquipData {
+
+	std::string id;
+	std::string fileName;
+	std::string filePath;
+	std::string name;
+	EquipType type;
+
+	std::vector<std::string> skillsIds;
+};
+
 struct SkillData {
 	std::string id;
 	std::string fileName;
@@ -110,6 +130,7 @@ public:
 	FontData* getFont(std::string id);
 	SDL_Surface* getBorder(std::string id);
 	HeroData* getHeroData(std::string id);
+	EquipData* getEquipData(std::string id);
 	SkillData* getSkillData(std::string id);
 	EnemyData* getEnemyData(std::string id);
 
@@ -121,6 +142,7 @@ public:
 	void loadEntities(std::string basePath);
 	void loadFonts(std::string basePath);
 	void loadHeroes(std::string basePath);
+	void loadEquips(std::string basePath);
 	void loadItems(std::string basePath);
 	void loadMenu(std::string basePath);
 	void loadScripts(std::string basePath);
@@ -138,6 +160,7 @@ public:
 	std::unordered_map<std::string, DungeonData*> dungeonDatas;
 	std::unordered_map<std::string, FontData*> fontDatas;
 	std::unordered_map<std::string, HeroData*> heroDatas;
+	std::unordered_map<std::string, EquipData*> equipDatas;
 	std::unordered_map<std::string, SkillData*> skillDatas;
 	std::unordered_map<std::string, EnemyData*> enemyDatas;
 

@@ -1,0 +1,9 @@
+<equip>
+	<name>Bow</name>
+	<type>0</type>
+	<text>lol</text>
+	<skills>
+		<skill>base.skills.skilltest1</skill>
+		<skill>base.skills.magic_arrow</skill>
+	</skills>
+</equip>
