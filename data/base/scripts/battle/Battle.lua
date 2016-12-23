@@ -77,8 +77,13 @@ function Battle:init()
   --get Heroes info
   local partySize = save.getCurrentPartySize()
   for i = 1, partySize do
-    local partyMemberName = save.getPartyMemberName(i)
+    local partyMemberId = save.getPartyMemberId(i)
+    local partyMemberName = save.getPartyMemberName(partyMemberId)
+    
+    --TODO: fix
     local playerChar = BattleChar.new(partyMemberName, i)
+    playerChar.id = partyMemberId 
+    
     self:addPlayerChar(playerChar)
 
     self.windows[i].dialog.text = self.playerChars[i].name

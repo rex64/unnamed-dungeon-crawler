@@ -27,16 +27,6 @@ void SaveManager::init() {
 	manager = this;
 }
 
-//void SaveManager::addHero(Hero *newHero) {
-//
-//	heroDatas[newHero->heroDataId] = newHero;
-//}
-
-//int SaveManager::getCurrentPartySize() {
-//
-//	return 4;
-//}
-
 int Save_addHero(lua_State *L) {
 
 	std::string heroId = lua_tostring(L, 1);
@@ -44,12 +34,21 @@ int Save_addHero(lua_State *L) {
 
 	HeroData *heroData = ResourceManager::manager->getHeroData(heroId);
 
-	SaveManager::manager->heroes.push_back(new HeroSave(heroData->id));
+	if (heroData != nullptr) {
+		
+		SaveManager::manager->heroes.push_back(new HeroSave(heroData->id));
+
+	} else {
+	
+		Game::game->showMsgBox("Save_addHero - hero: " + heroId + " not found");
+
+	}
+
 
 	return 0;
 
 }
-int Save_heroEquipEquip(lua_State *L) {
+int Save_heroEquip(lua_State *L) {
 
 	std::string heroId = lua_tostring(L, 1);
 	std::string equipId = lua_tostring(L, 2);
@@ -64,7 +63,7 @@ int Save_heroEquipEquip(lua_State *L) {
 
 	switch (equipData->type)
 	{
-	WEAPON:
+	case WEAPON:
 		heroSave->weapon = new EquipSave(equipData->id);
 		break;
 	default:
@@ -77,96 +76,73 @@ int Save_heroEquipEquip(lua_State *L) {
 
 int Save_getCurrentPartySize(lua_State *L) {
 
-	int x = lua_tointeger(L, 1);
-	int y = lua_tointeger(L, 2);
-	int h = lua_tointeger(L, 3);
-	int w = lua_tointeger(L, 4);
-
-	int curPartySize = 4;
+	int curPartySize = SaveManager::manager->heroes.size();
 
 	lua_pushinteger(L, curPartySize);
 
 	return 1;
 }
 
-int Save_getPartyMemberName(lua_State *L) {
+int Save_getPartyMemberId(lua_State *L) {
 
-	/*int y = lua_tointeger(L, 1);
+	int pos = lua_tointeger(L, 1);
 
+	HeroSave *heroSave = nullptr;
 	int i = 1;
-
-	for (auto kv : DataManager::manager->heroDatas)
+	for (auto h : SaveManager::manager->heroes)
 	{
-	if (i == y) {
-	Hero *h = kv.second;
-	lua_pushstring(L, h->getHeroName().c_str());
-	break;
+		if (i == pos) {
+
+			HeroData *heroData = ResourceManager::manager->getHeroData(h->id);
+			lua_pushstring(L, heroData->id.c_str());
+		}
+
+		i++;
 	}
 
-	i++;
-	}*/
+	return 1;
+}
 
-	lua_pushstring(L, "noheroname");
+int Save_getPartyMemberName(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	std::string heroName = ResourceManager::manager->getHeroData(id)->name;
+	lua_pushstring(L, heroName.c_str());
 
 	return 1;
 }
 
 int Save_getHeroSkills(lua_State *L) {
 
-	/*int y = lua_tointeger(L, 1);
-
-	int i = 1;
-
-	Hero *h = nullptr;
-
-	for (auto kv : DataManager::manager->heroDatas)
-	{
-	if (i == y) {
-	h = kv.second;
-	break;
-	}
-
-	i++;
-	}
+	std::string id = lua_tostring(L, 1);
+	HeroData *heroData = ResourceManager::manager->getHeroData(id);
 
 	std::vector<std::string> res;
-
-	for (auto e : h->equips) {
-
-	for (auto s : e->skillIds) {
-
-	res.push_back(s);
-	}
-	}
+	res.push_back("base.skills.skilltest1");
+	res.push_back("base.skills.magic_blast");
+	res.push_back("base.skills.sword_attack");
 
 	lua_newtable(L);
 
 	int x = 1;
 	for (auto s : res) {
 
-	lua_pushstring(L, s.c_str());
-	lua_rawseti(L, -2, x);
+		lua_pushstring(L, s.c_str());
+		lua_rawseti(L, -2, x);
 
-	x++;
-	}*/
-
-	lua_newtable(L);
-
-	lua_pushstring(L, "noskillid");
-	lua_rawseti(L, -2, 1);
+		x++;
+	}
 
 	return 1;
 }
 
 int Save_getSkillName(lua_State *L) {
 
-	/*std::string skillId = lua_tostring(L, 1);
+	std::string skillId = lua_tostring(L, 1);
 
 	std::string skillName = ResourceManager::manager->getSkillData(skillId)->name;
 
-	lua_pushstring(L, skillName.c_str());*/
-
-	lua_pushstring(L, "noskillname");
+	lua_pushstring(L, skillName.c_str());
 
 	return 1;
 }

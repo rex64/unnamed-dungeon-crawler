@@ -101,45 +101,14 @@ void ScriptManager::init() {
 	checkIfStackIsEmpty(ScriptManager::manager->m_L);
 
 	//save ----------------------------------------------------------
-	lua_newtable(m_L);
-	lua_setglobal(m_L, "save");
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//save - getCurrentPartySize
-	lua_getglobal(m_L, "save");
-	lua_pushstring(m_L, "getCurrentPartySize");
-	lua_pushcfunction(m_L, Save_getCurrentPartySize);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//save - getPartyMember
-	lua_getglobal(m_L, "save");
-	lua_pushstring(m_L, "getPartyMemberName");
-	lua_pushcfunction(m_L, Save_getPartyMemberName);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//save - getPartyMember
-	lua_getglobal(m_L, "save");
-	lua_pushstring(m_L, "getHeroSkills");
-	lua_pushcfunction(m_L, Save_getHeroSkills);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-	//save - getSkillName
-	lua_getglobal(m_L, "save");
-	lua_pushstring(m_L, "getSkillName");
-	lua_pushcfunction(m_L, Save_getSkillName);
-	lua_settable(m_L, -3);
-	lua_pop(m_L, -1);
-	checkIfStackIsEmpty(ScriptManager::manager->m_L);
-
-
-	/*stackDump(m_L);
-	stackDump(m_L);*/
+	registerGlobalObject("save");
+	registerFunction("save", "getCurrentPartySize", Save_getCurrentPartySize);
+	registerFunction("save", "getPartyMemberId",	Save_getPartyMemberId);
+	registerFunction("save", "getPartyMemberName",	Save_getPartyMemberName);
+	registerFunction("save", "getHeroSkills",		Save_getHeroSkills);
+	registerFunction("save", "getSkillName",		Save_getSkillName);
+	registerFunction("save", "addHero",				Save_addHero);
+	registerFunction("save", "heroEquip",			Save_heroEquip);
 
 	registerFunction("engine", "renderTile",		Render_renderTile);
 	registerFunction("engine", "renderSprite",		Render_renderSprite);

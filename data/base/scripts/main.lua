@@ -29,3 +29,13 @@ print("main");
 print('main - ok');
 
 game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1):debug('main.lua 31'))
+
+save.addHero('base.heroes.tank',   1)
+save.addHero('base.heroes.heals',  2)
+save.addHero('base.heroes.melee',  3)
+save.addHero('base.heroes.ranged', 4)
+
+save.heroEquip('base.heroes.tank',   'base.equips.sword')
+save.heroEquip('base.heroes.heals',  'base.equips.staff')
+save.heroEquip('base.heroes.melee',  'base.equips.knife')
+save.heroEquip('base.heroes.ranged', 'base.equips.bow')

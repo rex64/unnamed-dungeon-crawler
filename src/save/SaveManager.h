@@ -80,8 +80,8 @@ public:
 extern "C" {
 
 	int Save_addHero(lua_State *L);
-	int Save_heroEquipEquip(lua_State *L);
-
+	int Save_heroEquip(lua_State *L);
+	int Save_getPartyMemberId(lua_State *L);
 	int Save_getCurrentPartySize(lua_State *L);
 	int Save_getPartyMemberName(lua_State *L);
 	int Save_getHeroSkills(lua_State *L);

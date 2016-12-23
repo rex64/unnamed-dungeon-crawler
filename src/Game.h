@@ -11,6 +11,8 @@ extern "C" {
 #include <lua.hpp>
 #endif
 
+#include <string>
+
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 225
 
@@ -41,6 +43,7 @@ public:
 	void init();
 	void run();
 
+	void showMsgBox(std::string msg);
 	void showMsgBox(const char *msg);
 	void quit();
 

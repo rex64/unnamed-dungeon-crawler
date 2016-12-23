@@ -230,6 +230,11 @@ void Game::run() {
 
 }
 
+void Game::showMsgBox(std::string msg)
+{
+	showMsgBox(msg.c_str());
+}
+
 void Game::showMsgBox(const char *msg)
 {
 	SDL_ShowSimpleMessageBox(0, "READ CAREFULLY", msg, window);
