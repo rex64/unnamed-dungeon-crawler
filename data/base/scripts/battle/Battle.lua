@@ -233,7 +233,7 @@ function Battle:onPlayerTurn(turnChar)
 
   if self:isPlayer(turnChar) then
 
-    local heroSkills = save.getHeroSkills(turnChar.index)
+    local heroSkills = save.getHeroSkills(turnChar.id)
 
     self.commandWindow.choiceMenu:resetMenu()
 

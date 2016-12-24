@@ -4,6 +4,6 @@
 	<text>lol</text>
 	<skills>
 		<skill>base.skills.skilltest1</skill>
-		<skill>base.skills.melee</skill>
+		<skill>base.skills.mega_hit</skill>
 	</skills>
 </equip>

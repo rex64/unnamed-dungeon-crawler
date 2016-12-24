@@ -22,7 +22,7 @@ class EquipSave {
 public:
 	std::string id;
 
-	EquipSave(std::string id) { this->id; };
+	EquipSave(std::string id) { this->id = id; };
 };
 
 class HeroSave {
@@ -52,8 +52,8 @@ public:
 	~SaveManager();
 
 	static SaveManager *manager;
-	//std::unordered_map<std::string, Hero*> heroDatas;
-	std::vector<HeroSave*> heroes;
+	std::unordered_map<std::string, HeroSave*> heroMap;
+	std::vector<HeroSave*> heroesVector;
 
 	//void addHero(Hero*);
 
