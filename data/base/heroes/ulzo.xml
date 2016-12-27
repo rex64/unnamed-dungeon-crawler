@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <hero>
-	<name>Tank</name>
-	<stats>
+  <name>Ulzo</name>
+  <stats>
     <level no="1" hp="4" mp="4" atk="1" def="1" matk="1" mdef="1" mnd="1" spd="1" lck="1"/>
     <level no="2" hp="8" mp="8" atk="5" def="5" matk="5" mdef="5" mnd="5" spd="5" lck="5"/>
     <level no="3" hp="12" mp="12" atk="7" def="7" matk="7" mdef="7" mnd="7" spd="7" lck="7"/>

@@ -20,3 +20,6 @@ http://blog.element84.com/efficient-delegation-using-the-objective-c-reflection-
 
 PATHFINDING
 http://forums.roguetemple.com/index.php?topic=4899.0
+
+GameDesign
+http://www.gamasutra.com/view/news/123031/Analysis_The_Eight_Rules_Of_Roguelike_Design.php

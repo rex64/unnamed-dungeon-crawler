@@ -439,6 +439,26 @@ void ResourceManager::loadHeroes(std::string basePath) {
 					heroName
 				};
 
+				tinyxml2::XMLElement *charElement = doc.FirstChildElement("hero")->FirstChildElement("stats");
+				int levelNo = 1;
+				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+				{
+					Level newLevel = { levelNo, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+					child->QueryIntAttribute("hp",		&newLevel.hp);
+					child->QueryIntAttribute("mp",		&newLevel.mp);
+					child->QueryIntAttribute("atk",		&newLevel.atk);
+					child->QueryIntAttribute("def",		&newLevel.def);
+					child->QueryIntAttribute("matk",	&newLevel.matk);
+					child->QueryIntAttribute("mdef",	&newLevel.mdef);
+					child->QueryIntAttribute("mnd",		&newLevel.mnd);
+					child->QueryIntAttribute("spd",		&newLevel.spd);
+					child->QueryIntAttribute("lck",		&newLevel.lck);
+
+					newHeroData->levels.push_back(newLevel);
+
+				}
+
 				ResourceManager::manager->heroDatas[resId] = newHeroData;
 
 			}

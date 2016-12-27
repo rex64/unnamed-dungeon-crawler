@@ -1,3 +1,55 @@
 <hero>
 	<name>Melee</name>
+	<stats>
+    <level no="1" hp="4" mp="4" atk="1" def="1" matk="1" mdef="1" mnd="1" spd="1" lck="1"/>
+    <level no="2" hp="8" mp="8" atk="5" def="5" matk="5" mdef="5" mnd="5" spd="5" lck="5"/>
+    <level no="3" hp="12" mp="12" atk="7" def="7" matk="7" mdef="7" mnd="7" spd="7" lck="7"/>
+    <level no="4" hp="16" mp="16" atk="9" def="9" matk="9" mdef="9" mnd="9" spd="9" lck="9"/>
+    <level no="5" hp="20" mp="20" atk="10" def="10" matk="10" mdef="10" mnd="10" spd="10" lck="10"/>
+    <level no="6" hp="24" mp="24" atk="11" def="11" matk="11" mdef="11" mnd="11" spd="11" lck="11"/>
+    <level no="7" hp="28" mp="28" atk="12" def="12" matk="12" mdef="12" mnd="12" spd="12" lck="12"/>
+    <level no="8" hp="32" mp="32" atk="13" def="13" matk="13" mdef="13" mnd="13" spd="13" lck="13"/>
+    <level no="9" hp="36" mp="36" atk="14" def="14" matk="14" mdef="14" mnd="14" spd="14" lck="14"/>
+    <level no="10" hp="40" mp="40" atk="14" def="14" matk="14" mdef="14" mnd="14" spd="14" lck="14"/>
+    <level no="11" hp="44" mp="44" atk="15" def="15" matk="15" mdef="15" mnd="15" spd="15" lck="15"/>
+    <level no="12" hp="48" mp="48" atk="15" def="15" matk="15" mdef="15" mnd="15" spd="15" lck="15"/>
+    <level no="13" hp="52" mp="52" atk="16" def="16" matk="16" mdef="16" mnd="16" spd="16" lck="16"/>
+    <level no="14" hp="56" mp="56" atk="16" def="16" matk="16" mdef="16" mnd="16" spd="16" lck="16"/>
+    <level no="15" hp="60" mp="60" atk="17" def="17" matk="17" mdef="17" mnd="17" spd="17" lck="17"/>
+    <level no="16" hp="64" mp="64" atk="17" def="17" matk="17" mdef="17" mnd="17" spd="17" lck="17"/>
+    <level no="17" hp="68" mp="68" atk="17" def="17" matk="17" mdef="17" mnd="17" spd="17" lck="17"/>
+    <level no="18" hp="72" mp="72" atk="18" def="18" matk="18" mdef="18" mnd="18" spd="18" lck="18"/>
+    <level no="19" hp="76" mp="76" atk="18" def="18" matk="18" mdef="18" mnd="18" spd="18" lck="18"/>
+    <level no="20" hp="80" mp="80" atk="18" def="18" matk="18" mdef="18" mnd="18" spd="18" lck="18"/>
+    <level no="21" hp="84" mp="84" atk="19" def="19" matk="19" mdef="19" mnd="19" spd="19" lck="19"/>
+    <level no="22" hp="88" mp="88" atk="19" def="19" matk="19" mdef="19" mnd="19" spd="19" lck="19"/>
+    <level no="23" hp="92" mp="92" atk="19" def="19" matk="19" mdef="19" mnd="19" spd="19" lck="19"/>
+    <level no="24" hp="96" mp="96" atk="20" def="20" matk="20" mdef="20" mnd="20" spd="20" lck="20"/>
+    <level no="25" hp="100" mp="100" atk="20" def="20" matk="20" mdef="20" mnd="20" spd="20" lck="20"/>
+    <level no="26" hp="104" mp="104" atk="20" def="20" matk="20" mdef="20" mnd="20" spd="20" lck="20"/>
+    <level no="27" hp="108" mp="108" atk="20" def="20" matk="20" mdef="20" mnd="20" spd="20" lck="20"/>
+    <level no="28" hp="112" mp="112" atk="20" def="20" matk="20" mdef="20" mnd="20" spd="20" lck="20"/>
+    <level no="29" hp="116" mp="116" atk="21" def="21" matk="21" mdef="21" mnd="21" spd="21" lck="21"/>
+    <level no="30" hp="120" mp="120" atk="21" def="21" matk="21" mdef="21" mnd="21" spd="21" lck="21"/>
+    <level no="31" hp="124" mp="124" atk="21" def="21" matk="21" mdef="21" mnd="21" spd="21" lck="21"/>
+    <level no="32" hp="128" mp="128" atk="21" def="21" matk="21" mdef="21" mnd="21" spd="21" lck="21"/>
+    <level no="33" hp="132" mp="132" atk="21" def="21" matk="21" mdef="21" mnd="21" spd="21" lck="21"/>
+    <level no="34" hp="136" mp="136" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="35" hp="140" mp="140" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="36" hp="144" mp="144" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="37" hp="148" mp="148" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="38" hp="152" mp="152" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="39" hp="156" mp="156" atk="22" def="22" matk="22" mdef="22" mnd="22" spd="22" lck="22"/>
+    <level no="40" hp="160" mp="160" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="41" hp="164" mp="164" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="42" hp="168" mp="168" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="43" hp="172" mp="172" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="44" hp="176" mp="176" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="45" hp="180" mp="180" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="46" hp="184" mp="184" atk="23" def="23" matk="23" mdef="23" mnd="23" spd="23" lck="23"/>
+    <level no="47" hp="188" mp="188" atk="24" def="24" matk="24" mdef="24" mnd="24" spd="24" lck="24"/>
+    <level no="48" hp="192" mp="192" atk="24" def="24" matk="24" mdef="24" mnd="24" spd="24" lck="24"/>
+    <level no="49" hp="196" mp="196" atk="24" def="24" matk="24" mdef="24" mnd="24" spd="24" lck="24"/>
+    <level no="50" hp="200" mp="200" atk="24" def="24" matk="24" mdef="24" mnd="24" spd="24" lck="24"/>
+  </stats>
 </hero>
