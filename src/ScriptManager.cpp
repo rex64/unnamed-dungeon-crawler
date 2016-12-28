@@ -105,6 +105,7 @@ void ScriptManager::init() {
 	registerFunction("save", "getCurrentPartySize", Save_getCurrentPartySize);
 	registerFunction("save", "getPartyMemberId",	Save_getPartyMemberId);
 	registerFunction("save", "getPartyMemberName",	Save_getPartyMemberName);
+	registerFunction("save", "getPartyMemberStats", Save_getPartyMemberStats);
 	registerFunction("save", "getHeroSkills",		Save_getHeroSkills);
 	registerFunction("save", "getSkillName",		Save_getSkillName);
 	registerFunction("save", "addHero",				Save_addHero);

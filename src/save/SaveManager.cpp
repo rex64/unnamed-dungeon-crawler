@@ -115,6 +115,68 @@ int Save_getPartyMemberName(lua_State *L) {
 	return 1;
 }
 
+int Save_getPartyMemberStats(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	HeroData *heroData = ResourceManager::manager->getHeroData(id);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+	Stats *stat = &heroData->stats[heroSave->level - 1];
+
+	lua_newtable(L);
+
+	//level
+	lua_pushstring(L, "level");
+	lua_pushinteger(L, stat->levelNo);
+	lua_settable(L, -3);
+
+	//int hp;
+	lua_pushstring(L, "hp");
+	lua_pushinteger(L, stat->hp);
+	lua_settable(L, -3);
+
+	//int mp;
+	lua_pushstring(L, "mp");
+	lua_pushinteger(L, stat->mp);
+	lua_settable(L, -3);
+
+	//int atk;
+	lua_pushstring(L, "atk");
+	lua_pushinteger(L, stat->atk);
+	lua_settable(L, -3);
+
+	//int def;
+	lua_pushstring(L, "def");
+	lua_pushinteger(L, stat->def);
+	lua_settable(L, -3);
+
+	//int matk;
+	lua_pushstring(L, "matk");
+	lua_pushinteger(L, stat->matk);
+	lua_settable(L, -3);
+
+	//int mdef;
+	lua_pushstring(L, "mdef");
+	lua_pushinteger(L, stat->mdef);
+	lua_settable(L, -3);
+
+	//int mnd;
+	lua_pushstring(L, "mnd");
+	lua_pushinteger(L, stat->mnd);
+	lua_settable(L, -3);
+
+	//int spd;
+	lua_pushstring(L, "spd");
+	lua_pushinteger(L, stat->spd);
+	lua_settable(L, -3);
+
+	//int lck;
+	lua_pushstring(L, "lck");
+	lua_pushinteger(L, stat->lck);
+	lua_settable(L, -3);
+
+	return 1;
+}
+
 int Save_getHeroSkills(lua_State *L) {
 
 	std::string id = lua_tostring(L, 1);
