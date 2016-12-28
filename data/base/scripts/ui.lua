@@ -45,28 +45,12 @@ if(ui ~= nil) then
 
   ui.openMenu = function()
 
-    local menuItem1 = MenuItem.new("Item", function() 
-
-        local menuItem1 = MenuItem.new("lol1", function() print('show equip menu') end)
-        local menuItem2 = MenuItem.new("lol2", function() print('show equip menu') end)
-        local menuItem3 = MenuItem.new("lol3", function() print('show equip menu') end)
-
-        local choiceMenu = ChoiceMenu.new()
-
-        choiceMenu:addMenuItem(menuItem1)
-        choiceMenu:addMenuItem(menuItem2)
-        choiceMenu:addMenuItem(menuItem3)
-
-        local win = ChoiceWindow.new(32, 32, 8, 8, choiceMenu)
-        win:setDismissable(true)
-        ui.addWindow(win)
-
-      end
-    )
-    local menuItem2 = MenuItem.new("Equip", function() print('show Equip menu') end)
-    local menuItem3 = MenuItem.new("Status", function() print('show Status menu') end)
-    local menuItem4 = MenuItem.new("Config", function() print('show Config menu') end)
-    local menuItem5 = MenuItem.new("Quit", function() print('show quit menu') end)
+    local menuItem1 = MenuItem.new("Items", function() end)
+    local menuItem2 = MenuItem.new("Skills", function() end)
+    local menuItem3 = MenuItem.new("Equip", function() print('show Equip menu') end)
+    local menuItem4 = MenuItem.new("Status", function() print('show Status menu') end)
+    local menuItem5 = MenuItem.new("Config", function() print('show Config menu') end)
+    local menuItem6 = MenuItem.new("Quit", function() print('show quit menu') end)
 
     local choiceMenu = ChoiceMenu.new()
 
@@ -74,6 +58,8 @@ if(ui ~= nil) then
     choiceMenu:addMenuItem(menuItem2)
     choiceMenu:addMenuItem(menuItem3)
     choiceMenu:addMenuItem(menuItem4)
+    choiceMenu:addMenuItem(menuItem5)
+    choiceMenu:addMenuItem(menuItem6)
 
     local win = ChoiceWindow.new(180, 8, 8, 8, choiceMenu)
     win:setDismissable(true)

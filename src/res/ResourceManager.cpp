@@ -443,19 +443,19 @@ void ResourceManager::loadHeroes(std::string basePath) {
 				int levelNo = 1;
 				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 				{
-					Level newLevel = { levelNo, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+					Stats newStats = { levelNo, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-					child->QueryIntAttribute("hp",		&newLevel.hp);
-					child->QueryIntAttribute("mp",		&newLevel.mp);
-					child->QueryIntAttribute("atk",		&newLevel.atk);
-					child->QueryIntAttribute("def",		&newLevel.def);
-					child->QueryIntAttribute("matk",	&newLevel.matk);
-					child->QueryIntAttribute("mdef",	&newLevel.mdef);
-					child->QueryIntAttribute("mnd",		&newLevel.mnd);
-					child->QueryIntAttribute("spd",		&newLevel.spd);
-					child->QueryIntAttribute("lck",		&newLevel.lck);
+					child->QueryIntAttribute("hp",		&newStats.hp);
+					child->QueryIntAttribute("mp",		&newStats.mp);
+					child->QueryIntAttribute("atk",		&newStats.atk);
+					child->QueryIntAttribute("def",		&newStats.def);
+					child->QueryIntAttribute("matk",	&newStats.matk);
+					child->QueryIntAttribute("mdef",	&newStats.mdef);
+					child->QueryIntAttribute("mnd",		&newStats.mnd);
+					child->QueryIntAttribute("spd",		&newStats.spd);
+					child->QueryIntAttribute("lck",		&newStats.lck);
 
-					newHeroData->levels.push_back(newLevel);
+					newHeroData->stats.push_back(newStats);
 
 				}
 

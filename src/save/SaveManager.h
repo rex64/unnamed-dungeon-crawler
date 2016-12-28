@@ -31,12 +31,14 @@ public:
 	
 	std::string id;
 
+	unsigned int level;
 	EquipSave* weapon;
 	EquipSave* head;
 	EquipSave* body;
 	EquipSave* accessory;
 
 	HeroSave(std::string id) : 
+		level(1),
 		weapon(nullptr),
 		head(nullptr),
 		body(nullptr),

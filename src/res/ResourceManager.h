@@ -58,8 +58,8 @@ struct FontData {
 	std::unordered_map<std::string, CharData*> chars;
 };
 
-struct Level {
-	int no;
+struct Stats {
+	int levelNo;
 	int hp;
 	int mp;
 	int atk;
@@ -77,7 +77,7 @@ struct HeroData {
 	std::string filePath;
 	std::string name;
 
-	std::vector<Level> levels;
+	std::vector<Stats> stats;
 };
 
 enum EquipType{
