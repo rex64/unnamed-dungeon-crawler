@@ -92,6 +92,15 @@ int Save_heroEquip(lua_State *L) {
 	case WEAPON:
 		heroSave->weapon = new EquipSave(equipData->id);
 		break;
+	case HEAD:
+		heroSave->head = new EquipSave(equipData->id);
+		break;
+	case BODY:
+		heroSave->body = new EquipSave(equipData->id);
+		break;
+	case ACCESSORY:
+		heroSave->accessory = new EquipSave(equipData->id);
+		break;
 	default:
 		Game::game->showMsgBox("Save_heroEquipEquip - equipData->type LOL");
 		break;

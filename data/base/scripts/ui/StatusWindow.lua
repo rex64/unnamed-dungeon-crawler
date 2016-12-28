@@ -50,11 +50,26 @@ end
 
 function StatusWindow:onInput(input)
 
---[[
-  if input.ok == true then
-    self:dismiss()
+
+  if input.right == true then
+  
+    self.currHeroIndex = self.currHeroIndex + 1
+    
+    if self.currHeroIndex > 4 then self.currHeroIndex = 1 end
+    
+    self:setHero(self.currHeroIndex)
+  
+  elseif input.left == true then
+  
+    self.currHeroIndex = self.currHeroIndex - 1
+    
+    if self.currHeroIndex < 1 then self.currHeroIndex = 4 end
+    
+    self:setHero(self.currHeroIndex)
+  
   end
-  ]]--
+  
+  
 end
 
 function StatusWindow:render()
@@ -134,12 +149,12 @@ function StatusWindow:render()
   engine.renderTextLine(self.heroEquips.accessory, x+8*20,     y+8*7)
 
   --HERO SKILLS
-  engine.renderTextLine('Skills', x+8*28,  y+8*2)
+  engine.renderTextLine('Skills', x+8*12,  y+8*10)
 
   for i, skillName in ipairs(self.heroSkills) do
 
 
-    engine.renderTextLine(skillName, x+8*28,  y+8*(3+i))
+    engine.renderTextLine(skillName, x+8*12,  y+8*(11+i))
 
   end
 

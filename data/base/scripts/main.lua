@@ -38,6 +38,7 @@ save.addHero('base.heroes.ulzo', 4)
 
 
 save.heroEquip('base.heroes.tank',   'base.equips.sword')
+save.heroEquip('base.heroes.tank',   'base.equips.subligaria-of-tanking')
 save.heroEquip('base.heroes.heals',  'base.equips.staff')
 save.heroEquip('base.heroes.melee',  'base.equips.knife')
 --save.heroEquip('base.heroes.ranged', 'base.equips.bow')
