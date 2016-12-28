@@ -170,6 +170,10 @@ public:
 	static SaveManager *manager;
 	std::unordered_map<std::string, HeroSave*> heroMap;
 	std::vector<HeroSave*> heroesVector;
+	std::vector<std::string> weaponVector;
+	std::vector<std::string> headVector;
+	std::vector<std::string> bodyVector;
+	std::vector<std::string> accessoriesVector;
 
 	//void addHero(Hero*);
 
@@ -203,9 +207,17 @@ extern "C" {
 	int Save_getPartyMemberStats(lua_State *L);
 	int Save_getPartyMemberEquip(lua_State *L);
 	int Save_getHeroSkills(lua_State *L);
+	int Save_getEquipName(lua_State *L);
 	int Save_getSkillName(lua_State *L);
 	int Save_partyMemberCurrentTotalExp(lua_State *L);
 	int Save_getExpToLevel(lua_State *L);
+
+	int Save_addEquipToInventory(lua_State *L);
+	int Save_getInventoryWeapons(lua_State *L);
+	int Save_getInventoryHeads(lua_State *L);
+	int Save_getInventoryBodies(lua_State *L);
+	int Save_getInventoryAccessories(lua_State *L);
+	int Save_swapEquip(lua_State *L);
 
 }
 

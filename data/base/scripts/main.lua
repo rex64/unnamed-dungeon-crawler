@@ -31,15 +31,24 @@ print('main - ok');
 game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1):debug('main.lua 31'))
 
 save.addHero('base.heroes.tank',   1)
-save.addHero('base.heroes.heals',  2)
-save.addHero('base.heroes.melee',  3)
---save.addHero('base.heroes.ranged', 4)
-save.addHero('base.heroes.ulzo', 4)
-
-
 save.heroEquip('base.heroes.tank',   'base.equips.sword')
 save.heroEquip('base.heroes.tank',   'base.equips.subligaria-of-tanking')
+
+save.addHero('base.heroes.heals',  2)
 save.heroEquip('base.heroes.heals',  'base.equips.staff')
+
+save.addHero('base.heroes.melee',  3)
 save.heroEquip('base.heroes.melee',  'base.equips.knife')
---save.heroEquip('base.heroes.ranged', 'base.equips.bow')
-save.heroEquip('base.heroes.ulzo', 'base.equips.bow')
+
+save.addHero('base.heroes.ranged', 4)
+save.heroEquip('base.heroes.ranged', 'base.equips.bow')
+
+save.addEquipToInventory('base.equips.junk-sword-of-testing1')
+save.addEquipToInventory('base.equips.junk-sword-of-testing2')
+save.addEquipToInventory('base.equips.junk-sword-of-testing2')
+save.addEquipToInventory('base.equips.junk-sword-of-testing3')
+save.addEquipToInventory('base.equips.junk-sword-of-testing4')
+save.addEquipToInventory('base.equips.nice-sword')
+
+local omar = save.getInventoryWeapons()
+print(omar)

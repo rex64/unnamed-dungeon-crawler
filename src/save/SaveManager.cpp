@@ -355,6 +355,17 @@ int Save_getHeroSkills(lua_State *L) {
 	return 1;
 }
 
+int Save_getEquipName(lua_State *L) {
+
+	std::string equipId = lua_tostring(L, 1);
+
+	std::string equipName = ResourceManager::manager->getEquipData(equipId)->name;
+
+	lua_pushstring(L, equipName.c_str());
+
+	return 1;
+}
+
 int Save_getSkillName(lua_State *L) {
 
 	std::string skillId = lua_tostring(L, 1);
@@ -365,3 +376,163 @@ int Save_getSkillName(lua_State *L) {
 
 	return 1;
 }
+
+int Save_addEquipToInventory(lua_State *L) {
+
+	std::string equipId = lua_tostring(L, 1);
+
+	EquipData *equipData = ResourceManager::manager->getEquipData(equipId);
+
+	switch (equipData->type)
+	{
+	case WEAPON:
+		SaveManager::manager->weaponVector.push_back(equipId);
+		break;
+	case HEAD:
+		SaveManager::manager->headVector.push_back(equipId);
+		break;
+	case BODY:
+		SaveManager::manager->bodyVector.push_back(equipId);
+		break;
+	case ACCESSORY:
+		SaveManager::manager->accessoriesVector.push_back(equipId);
+		break;
+	default:
+		Game::game->showMsgBox("Save_addEquipToBag - equipData->type LOL");
+		break;
+	}
+
+	return 0;
+}
+
+int Save_getInventoryWeapons(lua_State *L) {
+
+	lua_newtable(L);
+
+	int x = 1;
+	for (auto weaponId : SaveManager::manager->weaponVector) {
+
+		lua_pushstring(L, weaponId.c_str());
+		lua_rawseti(L, -2, x);
+
+		x += 1;
+	}
+
+	return 1;
+
+}
+
+int Save_getInventoryHeads(lua_State *L) {
+
+	lua_newtable(L);
+
+	int x = 1;
+	for (auto headId : SaveManager::manager->headVector) {
+
+		lua_pushstring(L, headId.c_str());
+		lua_rawseti(L, -2, x);
+
+		x += 1;
+	}
+
+	return 1;
+
+}
+
+int Save_getInventoryBodies(lua_State *L) {
+
+	lua_newtable(L);
+
+	int x = 1;
+	for (auto bodyId : SaveManager::manager->bodyVector) {
+
+		lua_pushstring(L, bodyId.c_str());
+		lua_rawseti(L, -2, x);
+
+		x += 1;
+	}
+
+	return 1;
+}
+
+int Save_getInventoryAccessories(lua_State *L) {
+
+	lua_newtable(L);
+
+	int x = 1;
+	for (auto accessoryId : SaveManager::manager->accessoriesVector) {
+
+		lua_pushstring(L, accessoryId.c_str());
+		lua_rawseti(L, -2, x);
+
+		x += 1;
+	}
+
+	return 1;
+
+}
+
+int Save_swapEquip(lua_State *L) {
+
+	std::string heroId  = lua_tostring(L, 1);
+	std::string equipId = lua_tostring(L, 2);
+
+	HeroSave *heroSave = SaveManager::manager->heroMap[heroId];
+	EquipData *equipData = ResourceManager::manager->getEquipData(equipId);
+
+	switch (equipData->type)
+	{
+	case WEAPON: 
+	{
+		//remove weapon-to-equip from inventory
+		auto it = std::find(SaveManager::manager->weaponVector.begin(), SaveManager::manager->weaponVector.end(), equipId);
+		if (it != SaveManager::manager->weaponVector.end()) SaveManager::manager->weaponVector.erase(it);
+
+		//add old-weapon to inventory
+		SaveManager::manager->weaponVector.push_back(heroSave->weapon->id);
+
+		//equip new-weapon
+		heroSave->weapon = new EquipSave(equipId);
+	}
+	break;
+	case HEAD:
+	{
+		auto it = std::find(SaveManager::manager->headVector.begin(), SaveManager::manager->headVector.end(), equipId);
+		if (it != SaveManager::manager->headVector.end()) SaveManager::manager->headVector.erase(it);
+
+		SaveManager::manager->headVector.push_back(heroSave->head->id);
+
+		heroSave->head = new EquipSave(equipId);
+	}
+		break;
+	case BODY:
+	{
+		auto it = std::find(SaveManager::manager->bodyVector.begin(), SaveManager::manager->bodyVector.end(), equipId);
+		if (it != SaveManager::manager->bodyVector.end()) SaveManager::manager->bodyVector.erase(it);
+
+		SaveManager::manager->bodyVector.push_back(heroSave->body->id);
+
+		heroSave->body = new EquipSave(equipId);
+	}
+		break;
+	case ACCESSORY:
+	{
+		auto it = std::find(SaveManager::manager->accessoriesVector.begin(), SaveManager::manager->accessoriesVector.end(), equipId);
+		if (it != SaveManager::manager->accessoriesVector.end()) SaveManager::manager->accessoriesVector.erase(it);
+
+		SaveManager::manager->accessoriesVector.push_back(heroSave->accessory->id);
+
+		heroSave->accessory = new EquipSave(equipId);
+	}
+		break;
+	default:
+		Game::game->showMsgBox("Save_heroEquipEquip - equipData->type LOL");
+		break;
+	}
+
+	return 0;
+
+
+
+}
+

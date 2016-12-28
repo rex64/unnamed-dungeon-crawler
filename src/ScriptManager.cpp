@@ -111,11 +111,21 @@ void ScriptManager::init() {
 	registerFunction("save", "getPartyMemberStats", Save_getPartyMemberStats);
 	registerFunction("save", "getHeroSkills",		Save_getHeroSkills);
 	registerFunction("save", "getPartyMemberEquip", Save_getPartyMemberEquip);
+	registerFunction("save", "getEquipName",		Save_getEquipName);
 	registerFunction("save", "getSkillName",		Save_getSkillName);
 	registerFunction("save", "partyMemberCurrentTotalExp",		Save_partyMemberCurrentTotalExp);
 
 	registerFunction("save", "addHero",				Save_addHero);
 	registerFunction("save", "heroEquip",			Save_heroEquip);
+
+	registerFunction("save", "addEquipToInventory", Save_addEquipToInventory);
+	registerFunction("save", "getInventoryWeapons", Save_getInventoryWeapons);
+	registerFunction("save", "getInventoryHeads", Save_getInventoryHeads);
+	registerFunction("save", "getInventoryBodies", Save_getInventoryBodies);
+	registerFunction("save", "getInventoryAccessories", Save_getInventoryAccessories);
+	registerFunction("save", "swapEquip", Save_swapEquip);
+
+
 
 	registerFunction("engine", "renderTile",		Render_renderTile);
 	registerFunction("engine", "renderSprite",		Render_renderSprite);

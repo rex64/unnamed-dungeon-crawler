@@ -2,12 +2,15 @@ local MenuItem     = require('ui.MenuItem')
 local ChoiceMenu   = require('ui.ChoiceMenu')
 local ChoiceWindow = require('ui.ChoiceWindow')
 local StatusWindow = require('ui.StatusWindow')
+local EquipWindow  = require('ui.EquipWindow')
+
 
 ui = {}
 
 --UI stuff
 if(ui ~= nil) then
 
+--[[
   ui.UP     = 0
   ui.RIGHT  = 1
   ui.DOWN   = 2
@@ -15,6 +18,7 @@ if(ui ~= nil) then
   ui.OK     = 4
   ui.CANCEL = 5
   ui.ESC    = 6
+]]--
 
   ui.windows = {};
   ui.addWindow = function(newWindow)
@@ -48,7 +52,11 @@ if(ui ~= nil) then
 
     local menuItem1 = MenuItem.new("Items", function() end)
     local menuItem2 = MenuItem.new("Skills", function() end)
-    local menuItem3 = MenuItem.new("Equip", function() print('show Equip menu') end)
+    local menuItem3 = MenuItem.new("Equip", function() 
+        local win = EquipWindow.new(0, 0, 49, 27)
+        ui.addWindow(win)
+        
+        end)
 
     --StatusWindow
     local menuItem4 = MenuItem.new("Status", function() 
