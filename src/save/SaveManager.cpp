@@ -177,6 +177,77 @@ int Save_getPartyMemberStats(lua_State *L) {
 	return 1;
 }
 
+int Save_getPartyMemberEquip(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	//HeroData *heroData = ResourceManager::manager->getHeroData(id);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	lua_newtable(L);
+
+	//weapon
+	if (heroSave->weapon) {
+		EquipData *weaponData = ResourceManager::manager->getEquipData(heroSave->weapon->id);
+
+		lua_pushstring(L, "weapon");
+		lua_pushstring(L, weaponData->name.c_str());
+		lua_settable(L, -3);
+
+	} else {
+	
+		lua_pushstring(L, "weapon");
+		lua_pushstring(L, "nil");
+		lua_settable(L, -3);
+
+	}
+	
+	//head
+	if (heroSave->head) {
+		EquipData *headData = ResourceManager::manager->getEquipData(heroSave->head->id);
+		lua_pushstring(L, "head");
+		lua_pushstring(L, headData->name.c_str());
+		lua_settable(L, -3);
+	}
+	else {
+	
+		lua_pushstring(L, "head");
+		lua_pushstring(L, "nil");
+		lua_settable(L, -3);
+	}
+
+	//body
+	if (heroSave->body) {
+		EquipData *bodyData = ResourceManager::manager->getEquipData(heroSave->body->id);
+		lua_pushstring(L, "body");
+		lua_pushstring(L, bodyData->name.c_str());
+		lua_settable(L, -3);
+	}
+	else {
+
+		lua_pushstring(L, "body");
+		lua_pushstring(L, "nil");
+		lua_settable(L, -3);
+	}
+
+	//accessory
+	if (heroSave->accessory) {
+		EquipData *accessoryData = ResourceManager::manager->getEquipData(heroSave->accessory->id);
+		lua_pushstring(L, "accessory");
+		lua_pushstring(L, accessoryData->name.c_str());
+		lua_settable(L, -3);
+	}
+	else {
+
+		lua_pushstring(L, "accessory");
+		lua_pushstring(L, "nil");
+		lua_settable(L, -3);
+	}
+
+	
+
+	return 1;
+}
+
 int Save_getHeroSkills(lua_State *L) {
 
 	std::string id = lua_tostring(L, 1);

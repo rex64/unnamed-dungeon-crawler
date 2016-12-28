@@ -110,11 +110,19 @@ function StatusWindow:render()
   --HERO EQUIPS
   --HERO LEVEL
   engine.renderTextLine('Equip',  x+8*12,     y+8*2)
-  engine.renderTextLine('Weapon', x+8*12,     y+8*4)
-  engine.renderTextLine('Head', x+8*12,       y+8*5)
-  engine.renderTextLine('Body', x+8*12,       y+8*6)
-  engine.renderTextLine('Accessory', x+8*12,  y+8*7)
   
+  engine.renderTextLine('Weapon', x+8*12,     y+8*4)  
+  engine.renderTextLine(self.heroEquips.weapon, x+8*20,     y+8*4)
+  
+  engine.renderTextLine('Head', x+8*12,       y+8*5)
+  engine.renderTextLine(self.heroEquips.head, x+8*20,     y+8*5)
+  
+  engine.renderTextLine('Body', x+8*12,       y+8*6)
+  engine.renderTextLine(self.heroEquips.body, x+8*20,     y+8*6)
+  
+  engine.renderTextLine('Accessory', x+8*12,  y+8*7)
+  engine.renderTextLine(self.heroEquips.accessory, x+8*20,     y+8*7)
+
   --HERO SKILLS
   --self.heroSkills = {}
 
@@ -125,6 +133,8 @@ function StatusWindow:setHero(heroIndex)
     local partyMemberId     = save.getPartyMemberId(heroIndex)
     local partyMemberName   = save.getPartyMemberName(partyMemberId)
     local partyMemberStats  = save.getPartyMemberStats(partyMemberId)
+    local partyMemberEquip  = save.getPartyMemberEquip(partyMemberId)
+
     
     self.heroName   = partyMemberName
     
@@ -141,7 +151,13 @@ function StatusWindow:setHero(heroIndex)
     self.heroSpd  = tostring(partyMemberStats.spd)
     self.heroLck  = tostring(partyMemberStats.lck)
     
-    
+    --HERO EQUIPS
+    self.heroEquips = {
+      weapon    = tostring(partyMemberEquip.weapon),
+      head      = tostring(partyMemberEquip.head),
+      body      = tostring(partyMemberEquip.body),
+      accessory = tostring(partyMemberEquip.accessory),
+    }
     
 end
 
