@@ -440,11 +440,12 @@ void ResourceManager::loadHeroes(std::string basePath) {
 				};
 
 				tinyxml2::XMLElement *charElement = doc.FirstChildElement("hero")->FirstChildElement("stats");
-				int levelNo = 1;
+
 				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 				{
-					Stats newStats = { levelNo, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+					Stats newStats = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
+					child->QueryIntAttribute("no",		&newStats.levelNo);
 					child->QueryIntAttribute("hp",		&newStats.hp);
 					child->QueryIntAttribute("mp",		&newStats.mp);
 					child->QueryIntAttribute("atk",		&newStats.atk);

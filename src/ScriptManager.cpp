@@ -79,6 +79,9 @@ void ScriptManager::init() {
 	registerFunction("engine", "enableInput", Game_enableInput);
 	registerFunction("engine", "disableInput", Game_disableInput);
 
+	registerFunction("engine", "getExpToLevel", Save_getExpToLevel);
+
+
 
 	/*registerFunction("engine", "onInputUp", Stage_onInputUp);
 	registerFunction("engine", "onInputRight", Stage_onInputRight);
@@ -109,6 +112,7 @@ void ScriptManager::init() {
 	registerFunction("save", "getHeroSkills",		Save_getHeroSkills);
 	registerFunction("save", "getPartyMemberEquip", Save_getPartyMemberEquip);
 	registerFunction("save", "getSkillName",		Save_getSkillName);
+	registerFunction("save", "partyMemberCurrentTotalExp",		Save_partyMemberCurrentTotalExp);
 
 	registerFunction("save", "addHero",				Save_addHero);
 	registerFunction("save", "heroEquip",			Save_heroEquip);

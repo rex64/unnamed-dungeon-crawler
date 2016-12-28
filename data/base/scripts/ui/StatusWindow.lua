@@ -16,6 +16,7 @@ function StatusWindow.new(x, y, w, h)
 
   self.name = 'StatusWindow'
   
+  --[[
   --HERO NAME & LEVEL
   self.heroName = '-1'
   self.heroLevel = '-1'
@@ -37,7 +38,8 @@ function StatusWindow.new(x, y, w, h)
     head      = '-1',
     body      = '-1',
     accessory = '-1',
-    }
+  }
+  ]]--
   self.heroSkills = {}
   
   self.currHeroIndex = 1
@@ -107,6 +109,14 @@ function StatusWindow:render()
   engine.renderTextLine('Lck',            x,       y+8*12)
   engine.renderTextLine(self.heroLck,     x+8*6,   y+8*12)
   
+  --Total EXP
+  engine.renderTextLine('Total EXP',              x,       y+8*15)
+  engine.renderTextLine(self.heroCurrentExp,     x+8*6,   y+8*16)
+  
+  --To Next Level EXP
+  engine.renderTextLine('To Next Level',         x,       y+8*18)
+  engine.renderTextLine(self.heroExpToNextLevel,     x+8*6,   y+8*19)
+  
   --HERO EQUIPS
   --HERO LEVEL
   engine.renderTextLine('Equip',  x+8*12,     y+8*2)
@@ -132,15 +142,25 @@ function StatusWindow:setHero(heroIndex)
 
     local partyMemberId     = save.getPartyMemberId(heroIndex)
     local partyMemberName   = save.getPartyMemberName(partyMemberId)
-    local partyMemberStats  = save.getPartyMemberStats(partyMemberId)
+    
+
+    local partyMemberStats              = save.getPartyMemberStats(partyMemberId)
+    local partyMemberCurrentTotalExp    = save.partyMemberCurrentTotalExp(partyMemberId)
+    local expToNextLevel                = engine.getExpToLevel(partyMemberStats.level+1) - partyMemberCurrentTotalExp;
+    
     local partyMemberEquip  = save.getPartyMemberEquip(partyMemberId)
 
-    
+    --NAME
     self.heroName   = partyMemberName
     
+    --LEVEL
     self.heroLevel  = tostring(partyMemberStats.level)
   
-    --HERO STATS
+    --EXP
+    self.heroCurrentExp = tostring(partyMemberCurrentTotalExp)
+    self.heroExpToNextLevel = tostring(expToNextLevel)
+  
+    --STATS
     self.heroHp   = tostring(partyMemberStats.hp)
     self.heroMp   = tostring(partyMemberStats.mp)
     self.heroAtk  = tostring(partyMemberStats.atk)

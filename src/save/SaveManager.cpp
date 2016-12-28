@@ -25,6 +25,29 @@ SaveManager::~SaveManager()
 void SaveManager::init() {
 
 	manager = this;
+
+	/*unsigned int expToLevel0	= HeroSave::getTotalExpNeeded(1);
+	unsigned int expToLevel4 = HeroSave::getTotalExpNeeded(4);
+	unsigned int expToLevel5 = HeroSave::getTotalExpNeeded(5);
+	unsigned int expToLevel10 = HeroSave::getTotalExpNeeded(10);
+	unsigned int expToLevel20 = HeroSave::getTotalExpNeeded(20);
+	unsigned int expToLevel25 = HeroSave::getTotalExpNeeded(25);
+
+	unsigned int expToLevel50	= HeroSave::getTotalExpNeeded(50);
+
+	unsigned int expToLeve1 = HeroSave::getLevel(expToLevel0);
+	unsigned int expToLeve4 = HeroSave::getLevel(expToLevel4);
+	unsigned int expToLeve5 = HeroSave::getLevel(expToLevel5);
+	unsigned int expToLeve10 = HeroSave::getLevel(expToLevel10);
+	unsigned int expToLeve20 = HeroSave::getLevel(expToLevel20);
+	unsigned int expToLeve25 = HeroSave::getLevel(expToLevel25);
+	unsigned int expToLeve50 = HeroSave::getLevel(expToLevel50);
+
+
+
+	unsigned int expToLevelx0 = HeroSave::getLevel(0);*/
+
+
 }
 
 int Save_addHero(lua_State *L) {
@@ -120,7 +143,7 @@ int Save_getPartyMemberStats(lua_State *L) {
 	std::string id = lua_tostring(L, 1);
 	HeroData *heroData = ResourceManager::manager->getHeroData(id);
 	HeroSave *heroSave = SaveManager::manager->heroMap[id];
-	Stats *stat = &heroData->stats[heroSave->level - 1];
+	Stats *stat = &heroData->stats[heroSave->getLevel(heroSave->exp) - 1];
 
 	lua_newtable(L);
 
@@ -173,6 +196,26 @@ int Save_getPartyMemberStats(lua_State *L) {
 	lua_pushstring(L, "lck");
 	lua_pushinteger(L, stat->lck);
 	lua_settable(L, -3);
+
+	return 1;
+}
+
+int Save_partyMemberCurrentTotalExp(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+	
+	lua_pushinteger(L, heroSave->exp);
+
+	return 1;
+}
+
+int Save_getExpToLevel(lua_State *L) {
+
+	int level = lua_tointeger(L, 1);
+	int res = HeroSave::getTotalExpNeeded(level);
+
+	lua_pushinteger(L, res);
 
 	return 1;
 }
