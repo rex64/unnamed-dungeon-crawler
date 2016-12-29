@@ -9,11 +9,12 @@ local FloorConsts = require('field.FloorConsts')
 Floor = {}
 Floor.__index = Floor
 
-function Floor.new(dungeonId, width, height, fillTile, name)
+function Floor.new(dungeonId, floorNo, width, height, fillTile, name)
 
   local self = setmetatable({}, Floor)
 
   self.dungeonId = dungeonId
+  self.floorNo = floorNo
   self.width = width
   self.height = height
   self.name = name or 'Floor'
@@ -40,7 +41,7 @@ function Floor:onInput(input)
 
     elseif input.ok then
       if (self.interactableEntity ~= nil) then
-        data.entities[self.interactableEntity.id].onInteract()
+        data.entities[self.interactableEntity.id].onInteract(self.interactableEntity, self.player)
       end
     elseif input.cancel then
 
@@ -185,6 +186,27 @@ function Floor:addEntity(entity, tileId)
   table.insert(self.entities, entity)
   entity.tileId = tileId
   self.tilesEntities[tileId] = entity
+end
+
+function Floor:removeEntity(entity)
+
+  local entityTileId = entity.tileId
+  local entityIndex = nil
+  
+
+  for i, e in ipairs(self.entities) do
+
+    if (e == entity) then entityIndex = i end
+
+  end
+
+  if (entityIndex ~= nil) then
+
+    table.remove(self.entities, entityIndex)
+  end
+  
+  self.tilesEntities[entityTileId] = nil
+
 end
 
 function Floor:moveEntity(entity, tileId)

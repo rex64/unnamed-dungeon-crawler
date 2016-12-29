@@ -49,7 +49,6 @@ save.addEquipToInventory('base.equips.junk-sword-of-testing2')
 save.addEquipToInventory('base.equips.junk-sword-of-testing2')
 save.addEquipToInventory('base.equips.junk-sword-of-testing3')
 save.addEquipToInventory('base.equips.junk-sword-of-testing4')
-save.addEquipToInventory('base.equips.nice-sword')
 
 local omar = save.getInventoryWeapons()
 print(omar)

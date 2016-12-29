@@ -1,6 +1,7 @@
 data.entities['base.entities.enemy'] = {
 
-  onInteract = function()
+  onInteract = function(entity, player)
+    
     print("enemy - onInteractZ")
     
     local Battle     = require('battle.Battle')

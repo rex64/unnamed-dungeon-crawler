@@ -7,7 +7,7 @@ data.dungeons[RESOURCE_ID] = {
     local Floor       = require('field.Floor')
     local FloorEntity = require('field.FloorEntity')
 
-    local newFloor = Floor.new(dungeonResId, 16, 9)
+    local newFloor = Floor.new(dungeonResId, floorNo, 16, 9)
     newFloor.name = newFloor.dungeonId .. ' - floor: ' .. floorNo 
 
     print(newFloor.name .. " onCreateFloor")

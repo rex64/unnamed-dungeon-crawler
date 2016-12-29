@@ -1,0 +1,6 @@
+<entity>
+	<name>Chest</name>
+	<file>chest.lua</file>
+	<type>other</type>
+	<sprite>base.spritesheets.chest</sprite>
+</entity>
