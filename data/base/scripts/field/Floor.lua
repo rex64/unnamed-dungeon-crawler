@@ -9,7 +9,7 @@ local FloorConsts = require('field.FloorConsts')
 Floor = {}
 Floor.__index = Floor
 
-function Floor.new(dungeonId, width, height, name)
+function Floor.new(dungeonId, width, height, fillTile, name)
 
   local self = setmetatable({}, Floor)
 
@@ -20,9 +20,12 @@ function Floor.new(dungeonId, width, height, name)
   self.entities = {}
   self.tilesEntities = {}
   self.player = nil
-  self.tileCollisions = nil
-  self.tileSets = nil
+  self.tileCollisions = {}
+  self.tileSets = {}
   self.interactableEntity = nil
+
+  for i = 1, width * height do table.insert(self.tileCollisions, 0) end
+  for i = 1, width * height do table.insert(self.tileSets, fillTile) end 
 
   return self
 end
@@ -193,7 +196,8 @@ function Floor:moveEntity(entity, tileId)
   entity.tileId = tileId
   self.tilesEntities[tileId] = entity
 
-  print(entity.name .. ' moves to ' .. entity.tileId)
+  local xy = self:toXY(entity.tileId)
+  print(entity.name .. ' moves to ' .. entity.tileId .. ' - x:' .. xy.x .. ' y:' .. xy.y)
 
 end
 
@@ -230,6 +234,36 @@ function Floor:checkIfTileIsWalkable(tileId)
 
 
   return false
+
+end
+
+function Floor:setTile(x, y, tileSprite, collision)
+
+  local index = self:to1D(x, y)
+
+  self.tileCollisions[index+1] = collision
+  self.tileSets[index+1] = tileSprite
+
+end
+
+function Floor:addRoom(x, y, w, h, tilePass, tileCollision)
+
+  for j = y, y + h do
+
+    for i = x, x + w do
+
+      if j == y         then self:setTile(i, j, tileCollision, 0)
+      elseif j == (y + h) then self:setTile(i, j, tileCollision, 0)
+      elseif i == x     then self:setTile(i, j, tileCollision, 0) 
+      elseif i == x + w then self:setTile(i, j, tileCollision, 0)
+      else self:setTile(i, j, tilePass, 1)
+      end
+      --
+    end
+
+
+  end
+
 
 end
 

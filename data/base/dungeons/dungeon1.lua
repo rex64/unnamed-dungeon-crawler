@@ -5,49 +5,31 @@ data.dungeons[RESOURCE_ID] = {
     local Floor       = require('field.Floor')
     local FloorEntity = require('field.FloorEntity')
 
-    local newFloor = Floor.new(dungeonResId, 16, 9)
+    local passableTiles  = "base.tiles.tile00"
+    local collisionTiles   = "base.tiles.tile01"
+    local fillTiles       = "base.tiles.tile02"
+
+    local newFloor = Floor.new(dungeonResId, 64, 64, fillTiles)
     newFloor.name = newFloor.dungeonId .. ' - floor: ' .. floorNo 
 
     print(newFloor.name .. " onCreateFloor")
 
-    t0 = "base.tiles.tile00"
-    t1 = "base.tiles.tile01"
+    newFloor:addRoom(0, 0, 16, 16,  passableTiles, collisionTiles)
+    newFloor:addRoom(16, 6, 8, 2,  passableTiles, collisionTiles)
+    newFloor:addRoom(24, 4, 4, 4,  passableTiles, collisionTiles)
 
-    newFloor.tileCollisions = {
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    }
 
-    newFloor.tileSets = {
-      t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1,
-      t1, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t1, t1, t1, t0, t0, t0, t0, t0, t0, t1,
-      t1, t0, t0, t0, t0, t0, t0, t1, t0, t0, t0, t0, t0, t0, t0, t1,
-      t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1, t1,
-    }
+    newFloor:setTile(16, 7, passableTiles, 1)
+    newFloor:setTile(24, 7, passableTiles, 1)
 
     --Player
     local playerEntity = FloorEntity.new('base.entities.player', 'Player')
-    newFloor:addEntity(playerEntity, 1 + 16)
+    newFloor:addEntity(playerEntity, newFloor:to1D(1,1))
     newFloor:setPlayerEntity(playerEntity)
 
     local stairsEntity = FloorEntity.new('base.entities.stairs', 'Stairs')
-    newFloor:addEntity(stairsEntity, 1 + 18)
+    newFloor:addEntity(stairsEntity, newFloor:to1D(26,6))
 
-    local enemyEntity = FloorEntity.new('base.entities.enemy', 'Enemy')
-    newFloor:addEntity(enemyEntity, 1 + 24)
-    
     return newFloor
 
   end
