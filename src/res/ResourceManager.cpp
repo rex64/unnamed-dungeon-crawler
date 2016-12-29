@@ -251,18 +251,9 @@ void ResourceManager::loadDungeons(std::string basePath) {
 				std::string resId = resIdFromPath(file.path);
 				std::string filePath = removeFilenameFromPath(file.name, file.path);
 
-				
-
-
-				/*DungeonData *newDungeonData = new DungeonData{
-					sub2,
-					file.name,
-					dungeonName
-				};
-
-				ResourceManager::manager->dungeonDatas[sub2] = newDungeonData;*/
-
+				ScriptManager::manager->injectResourceIdGlobal(resId);
 				ScriptManager::manager->doFile(filePath.append(dungeonFile).c_str());
+				ScriptManager::manager->removeResourceIdGlobal();
 
 			}
 			else {

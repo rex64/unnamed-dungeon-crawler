@@ -12,7 +12,7 @@ function ChangeFloorEvent.new(floorId, floorNo)
 
   self.name = 'ChangeFloorEvent'
   --self.done = false;
-  
+
   self.floorId = floorId
   self.floorNo = floorNo
 
@@ -23,9 +23,15 @@ function ChangeFloorEvent:update(input, dt)
 
   print('event - ChangeFloorEvent: ' .. self.floorId .. ' no: ' .. self.floorNo)
   self.done = true;
-  
-  local newFloor = data.dungeons[self.floorId].onCreateFloor(self.floorNo)
-  field.setCurrentFloor(newFloor)
+
+  if data.dungeons[self.floorId] ~= nil then
+    local newFloor = data.dungeons[self.floorId].onCreateFloor(self.floorId, self.floorNo)
+    field.setCurrentFloor(newFloor)
+  else
+    print('floor: ' .. self.floorId .. ' doesn\'t exists')
+  end
+
+
 end
 
 return ChangeFloorEvent

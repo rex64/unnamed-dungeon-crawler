@@ -1,0 +1,11 @@
+<dungeon>
+	<name>Debug Room</name>
+	<file>debug-room.lua</file>
+	<description>desc</description>
+	<difficulties>
+		<easy>1</easy>
+		<normal>1</normal>
+		<hard>1</hard>
+		<extreme>1</extreme>
+	</difficulties>
+</dungeon>

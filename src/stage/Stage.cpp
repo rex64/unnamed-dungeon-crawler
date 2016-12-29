@@ -10,22 +10,22 @@ Stage::~Stage()
 {
 }
 
-void Stage::load(std::string dungeonDataID, int dungeonFloor) {
-
-	adjEntitiesFindRes = AdjEntitiesFindResult{ nullptr, nullptr, nullptr, nullptr, nullptr };
-
-	player = nullptr;
-	arrayWidth = 16;
-	arrayHeight = 9;
-
-	for (size_t i = 0; i < arrayWidth * arrayHeight; i++)
-	{
-		tiles.push_back(Tile{});
-	}
-
-	ScriptManager::manager->onCreateFloor(dungeonDataID, dungeonFloor);
-
-}
+//void Stage::load(std::string dungeonDataID, int dungeonFloor) {
+//
+//	adjEntitiesFindRes = AdjEntitiesFindResult{ nullptr, nullptr, nullptr, nullptr, nullptr };
+//
+//	player = nullptr;
+//	arrayWidth = 16;
+//	arrayHeight = 9;
+//
+//	for (size_t i = 0; i < arrayWidth * arrayHeight; i++)
+//	{
+//		tiles.push_back(Tile{});
+//	}
+//
+//	ScriptManager::manager->onCreateFloor(dungeonDataID, dungeonFloor);
+//
+//}
 
 void Stage::setTile(int id, std::string value, TileType tileType) {
 

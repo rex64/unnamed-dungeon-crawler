@@ -2,6 +2,8 @@ data.dungeons[RESOURCE_ID] = {
 
   onCreateFloor = function(dungeonResId, floorNo)
 
+    print('onCreateFloor resID: ' .. dungeonResId)
+
     local Floor       = require('field.Floor')
     local FloorEntity = require('field.FloorEntity')
 

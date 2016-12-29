@@ -64,7 +64,7 @@ public:
 	Stage();
 	~Stage();
 
-	void load(std::string, int);
+	//void load(std::string, int);
 	void setTile(int, std::string, TileType);
 	Tile getTile(int tileId);
 	Entity* getEntity(int entityId);

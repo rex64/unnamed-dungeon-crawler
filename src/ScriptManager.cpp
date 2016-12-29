@@ -177,29 +177,41 @@ void ScriptManager::doFile(const char *str){
 	}
 }
 
+void ScriptManager::injectResourceIdGlobal(std::string resId) {
+
+	lua_pushstring(m_L, resId.c_str());
+	lua_setglobal(m_L, "RESOURCE_ID");
+
+}
+
+void ScriptManager::removeResourceIdGlobal() {
+	lua_pushnil(m_L);
+	lua_setglobal(m_L, "RESOURCE_ID");
+}
+
 void ScriptManager::onQuit() {
 
 	lua_close(m_L);
 
 }
 
-void ScriptManager::onCreateFloor(std::string s, int floorNo) {
-
-	lua_getglobal(m_L, "data");
-	lua_pushstring(m_L, "dungeons");
-	lua_gettable(m_L, -2);
-	lua_getfield(m_L, -1, s.c_str());
-	lua_getfield(m_L, -1, "onCreateFloor");
-
-	lua_pushinteger(m_L, floorNo);   /* push 1st argument */
-
-	if (lua_pcall(m_L, 1, 0, 0)) {
-		Game::game->showMsgBox(lua_tostring(m_L, -1));
-	}
-
-	lua_pop(m_L, 3);
-
-}
+//void ScriptManager::onCreateFloor(std::string s, int floorNo) {
+//
+//	lua_getglobal(m_L, "data");
+//	lua_pushstring(m_L, "dungeons");
+//	lua_gettable(m_L, -2);
+//	lua_getfield(m_L, -1, s.c_str());
+//	lua_getfield(m_L, -1, "onCreateFloor");
+//
+//	lua_pushinteger(m_L, floorNo);   /* push 1st argument */
+//
+//	if (lua_pcall(m_L, 1, 0, 0)) {
+//		Game::game->showMsgBox(lua_tostring(m_L, -1));
+//	}
+//
+//	lua_pop(m_L, 3);
+//
+//}
 
 void ScriptManager::onInputGame(Buttons input) {
 

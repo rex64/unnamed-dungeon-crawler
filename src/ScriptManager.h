@@ -28,12 +28,14 @@ public:
 	void runMain();
 	void doString(const char *str);
 	void doFile(const char *str);
+	void injectResourceIdGlobal(std::string);
+	void removeResourceIdGlobal();
 
 	static ScriptManager *manager;
 
 	void onQuit();
 
-	void onCreateFloor(std::string, int);
+	//void onCreateFloor(std::string, int);
 	void onInputGame(Buttons);
 	void updateGame(int);
 	bool weBattle();
