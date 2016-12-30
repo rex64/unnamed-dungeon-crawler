@@ -4,8 +4,10 @@ data.entities['base.entities.stairs'] = {
     
     local ShowDialogEvent = require('ui.events.ShowDialogEvent')
     print("stairs - onInteract")
-    --game.eventManager:addEvent(ShowDialogEvent.new('This is a dialog.'))
-    game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', field.currentFloor.floorNo + 1):debug('main.lua 32'))
+    local newFloorId   = entity:getValue('base.entities.stairs.floorId')
+    local newFloorNo   = entity:getValue('base.entities.stairs.floorNo')
+
+    game.eventManager:addEvent(ChangeFloorEvent.new(newFloorId, newFloorNo):debug('main.lua 32'))
   end
   
 }

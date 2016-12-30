@@ -41,14 +41,23 @@ data.dungeons[RESOURCE_ID] = {
 
     --Player
     local playerEntity = FloorEntity.new('base.entities.player', 'Player')
-    newFloor:addEntity(playerEntity, 1 + 16)
+    newFloor:addEntity(playerEntity, newFloor:to1D(1,1))
     newFloor:setPlayerEntity(playerEntity)
 
+    --Stairs
     local stairsEntity = FloorEntity.new('base.entities.stairs', 'Stairs')
-    newFloor:addEntity(stairsEntity, 1 + 18)
+    stairsEntity:setValue('base.entities.stairs.floorId', dungeonResId)
+    stairsEntity:setValue('base.entities.stairs.floorNo', floorNo + 1)
+    newFloor:addEntity(stairsEntity, newFloor:to1D(3,1))
 
+    --Enemy
     local enemyEntity = FloorEntity.new('base.entities.enemy', 'Enemy')
-    newFloor:addEntity(enemyEntity, 1 + 24)
+    newFloor:addEntity(enemyEntity, newFloor:to1D(9,1))
+    
+    --chest1
+    local chestEntity1 = FloorEntity.new('base.entities.chest', 'Chest1')
+    chestEntity1:setValue('base.entities.chest.item', 'base.equips.nice-sword')
+    newFloor:addEntity(chestEntity1, newFloor:to1D(6,5))
     
     return newFloor
 

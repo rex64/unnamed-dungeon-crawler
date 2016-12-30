@@ -44,6 +44,7 @@ function FloorEntity:getValue(key)
   if type(key) ~= 'string' then error('the key must be a string') end
 
   if self.userdata == nil then self.userdata = {} end
+  if self.userdata[key] == nil then error('no value found for key ' .. key) end
 
   return self.userdata[key]
 
