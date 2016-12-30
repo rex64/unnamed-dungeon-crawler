@@ -14,8 +14,9 @@ function BattleChar.new(name, i)
   newBattleChar.name = name
   newBattleChar.hp = 100
   newBattleChar.maxHp = 100
+  newBattleChar.mp = 100
+  newBattleChar.maxMp = 100
   newBattleChar.index = i
-  newBattleChar.hp = 100
   newBattleChar.strength = 100
   newBattleChar.speed = 100
   newBattleChar.vitality = 100

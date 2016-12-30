@@ -7,7 +7,7 @@ return {
 
   win1 = {
     w = 8, 
-    h = 4,
+    h = 6,
     startX    = 0,
     startY    = 0,
     regularX  = 8,
@@ -18,7 +18,7 @@ return {
 
   win2 = {
     w = 8, 
-    h = 4,
+    h = 6,
     startX    = 0,
     startY    = 0,
     regularX  = 320,
@@ -29,7 +29,7 @@ return {
 
   win3 = {
     w = 8, 
-    h = 4,
+    h = 6,
     startX    = 0,
     startY    = 0,
     regularX  = 8,
@@ -40,7 +40,7 @@ return {
 
   win4 = {
     w = 8, 
-    h = 4,
+    h = 6,
     startX    = 0,
     startY    = 0,
     regularX  = 320,

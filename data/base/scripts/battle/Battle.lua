@@ -4,7 +4,7 @@ local DialogWindow      = require('ui.DialogWindow')
 local MenuItem          = require('ui.MenuItem')
 local ChoiceMenu        = require('ui.ChoiceMenu')
 local EnableInputEvent  = require('battle.events.EnableInputEvent')
-
+local HeroStatusWindow  = require('ui.heroStatusWindow')
 --************************
 --Battle
 --************************
@@ -24,8 +24,9 @@ function Battle.new()
 
   newBattle.nextTurnChar = 1
 
+
   --1
-  newBattle.timelineWin1 = DialogWindow.new(
+  newBattle.timelineWin1 = HeroStatusWindow.new(
     BattleConsts.win1.startX, 
     BattleConsts.win1.startY, 
     BattleConsts.win1.w, 
@@ -34,7 +35,7 @@ function Battle.new()
   ui.addWindow(newBattle.timelineWin1)
 
   --2
-  newBattle.timelineWin2 = DialogWindow.new(
+  newBattle.timelineWin2 = HeroStatusWindow.new(
     BattleConsts.win2.startX, 
     BattleConsts.win2.startY, 
     BattleConsts.win2.w, 
@@ -43,7 +44,7 @@ function Battle.new()
   ui.addWindow(newBattle.timelineWin2)
 
   --3
-  newBattle.timelineWin3 = DialogWindow.new(
+  newBattle.timelineWin3 = HeroStatusWindow.new(
     BattleConsts.win3.startX, 
     BattleConsts.win3.startY, 
     BattleConsts.win3.w, 
@@ -52,7 +53,7 @@ function Battle.new()
   ui.addWindow(newBattle.timelineWin3)
 
   --4
-  newBattle.timelineWin4 = DialogWindow.new(
+  newBattle.timelineWin4 = HeroStatusWindow.new(
     BattleConsts.win4.startX, 
     BattleConsts.win4.startY, 
     BattleConsts.win4.w, 
@@ -86,14 +87,15 @@ function Battle:init()
 
     self:addPlayerChar(playerChar)
 
-    self.windows[i].dialog.text = self.playerChars[i].name
+    --self.windows[i].dialog.text = self.playerChars[i].name
+    self.windows[i]:setHero(playerChar)
     self.playerChars[i].userData.statusWin = self.windows[i]
 
     --TODO: fix lmao
-    if i == 1 then self.playerChars[i].userData.statusWinInfo =  BattleConsts.win1 end    
-    if i == 2 then self.playerChars[i].userData.statusWinInfo =  BattleConsts.win2 end
-    if i == 3 then self.playerChars[i].userData.statusWinInfo =  BattleConsts.win3 end
-    if i == 4 then self.playerChars[i].userData.statusWinInfo =  BattleConsts.win4 end
+    if i == 1 then self.playerChars[i].userData.statusWinInfo = BattleConsts.win1 end    
+    if i == 2 then self.playerChars[i].userData.statusWinInfo = BattleConsts.win2 end
+    if i == 3 then self.playerChars[i].userData.statusWinInfo = BattleConsts.win3 end
+    if i == 4 then self.playerChars[i].userData.statusWinInfo = BattleConsts.win4 end
 
 
   end  
