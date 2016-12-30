@@ -28,8 +28,8 @@ print("main");
 
 print('main - ok');
 
---game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.debug-room', 1):debug('main.lua 31'))
-game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1):debug('main.lua 32'))
+game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.debug-room', 1):debug('main.lua 31'))
+--game.eventManager:addEvent(ChangeFloorEvent.new('base.dungeons.dungeon1', 1):debug('main.lua 32'))
 
 save.addHero('base.heroes.tank',   1)
 save.heroEquip('base.heroes.tank',   'base.equips.sword')

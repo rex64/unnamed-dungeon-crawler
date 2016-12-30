@@ -9,7 +9,7 @@ data.dungeons[RESOURCE_ID] = {
     local collisionTiles   = "base.tiles.tile01"
     local fillTiles       = "base.tiles.tile02"
 
-    local newFloor = Floor.new(dungeonResId, floorNo, 64, 64, fillTiles)
+    local newFloor = Floor.new(dungeonResId, floorNo, 512, 512, fillTiles)
     newFloor.name = newFloor.dungeonId .. ' - floor: ' .. floorNo 
 
     print(newFloor.name .. " onCreateFloor")
@@ -24,7 +24,7 @@ data.dungeons[RESOURCE_ID] = {
 
     --Player
     local playerEntity = FloorEntity.new('base.entities.player', 'Player')
-    newFloor:addEntity(playerEntity, newFloor:to1D(1,1))
+    newFloor:addEntity(playerEntity, newFloor:to1D(10,10))
     newFloor:setPlayerEntity(playerEntity)
 
     local stairsEntity = FloorEntity.new('base.entities.stairs', 'Stairs')

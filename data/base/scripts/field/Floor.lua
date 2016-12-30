@@ -167,18 +167,34 @@ function Floor:renderTiles()
     cameraOffsetY = (-16 * playerPos.y) + (16*4)
 
   end
+  
+  local renderedTiles = 0
 
-  for i, tileResId in ipairs(self.tileSets) do
+  local playerXY = self:toXY(self.player.tileId)
 
-    local index = i - 1
+  local render_start_y = math.max(playerXY.y - 4, 0)
+  local render_start_x = math.max(playerXY.x - 7, 0)
+  
+  local render_end_y = math.min(render_start_y + 8,  self.height -1)
+  local render_end_x = math.min(render_start_x + 15, self.width -1)
+  
+  for y = render_start_y, render_end_y do
 
-    local tilePos = self:toXY(index)
+    for x = render_start_x, render_end_x do
 
-    engine.renderTile(tileResId, tilePos.x * 16 + cameraOffsetX, tilePos.y * 16 + cameraOffsetY)
+      local tileId    = self:to1D(x, y)
+
+      local tileResId = self.tileSets[tileId + 1]
+      if tileResId ~= nil then
+        engine.renderTile(tileResId, x * 16 + cameraOffsetX, y * 16 + cameraOffsetY)
+      end
+      renderedTiles = renderedTiles + 1
+
+    end
 
   end
 
-
+  --print('[INFO] rendered ' .. renderedTiles .. ' tiles')
 end
 
 function Floor:addEntity(entity, tileId)
@@ -192,7 +208,7 @@ function Floor:removeEntity(entity)
 
   local entityTileId = entity.tileId
   local entityIndex = nil
-  
+
 
   for i, e in ipairs(self.entities) do
 
@@ -204,7 +220,7 @@ function Floor:removeEntity(entity)
 
     table.remove(self.entities, entityIndex)
   end
-  
+
   self.tilesEntities[entityTileId] = nil
 
 end
