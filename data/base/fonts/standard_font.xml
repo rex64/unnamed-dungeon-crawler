@@ -435,7 +435,14 @@
         <char>
             <char>.</char>
             <file>standard_font/dot.bmp</file>
-            <width>.</width>
+            <width>1</width>
+        </char>
+
+        <!-- slash -->
+        <char>
+            <char>/</char>
+            <file>standard_font/slash.bmp</file>
+            <width>3</width>
         </char>
 
     </chars>

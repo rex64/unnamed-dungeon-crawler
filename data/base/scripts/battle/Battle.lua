@@ -79,11 +79,11 @@ function Battle:init()
   for i = 1, partySize do
     local partyMemberId = save.getPartyMemberId(i)
     local partyMemberName = save.getPartyMemberName(partyMemberId)
-    
+
     --TODO: fix
     local playerChar = BattleChar.new(partyMemberName, i)
     playerChar.id = partyMemberId 
-    
+
     self:addPlayerChar(playerChar)
 
     self.windows[i].dialog.text = self.playerChars[i].name
@@ -193,15 +193,15 @@ function Battle:newTurn()
       10)
 
     local playerTurn = PlayerTurnEvent.new(turnChar)
-    
+
     local enableInput = EnableInputEvent.new():debug('battle.lua - ' .. debug.getinfo(1).currentline)
 
     self.eventManager:addEvent(moveWin)
     self.eventManager:addEvent(playerTurn)
-    
+
     self.eventManager:addEvent(enableInput)
 
-    
+
 
 
   end
@@ -245,11 +245,11 @@ function Battle:onPlayerTurn(turnChar)
         function() 
 
           --if singleTarget
-          local singleTargetWin = ChoiceWindow.new(160, 30, 6, 4, ChoiceMenu.new())
+          local singleTargetWin = ChoiceWindow.new(180, 130, 12, 6, ChoiceMenu.new())
 
-          for h, target in ipairs(self.enemyChars) do
+          for h, target in ipairs(self:getAliveEnemies()) do
 
-            local skillMenuItem2 = MenuItem.new(target.name, 
+            local skillMenuItem2 = MenuItem.new(target.name .. ' ' .. target.hp .. '/' .. target.maxHp .. ' HP', 
 
               function() 
                 data.skills[v].onSelect(turnChar, target)
@@ -316,6 +316,31 @@ function Battle:isEnemy(char)
 
 end
 
+function Battle:getAliveEnemies()
+
+  local enemiesAlive = {}
+
+  for i, enemy in ipairs(self.enemyChars) do
+
+    if self:isAlive(enemy) then 
+      table.insert(enemiesAlive, enemy) 
+    end
+
+  end
+
+  return enemiesAlive
+
+end
+
+
+function Battle:isAlive(char)
+
+  if (char.hp > 0) then return true end
+
+  return false
+
+end
+
 function Battle:youWin()
 
   for i, enemy in ipairs(self.enemyChars) do
@@ -335,7 +360,20 @@ end
 function Battle:render()
 
   engine.renderSprite('base.spritesheets.testbackground', 0, 0) 
-  engine.renderSprite('base.spritesheets.enemy_battle_sprite', math.floor(256/2) - 25, math.floor(144/2) - 25)
+
+  local enemyAlive = self:getAliveEnemies()
+
+  local numeroDiDivisioni = math.floor(256 / #enemyAlive)
+
+  for i, enemy in ipairs(enemyAlive) do
+    engine.renderSprite(
+      'base.spritesheets.enemy_battle_sprite', 
+      math.floor(numeroDiDivisioni * i ) - math.floor(numeroDiDivisioni / 2) - 16, 
+      math.floor(144/2) - 25
+    )
+  end
+
+
 
 end
 
