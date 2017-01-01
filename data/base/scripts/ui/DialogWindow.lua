@@ -18,13 +18,15 @@ function DialogWindow.new(x, y, w, h, text)
   self.name = 'DialogWindow'
 
   self:addDialog(Dialog.new(text))
+  
+  self:setDismissable(true)
 
   return self
 end
 
 function DialogWindow:onInput(input)
 
-  if input.ok == true and Window:isDismissable() then
+  if input.ok == true and self:isDismissable() and self.dialog:isAnimationEnded() then
     self:dismiss()
   end
   

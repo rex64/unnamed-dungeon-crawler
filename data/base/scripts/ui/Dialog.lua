@@ -43,4 +43,15 @@ function Dialog:setAnimated(speed)
 
 end
 
+function Dialog:isAnimationEnded()
+
+  local charsNo = math.floor(self.totalTime / self.speed)
+  
+  if charsNo >= string.len(self.completeText) then return true end
+  
+  return false
+
+end
+
+
 return Dialog
