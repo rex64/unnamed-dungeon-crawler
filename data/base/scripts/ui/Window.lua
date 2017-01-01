@@ -16,7 +16,7 @@ function Window.new(x, y, w, h, dismissable)
   --self.dialog = nil
 
   self.dismissable = dismissable
-  if type(dismissable) ~= "boolean" then self.dismissable = true end
+  if type(dismissable) ~= "boolean" then self.dismissable = false end
 
   return self
 end

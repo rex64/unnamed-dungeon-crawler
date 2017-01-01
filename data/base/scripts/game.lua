@@ -45,6 +45,7 @@ if(game ~= nil) then
     -- battle.update(dt)
     -- field.update(dt)
     
+    ui.update(dt) 
     battle.update(dt) 
     game.eventManager:update(nil, dt)
 

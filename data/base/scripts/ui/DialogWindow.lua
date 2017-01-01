@@ -24,10 +24,14 @@ end
 
 function DialogWindow:onInput(input)
 
-  if input.ok == true then
+  if input.ok == true and Window:isDismissable() then
     self:dismiss()
   end
   
+end
+
+function DialogWindow:update(dt)
+  self.dialog:update(dt)
 end
 
 function DialogWindow:render()

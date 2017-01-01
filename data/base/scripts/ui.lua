@@ -36,7 +36,15 @@ if(ui ~= nil) then
 
   end
 
-  ui.update = function() end
+  ui.update = function(dt) 
+    
+    for i, window in ipairs(ui.windows) do
+
+      if window.update ~= nil then window:update(dt) end
+
+    end 
+    
+  end
 
   ui.render = function()
 
