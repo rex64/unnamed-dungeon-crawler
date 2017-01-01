@@ -170,29 +170,40 @@ void Game::run() {
 	SDL_AddTimer(260, my_callbackfunc, 0);
 
 	//MenuManager::manager->addSelectWindow();
+	Buttons b_lastFrame = { false };
 
 	while (!m_bQuit)
 	{
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+		Buttons buttons = { false };
+		buttons.up = state[SDL_SCANCODE_UP];
+		buttons.right = state[SDL_SCANCODE_RIGHT];
+		buttons.down = state[SDL_SCANCODE_DOWN];
+		buttons.left = state[SDL_SCANCODE_LEFT];
+		buttons.ok = state[SDL_SCANCODE_RETURN];
+		buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
+		buttons.menu = state[SDL_SCANCODE_ESCAPE];
 
 		while (SDL_PollEvent(&e) != 0)
 		{
 
+			const Uint8 *state = SDL_GetKeyboardState(NULL);
 
+			Buttons buttons = { false };
+			buttons.up = state[SDL_SCANCODE_UP];
+			buttons.right = state[SDL_SCANCODE_RIGHT];
+			buttons.down = state[SDL_SCANCODE_DOWN];
+			buttons.left = state[SDL_SCANCODE_LEFT];
+			buttons.ok = state[SDL_SCANCODE_RETURN];
+			buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
+			buttons.menu = state[SDL_SCANCODE_ESCAPE];
 
 			if (e.type == SDL_KEYDOWN) {
 
-				const Uint8 *state = SDL_GetKeyboardState(NULL);
-				Buttons buttons = { false };
-				buttons.up = state[SDL_SCANCODE_UP];
-				buttons.right = state[SDL_SCANCODE_RIGHT];
-				buttons.down = state[SDL_SCANCODE_DOWN];
-				buttons.left = state[SDL_SCANCODE_LEFT];
-				buttons.ok = state[SDL_SCANCODE_RETURN];
-				buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
-				buttons.menu = state[SDL_SCANCODE_ESCAPE];
-
+				
 				if (inputEnabled) {
-					ScriptManager::manager->onInputGame(buttons);
+					ScriptManager::manager->onInputGame(buttons, b_lastFrame);
 				}
 			}
 			if (e.type == SDL_TEXTINPUT) {
@@ -214,6 +225,7 @@ void Game::run() {
 		ScriptManager::manager->updateGame(16);
 		RenderManager::manager->render();
 		checkIfStackIsEmpty(ScriptManager::manager->m_L);
+		b_lastFrame = buttons;
 		SDL_Delay(16);
 
 	}

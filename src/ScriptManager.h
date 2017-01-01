@@ -36,7 +36,7 @@ public:
 	void onQuit();
 
 	//void onCreateFloor(std::string, int);
-	void onInputGame(Buttons);
+	void onInputGame(Buttons, Buttons);
 	void updateGame(int);
 	bool weBattle();
 

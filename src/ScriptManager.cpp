@@ -213,7 +213,7 @@ void ScriptManager::onQuit() {
 //
 //}
 
-void ScriptManager::onInputGame(Buttons input) {
+void ScriptManager::onInputGame(Buttons input, Buttons prevFrameInput) {
 
 	lua_getglobal(m_L, "game");
 	lua_pushstring(m_L, "onInput");
@@ -244,6 +244,10 @@ void ScriptManager::onInputGame(Buttons input) {
 	//OK
 	lua_pushstring(m_L, "ok");
 	lua_pushboolean(m_L, input.ok);
+	lua_settable(m_L, -3);
+
+	lua_pushstring(m_L, "ok_prevframe");
+	lua_pushboolean(m_L, prevFrameInput.ok);
 	lua_settable(m_L, -3);
 
 	//CANCEL

@@ -9,7 +9,7 @@ function Dialog.new(text)
   local self = setmetatable({}, Dialog)
   self.text = text
   
-  self:setAnimated(100)
+  self:setAnimated(16*2)
 
   return self
 end
@@ -41,6 +41,10 @@ function Dialog:setAnimated(speed)
   self.text = ''
   self.isAnimated = true
 
+end
+
+function Dialog:setAnimationSpeed(speed)
+  self.speed = speed
 end
 
 function Dialog:isAnimationEnded()

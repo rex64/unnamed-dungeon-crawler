@@ -52,6 +52,27 @@ function Floor:onInput(input)
 end
 
 function Floor:update(dt) 
+
+  --check interactable entities
+  local entityPos = self:toXY(self.player.tileId)
+
+  if self.player.facing == FloorConsts.facing.up    then entityPos.y = entityPos.y - 1 end
+  if self.player.facing == FloorConsts.facing.right then entityPos.x = entityPos.x + 1 end
+  if self.player.facing == FloorConsts.facing.down  then entityPos.y = entityPos.y + 1 end
+  if self.player.facing == FloorConsts.facing.left  then entityPos.x = entityPos.x - 1 end
+
+  local tileEntityIndex = self:to1D(entityPos.x, entityPos.y)
+
+  if self.tilesEntities[tileEntityIndex] ~= nil then
+    -- print ('you can interact with ' .. self.tilesEntities[tileEntityIndex].name)
+    self.interactableEntity = self.tilesEntities[tileEntityIndex]
+
+  else
+    self.interactableEntity = nil
+  end
+
+
+
 end
 
 function Floor:render()
@@ -96,30 +117,6 @@ function Floor:onPlayerMove(input)
     self:moveEntity(self.player, self:to1D(playerPos.x, playerPos.y))
 
   end
-
-  --check interactable entities
-  do
-    local entityPos = self:toXY(self.player.tileId)
-
-    if self.player.facing == FloorConsts.facing.up    then entityPos.y = entityPos.y - 1 end
-    if self.player.facing == FloorConsts.facing.right then entityPos.x = entityPos.x + 1 end
-    if self.player.facing == FloorConsts.facing.down  then entityPos.y = entityPos.y + 1 end
-    if self.player.facing == FloorConsts.facing.left  then entityPos.x = entityPos.x - 1 end
-
-    local tileEntityIndex = self:to1D(entityPos.x, entityPos.y)
-
-    if self.tilesEntities[tileEntityIndex] ~= nil then
-      print ('you can interact with ' .. self.tilesEntities[tileEntityIndex].name)
-      self.interactableEntity = self.tilesEntities[tileEntityIndex]
-
-    else
-      self.interactableEntity = nil
-    end
-
-
-  end
-
-
 
 end
 
@@ -167,17 +164,17 @@ function Floor:renderTiles()
     cameraOffsetY = (-16 * playerPos.y) + (16*4)
 
   end
-  
+
   local renderedTiles = 0
 
   local playerXY = self:toXY(self.player.tileId)
 
   local render_start_y = math.max(playerXY.y - 4, 0)
   local render_start_x = math.max(playerXY.x - 7, 0)
-  
+
   local render_end_y = math.min(render_start_y + 8,  self.height -1)
   local render_end_x = math.min(render_start_x + 15, self.width -1)
-  
+
   for y = render_start_y, render_end_y do
 
     for x = render_start_x, render_end_x do

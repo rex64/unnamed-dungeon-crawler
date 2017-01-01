@@ -20,7 +20,7 @@ if(field ~= nil) then
 
 
   field.update = function(dt)
-
+    if field.currentFloor ~= nil then field.currentFloor:update(dt) end
   end
 
   field.render = function()

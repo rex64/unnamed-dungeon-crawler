@@ -42,11 +42,10 @@ if(game ~= nil) then
 
   game.update = function(dt)
 
-    -- battle.update(dt)
-    -- field.update(dt)
-    
+
     ui.update(dt) 
     battle.update(dt) 
+    field.update(dt)
     game.eventManager:update(nil, dt)
 
   end
@@ -58,5 +57,16 @@ if(game ~= nil) then
 
     --engine.renderTextLine('11110123456789abcdefghijklmnopqrstuvwxyz', 0, 0);
   end
+
+  game.wasOkPressedThisFrame = function(input)
+
+    if input.ok == true and input.ok_prevframe == false then 
+      return true 
+    else 
+      return false
+    end
+
+  end
+
 
 end
