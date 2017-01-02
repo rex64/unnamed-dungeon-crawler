@@ -17,34 +17,49 @@ int Data_getEnemyData(lua_State *L) {
 	lua_pushstring(L, enemyData->name.c_str());
 	lua_settable(L, -3);
 
-	//hp
+	//level
+	lua_pushstring(L, "level");
+	lua_pushinteger(L, enemyData->level);
+	lua_settable(L, -3);
+
+	//hp;
 	lua_pushstring(L, "hp");
 	lua_pushinteger(L, enemyData->hp);
 	lua_settable(L, -3);
 
-	//strength
-	lua_pushstring(L, "strength");
-	lua_pushinteger(L, enemyData->strength);
+	//atk;
+	lua_pushstring(L, "atk");
+	lua_pushinteger(L, enemyData->atk);
 	lua_settable(L, -3);
 
-	//speed
-	lua_pushstring(L, "speed");
-	lua_pushinteger(L, enemyData->speed);
+	//def;
+	lua_pushstring(L, "def");
+	lua_pushinteger(L, enemyData->def);
 	lua_settable(L, -3);
 
-	//vitality
-	lua_pushstring(L, "vitality");
-	lua_pushinteger(L, enemyData->vitality);
+	//matk;
+	lua_pushstring(L, "matk");
+	lua_pushinteger(L, enemyData->matk);
 	lua_settable(L, -3);
 
-	//intelligence
-	lua_pushstring(L, "intelligence");
-	lua_pushinteger(L, enemyData->intelligence);
+	//mdef;
+	lua_pushstring(L, "mdef");
+	lua_pushinteger(L, enemyData->mdef);
 	lua_settable(L, -3);
 
-	//mind
-	lua_pushstring(L, "mind");
-	lua_pushinteger(L, enemyData->mind);
+	//mnd;
+	lua_pushstring(L, "mnd");
+	lua_pushinteger(L, enemyData->mnd);
+	lua_settable(L, -3);
+
+	//spd;
+	lua_pushstring(L, "spd");
+	lua_pushinteger(L, enemyData->spd);
+	lua_settable(L, -3);
+
+	//lck;
+	lua_pushstring(L, "lck");
+	lua_pushinteger(L, enemyData->lck);
 	lua_settable(L, -3);
 
 	return 1;

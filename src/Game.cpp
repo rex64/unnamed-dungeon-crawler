@@ -172,18 +172,26 @@ void Game::run() {
 	//MenuManager::manager->addSelectWindow();
 	Buttons b_lastFrame = { false };
 
+	SDL_Scancode UP		= SDL_SCANCODE_UP;
+	SDL_Scancode RIGHT	= SDL_SCANCODE_RIGHT;
+	SDL_Scancode DOWN	= SDL_SCANCODE_DOWN;
+	SDL_Scancode LEFT	= SDL_SCANCODE_LEFT;
+	SDL_Scancode OK		= SDL_SCANCODE_X;
+	SDL_Scancode CANCEL = SDL_SCANCODE_Z;
+	SDL_Scancode MENU	= SDL_SCANCODE_TAB;
+
 	while (!m_bQuit)
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 		Buttons buttons = { false };
-		buttons.up = state[SDL_SCANCODE_UP];
-		buttons.right = state[SDL_SCANCODE_RIGHT];
-		buttons.down = state[SDL_SCANCODE_DOWN];
-		buttons.left = state[SDL_SCANCODE_LEFT];
-		buttons.ok = state[SDL_SCANCODE_RETURN];
-		buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
-		buttons.menu = state[SDL_SCANCODE_ESCAPE];
+		buttons.up = state[UP];
+		buttons.right = state[RIGHT];
+		buttons.down = state[DOWN];
+		buttons.left = state[LEFT];
+		buttons.ok = state[OK];
+		buttons.cancel = state[CANCEL];
+		buttons.menu = state[MENU];
 
 		while (SDL_PollEvent(&e) != 0)
 		{
@@ -191,13 +199,13 @@ void Game::run() {
 			const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 			Buttons buttons = { false };
-			buttons.up = state[SDL_SCANCODE_UP];
-			buttons.right = state[SDL_SCANCODE_RIGHT];
-			buttons.down = state[SDL_SCANCODE_DOWN];
-			buttons.left = state[SDL_SCANCODE_LEFT];
-			buttons.ok = state[SDL_SCANCODE_RETURN];
-			buttons.cancel = state[SDL_SCANCODE_BACKSPACE];
-			buttons.menu = state[SDL_SCANCODE_ESCAPE];
+			buttons.up = state[UP];
+			buttons.right = state[RIGHT];
+			buttons.down = state[DOWN];
+			buttons.left = state[LEFT];
+			buttons.ok = state[OK];
+			buttons.cancel = state[CANCEL];
+			buttons.menu = state[MENU];
 
 			if (e.type == SDL_KEYDOWN) {
 

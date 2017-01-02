@@ -156,52 +156,57 @@ int Save_getPartyMemberStats(lua_State *L) {
 
 	lua_newtable(L);
 
+	//name
+	lua_pushstring(L, "name");
+	lua_pushstring(L, heroData->name.c_str());
+	lua_settable(L, -3);
+
 	//level
 	lua_pushstring(L, "level");
 	lua_pushinteger(L, stat->levelNo);
 	lua_settable(L, -3);
 
-	//int hp;
+	//hp;
 	lua_pushstring(L, "hp");
 	lua_pushinteger(L, stat->hp);
 	lua_settable(L, -3);
 
-	//int mp;
+	//mp;
 	lua_pushstring(L, "mp");
 	lua_pushinteger(L, stat->mp);
 	lua_settable(L, -3);
 
-	//int atk;
+	//atk;
 	lua_pushstring(L, "atk");
 	lua_pushinteger(L, stat->atk);
 	lua_settable(L, -3);
 
-	//int def;
+	//def;
 	lua_pushstring(L, "def");
 	lua_pushinteger(L, stat->def);
 	lua_settable(L, -3);
 
-	//int matk;
+	//matk;
 	lua_pushstring(L, "matk");
 	lua_pushinteger(L, stat->matk);
 	lua_settable(L, -3);
 
-	//int mdef;
+	//mdef;
 	lua_pushstring(L, "mdef");
 	lua_pushinteger(L, stat->mdef);
 	lua_settable(L, -3);
 
-	//int mnd;
+	//mnd;
 	lua_pushstring(L, "mnd");
 	lua_pushinteger(L, stat->mnd);
 	lua_settable(L, -3);
 
-	//int spd;
+	//spd;
 	lua_pushstring(L, "spd");
 	lua_pushinteger(L, stat->spd);
 	lua_settable(L, -3);
 
-	//int lck;
+	//lck;
 	lua_pushstring(L, "lck");
 	lua_pushinteger(L, stat->lck);
 	lua_settable(L, -3);

@@ -85,9 +85,8 @@ function Battle:init()
     local partyMemberId = save.getPartyMemberId(i)
     local partyMemberName = save.getPartyMemberName(partyMemberId)
 
-    --TODO: fix
-    local playerChar = BattleChar.new(partyMemberName, i)
-    playerChar.id = partyMemberId 
+    local playerChar = BattleChar.newHeroFromId(partyMemberId)
+    --playerChar.id = partyMemberId 
 
     self:addPlayerChar(playerChar)
 

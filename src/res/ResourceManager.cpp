@@ -633,23 +633,32 @@ void ResourceManager::loadEnemies(std::string basePath) {
 				const char* enemyName = doc.FirstChildElement("enemy")->FirstChildElement("name")->GetText();
 				const char* enemyScript = doc.FirstChildElement("enemy")->FirstChildElement("script")->GetText();
 
+				int level;
+				doc.FirstChildElement("enemy")->FirstChildElement("level")->QueryIntText(&level);
+
 				int hp;
 				doc.FirstChildElement("enemy")->FirstChildElement("hp")->QueryIntText(&hp);
 
-				int strength;
-				doc.FirstChildElement("enemy")->FirstChildElement("strength")->QueryIntText(&strength);
+				int atk;
+				doc.FirstChildElement("enemy")->FirstChildElement("atk")->QueryIntText(&atk);
 				
-				int speed;
-				doc.FirstChildElement("enemy")->FirstChildElement("speed")->QueryIntText(&speed);
+				int def;
+				doc.FirstChildElement("enemy")->FirstChildElement("def")->QueryIntText(&def);
 
-				int vitality;
-				doc.FirstChildElement("enemy")->FirstChildElement("vitality")->QueryIntText(&vitality);
+				int matk;
+				doc.FirstChildElement("enemy")->FirstChildElement("matk")->QueryIntText(&matk);
 
-				int intelligence;
-				doc.FirstChildElement("enemy")->FirstChildElement("intelligence")->QueryIntText(&intelligence);
+				int mdef;
+				doc.FirstChildElement("enemy")->FirstChildElement("mdef")->QueryIntText(&mdef);
 
-				int mind;
-				doc.FirstChildElement("enemy")->FirstChildElement("mind")->QueryIntText(&mind);
+				int mnd;
+				doc.FirstChildElement("enemy")->FirstChildElement("mnd")->QueryIntText(&mnd);
+
+				int spd;
+				doc.FirstChildElement("enemy")->FirstChildElement("spd")->QueryIntText(&spd);
+
+				int lck;
+				doc.FirstChildElement("enemy")->FirstChildElement("lck")->QueryIntText(&lck);
 
 
 				EnemyData *newEnemyData = new EnemyData{
@@ -658,12 +667,15 @@ void ResourceManager::loadEnemies(std::string basePath) {
 					filePath,
 					enemyName,
 					enemyScript,
+					level,
 					hp,
-					strength,
-					speed,
-					vitality,
-					intelligence,
-					mind
+					atk,
+					def,
+					matk,
+					mdef,
+					mnd,
+					spd,
+					lck
 
 				};
 

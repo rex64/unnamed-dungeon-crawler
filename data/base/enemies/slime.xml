@@ -2,11 +2,14 @@
 	<name>Slime</name>
 	<script>slime.lua</script>
 	<!-- <sprite></sprite> -->
-	<hp>50</hp>
-	<strength>2</strength>
-	<speed>3</speed>
-	<vitality>4</vitality>
-	<intelligence>5</intelligence>
-	<mind>6</mind>
+	<level>1</level>
+	<hp>4</hp>
+	<atk>4</atk>
+	<def>4</def>
+	<matk>1</matk>
+	<mdef>1</mdef>
+	<mnd>1</mnd>
+	<spd>1</spd>
+	<lck>1</lck>
 	
 </enemy>

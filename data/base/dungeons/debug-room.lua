@@ -41,7 +41,7 @@ data.dungeons[RESOURCE_ID] = {
 
     --Player
     local playerEntity = FloorEntity.new('base.entities.player', 'Player')
-    newFloor:addEntity(playerEntity, newFloor:to1D(1,1))
+    newFloor:addEntity(playerEntity, newFloor:to1D(2,1))
     newFloor:setPlayerEntity(playerEntity)
 
     --Stairs

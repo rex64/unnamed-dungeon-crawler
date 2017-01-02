@@ -9,12 +9,9 @@ data.entities[RESOURCE_ID] = {
 
     local newBattle = Battle.new()
 
-    local enemyChar1 = BattleChar.newFromId('base.enemies.slime')
-    local enemyChar2 = BattleChar.newFromId('base.enemies.slime')
-
-    newBattle:addEnemyChar(enemyChar1)
-    newBattle:addEnemyChar(enemyChar2)
-    newBattle:addEnemyChar(BattleChar.newFromId('base.enemies.slime'))
+    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
+    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
+    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
     
     newBattle.onBattleWon = function() 
 
