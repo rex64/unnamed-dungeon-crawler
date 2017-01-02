@@ -1,0 +1,5 @@
+<skill>
+	<name>[Debug] Self Faint</name>
+	<script>self_faint.lua</script>
+	<text>for debug purpose only</text>
+</skill>

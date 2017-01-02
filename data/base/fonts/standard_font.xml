@@ -487,5 +487,26 @@
             <width>3</width>
         </char>
 
+        <!-- square brackets open -->
+        <char>
+            <char>[</char>
+            <file>standard_font/squarebbracketsopen.bmp</file>
+            <width>2</width>
+        </char>
+
+        <!-- square brackets close -->
+        <char>
+            <char>]</char>
+            <file>standard_font/squarebbracketsclose.bmp</file>
+            <width>2</width>
+        </char>
+
+        <!-- asterisk -->
+        <char>
+            <char>*</char>
+            <file>standard_font/asterisk.bmp</file>
+            <width>5</width>
+        </char>
+
     </chars>
 </font>

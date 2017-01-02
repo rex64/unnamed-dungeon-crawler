@@ -103,7 +103,7 @@ function Battle:init()
 
   end  
 
-  self.commandWindow = ChoiceWindow.new(32, 160, 36, 4, ChoiceMenu.new())
+  self.commandWindow = ChoiceWindow.new(32, 160, 36, 7, ChoiceMenu.new())
   self.commandWindow:setDismissable(false)
   ui.addWindow(self.commandWindow)
 

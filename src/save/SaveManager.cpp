@@ -309,6 +309,11 @@ int Save_getHeroSkills(lua_State *L) {
 
 	HeroSave *heroSave = SaveManager::manager->heroMap[heroData->id];
 	
+	//class skills
+	for (std::string skillId : heroData->skillsIds) {
+		res.push_back(skillId);
+	}	
+
 	//weapon
 	if (heroSave->weapon) {
 		EquipData *weaponData = ResourceManager::manager->getEquipData(heroSave->weapon->id);

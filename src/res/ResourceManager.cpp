@@ -416,8 +416,17 @@ void ResourceManager::loadHeroes(std::string basePath) {
 					heroName
 				};
 
-				tinyxml2::XMLElement *charElement = doc.FirstChildElement("hero")->FirstChildElement("stats");
+				//SKILLS
+				tinyxml2::XMLElement *charElement0 = doc.FirstChildElement("hero")->FirstChildElement("skills");
+				for (tinyxml2::XMLElement* child = charElement0->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+				{
+					const char* skillId = child->/*FirstChildElement("skill")->*/GetText();
+					newHeroData->skillsIds.push_back(skillId);
 
+				}
+
+				//STATS
+				tinyxml2::XMLElement *charElement = doc.FirstChildElement("hero")->FirstChildElement("stats");
 				for (tinyxml2::XMLElement* child = charElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 				{
 					Stats newStats = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};

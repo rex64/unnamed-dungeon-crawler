@@ -1,0 +1,5 @@
+<skill>
+	<name>[Debug] Insta Kill</name>
+	<script>insta_kill.lua</script>
+	<text>lol</text>
+</skill>

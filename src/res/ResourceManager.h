@@ -77,6 +77,7 @@ struct HeroData {
 	std::string filePath;
 	std::string name;
 
+	std::vector<std::string> skillsIds;
 	std::vector<Stats> stats;
 };
 
