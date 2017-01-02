@@ -41,6 +41,8 @@ function BattleChar.newHeroFromId(id)
   newBattleChar.level   = battleCharData.level
   newBattleChar.hp      = battleCharData.hp
   newBattleChar.maxHp   = battleCharData.hp
+  newBattleChar.mp      = battleCharData.mp
+  newBattleChar.maxMp   = battleCharData.mp
   newBattleChar.atk     = battleCharData.atk
   newBattleChar.def     = battleCharData.def
   newBattleChar.matk    = battleCharData.matk

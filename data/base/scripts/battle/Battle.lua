@@ -260,12 +260,12 @@ function Battle:onPlayerTurn(turnChar)
 
                 local skillResult = data.skills[skillId].onSelect(turnChar, target)
 
-                local funcEvent1 = ArbistraryFunctionEvent.new(function() data.skills[skillId].onSelect(turnChar, target) end, 'skill - onSelect')
+                --local funcEvent1 = ArbistraryFunctionEvent.new(function() data.skills[skillId].onSelect(turnChar, target) end, 'skill - onSelect')
                 local funcEvent2 = ArbistraryFunctionEvent.new(function() singleTargetWin:dismiss() end, 'single target win dismiss')
                 local funcEvent3 = ArbistraryFunctionEvent.new(function() self:newTurn() end, 'newTurn func')
 
 
-                self.eventManager:addEvent(funcEvent1)
+                --self.eventManager:addEvent(funcEvent1)
                 self.eventManager:addEvent(funcEvent2)
                 self.eventManager:addEvent(ShowDialogEvent.new(skillResult.dialogText))
                 if turnChar.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(turnChar.name .. ' fainted')) end
