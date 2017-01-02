@@ -37,7 +37,7 @@ function HeroStatusWindow:render()
 
   engine.renderTextLine(self.battleChar.name, x, y)
   engine.renderTextLine(self.battleChar.hp .. '/' .. self.battleChar.maxHp .. ' HP', x, y + 8 * 2)
-  engine.renderTextLine(self.battleChar.mp .. '/' .. self.battleChar.maxMp .. ' HP', x, y + 8 * 3)
+  engine.renderTextLine(self.battleChar.mp .. '/' .. self.battleChar.maxMp .. ' MP', x, y + 8 * 3)
 
 
 end

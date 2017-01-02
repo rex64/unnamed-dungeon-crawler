@@ -1,0 +1,5 @@
+<skill>
+	<name>[Debug] Do Nothing</name>
+	<script>do_nothing.lua</script>
+	<text>lol</text>
+</skill>

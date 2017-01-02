@@ -170,14 +170,18 @@ function Battle:newTurn()
   if self:youWin() then
     
     --self.eventManager:clear()
+    self.eventManager:addEvent(EnableInputEvent.new())
     self.eventManager:addEvent(ShowDialogEvent.new('You Win!'))
+    self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(ArbistraryFunctionEvent.new(function() self:endBattle() end, ''))
     return
     
   elseif self:youLose() then
     
     --self.eventManager:clear()
+    self.eventManager:addEvent(EnableInputEvent.new())
     self.eventManager:addEvent(ShowDialogEvent.new('Wiped...'))
+    self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(QuitGameEvent.new())
     return
     
@@ -204,6 +208,11 @@ function Battle:newTurn()
   end
 
   local turnChar = self:getTurnChar(0)
+  
+  if turnChar.hp <= 0 then
+    self.eventManager:addEvent(NewTurnEvent.new())
+    return
+  end  
 
   if self:isPlayer(turnChar) then
 
@@ -228,15 +237,17 @@ function Battle:newTurn()
   if self:isEnemy(turnChar) then
     -- print(turnChar.name .. ' attacks ' .. self:getRandomPlayer().name)
 
-    local res = data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
+    local skillResult = data.enemies[turnChar.id].onTurn(self, turnChar, self.playerChars)
 
-    local winVibration = WindowVibrationEvent.new(res.target.userData.statusWin, 256)
+    local winVibration = WindowVibrationEvent.new(skillResult.target.userData.statusWin, 256)
 
     local newTurn = NewTurnEvent.new()
 
     self.eventManager:addEvent(winVibration)
     self.eventManager:addEvent(EnableInputEvent.new())
-    self.eventManager:addEvent(ShowDialogEvent.new(res.dialogText))
+    self.eventManager:addEvent(ShowDialogEvent.new(skillResult.dialogText))
+    if turnChar.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(turnChar.name .. ' disappeared')) end
+    if skillResult.target.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(skillResult.target.name .. ' fainted')) end
     self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(newTurn)
 
@@ -311,9 +322,16 @@ function Battle:getTurnChar(turnNo)
   return self.battleChars[index]
 end
 
-function Battle:getRandomPlayer()
-  local rando = math.random(#self.playerChars)
-  return self.playerChars[rando]
+function Battle:getRandomHeroAlive()
+  
+  local rando = self.playerChars[math.random(#self.playerChars)]
+  
+  while rando.hp <= 0 do
+  
+    rando = self.playerChars[math.random(#self.playerChars)]
+  end 
+  
+  return rando
 end
 
 function Battle:getRandomEnemy()
