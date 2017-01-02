@@ -1,3 +1,3 @@
-data.entities['base.entities.player'] = {
+data.entities[RESOURCE_ID] = {
        
 }

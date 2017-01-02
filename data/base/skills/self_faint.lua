@@ -1,4 +1,4 @@
-data.skills['base.skills.self_faint'] = {
+data.skills[RESOURCE_ID] = {
 
   onSelect = function(turnChar, target)
 

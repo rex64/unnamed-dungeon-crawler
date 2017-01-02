@@ -1,4 +1,4 @@
-data.enemies['base.enemies.slime'] = {
+data.enemies[RESOURCE_ID] = {
 
   onTurn = function(battle, enemy, playerParty)
     --print(enemy.name .. " - onTurn - slime looks confused")

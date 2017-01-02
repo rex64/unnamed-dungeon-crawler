@@ -1,4 +1,4 @@
-data.skills['base.skills.attack'] = {
+data.skills[RESOURCE_ID] = {
 
   onSelect = function(turnChar, target)
 

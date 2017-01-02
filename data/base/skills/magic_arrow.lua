@@ -1,4 +1,4 @@
-data.skills['base.skills.magic_arrow'] = {
+data.skills[RESOURCE_ID] = {
 
   onSelect = function(turnChar, target)
 

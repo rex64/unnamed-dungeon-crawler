@@ -1,4 +1,4 @@
-data.skills['base.skills.insta_kill'] = {
+data.skills[RESOURCE_ID] = {
 
   onSelect = function(turnChar, target)
 

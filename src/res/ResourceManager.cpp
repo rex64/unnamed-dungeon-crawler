@@ -287,7 +287,10 @@ void ResourceManager::loadEntities(std::string basePath) {
 				};
 
 				ResourceManager::manager->entityDatas[resId] = newEntityData;
+				
+				ScriptManager::manager->injectResourceIdGlobal(resId);
 				ScriptManager::manager->doFile(filePath.append(entityFile).c_str());
+				ScriptManager::manager->removeResourceIdGlobal();
 
 			}
 			else {
@@ -589,7 +592,9 @@ void ResourceManager::loadSkills(std::string basePath) {
 				};
 
 				ResourceManager::manager->skillDatas[resId] = newSkillData;
+				ScriptManager::manager->injectResourceIdGlobal(resId);
 				ScriptManager::manager->doFile(filePath.append(skillScript).c_str());
+				ScriptManager::manager->removeResourceIdGlobal();
 
 
 			}
@@ -663,7 +668,9 @@ void ResourceManager::loadEnemies(std::string basePath) {
 				};
 
 				ResourceManager::manager->enemyDatas[resId] = newEnemyData;
+				ScriptManager::manager->injectResourceIdGlobal(resId);
 				ScriptManager::manager->doFile(filePath.append(enemyScript).c_str());
+				ScriptManager::manager->removeResourceIdGlobal();
 
 
 			}

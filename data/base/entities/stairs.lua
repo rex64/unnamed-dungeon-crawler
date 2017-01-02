@@ -1,4 +1,4 @@
-data.entities['base.entities.stairs'] = {
+data.entities[RESOURCE_ID] = {
   
   onInteract = function(entity, player)
     

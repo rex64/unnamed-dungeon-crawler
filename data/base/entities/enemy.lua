@@ -1,4 +1,4 @@
-data.entities['base.entities.enemy'] = {
+data.entities[RESOURCE_ID] = {
 
   onInteract = function(entity, player)
 
