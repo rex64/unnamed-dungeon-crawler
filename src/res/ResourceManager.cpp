@@ -60,20 +60,6 @@ void ResourceManager::init() {
 		amask
 	);
 
-	//RESOURCES
-	
-	//SDL_Surface *testSurface = SDL_LoadBMP("data/base/test.bmp");
-	
-	/*loadBorder("data/base/borders/border.bmp");
-	
-	loadTile("data/base/tiles/tile00.bmp");
-	
-	loadTile("data/base/tiles/tile01.bmp");
-
-	loadFont("data/base/fonts/standard_font.bmp");*/
-
-	//SDL_Surface* tre =  getSprite("omar");
-
 }
 
 void ResourceManager::loadSprite(std::string resId, std::string filePath, bool convertRGBtoIndexed) {

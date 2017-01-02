@@ -445,5 +445,47 @@
             <width>3</width>
         </char>
 
+        <!-- colon -->
+        <char>
+            <char>:</char>
+            <file>standard_font/colon.bmp</file>
+            <width>1</width>
+        </char>
+
+        <!-- semicolon -->
+        <char>
+            <char>;</char>
+            <file>standard_font/semicolon.bmp</file>
+            <width>2</width>
+        </char>
+
+        <!-- exclamation mark -->
+        <char>
+            <char>!</char>
+            <file>standard_font/exclamationmark.bmp</file>
+            <width>1</width>
+        </char>
+
+        <!-- equals -->
+        <char>
+            <char>=</char>
+            <file>standard_font/equals.bmp</file>
+            <width>3</width>
+        </char>
+
+        <!-- greater -->
+        <char>
+            <char>&gt;</char>
+            <file>standard_font/greater.bmp</file>
+            <width>3</width>
+        </char>
+
+        <!-- less -->
+        <char>
+            <char>&lt;</char>
+            <file>standard_font/less.bmp</file>
+            <width>3</width>
+        </char>
+
     </chars>
 </font>

@@ -1,0 +1,5 @@
+<skill>
+	<name>Attack</name>
+	<script>attack.lua</script>
+	<text>lol</text>
+</skill>
