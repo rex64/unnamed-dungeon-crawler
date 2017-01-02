@@ -253,11 +253,6 @@ void Game::showMsgBox(const char *msg)
 	printf("[showMsgBox] %s\n", msg);
 }
 
-void Game::quit() {
-
-	m_bQuit = true;
-}
-
 int Game_enableInput(lua_State *L) {
 
 	Game::game->inputEnabled = true;
@@ -268,6 +263,19 @@ int Game_enableInput(lua_State *L) {
 int Game_disableInput(lua_State *L) {
 
 	Game::game->inputEnabled = false;
+
+	return 0;
+}
+
+int Game_quitGame(lua_State *L) {
+
+	SDL_Event user_event;
+
+	user_event.type = SDL_QUIT;
+	/*user_event.user.code = 2;
+	user_event.user.data1 = NULL;
+	user_event.user.data2 = NULL;*/
+	SDL_PushEvent(&user_event);
 
 	return 0;
 }

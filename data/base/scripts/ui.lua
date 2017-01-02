@@ -3,7 +3,7 @@ local ChoiceMenu   = require('ui.ChoiceMenu')
 local ChoiceWindow = require('ui.ChoiceWindow')
 local StatusWindow = require('ui.StatusWindow')
 local EquipWindow  = require('ui.EquipWindow')
-
+local QuitGameEvent = require('system.events.QuitGameEvent')
 
 ui = {}
 
@@ -74,7 +74,7 @@ if(ui ~= nil) then
       end)
 
     local menuItem5 = MenuItem.new("Config", function() print('show Config menu') end)
-    local menuItem6 = MenuItem.new("Quit", function() print('show quit menu') end)
+    local menuItem6 = MenuItem.new("Quit", function() game.eventManager:addEvent(QuitGameEvent.new()) end)
 
     local choiceMenu = ChoiceMenu.new()
 

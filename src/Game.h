@@ -45,7 +45,6 @@ public:
 
 	void showMsgBox(std::string msg);
 	void showMsgBox(const char *msg);
-	void quit();
 
 public:
 	static Game *game;
@@ -59,5 +58,6 @@ extern "C" {
 
 	int Game_enableInput(lua_State *L);
 	int Game_disableInput(lua_State *L);
+	int Game_quitGame(lua_State *L);
 
 }

@@ -8,7 +8,8 @@ data.skills[RESOURCE_ID] = {
 
     return {
 
-      dialogText = turnChar.name .. ' - ' .. target.name .. ' - ' .. targetDmg .. ' damage'      
+      dialogText = turnChar.name .. ' - ' .. target.name .. ' - ' .. targetDmg .. ' damage' ,
+      target = target     
 
     }
 

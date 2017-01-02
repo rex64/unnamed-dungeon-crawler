@@ -7,7 +7,8 @@ data.skills[RESOURCE_ID] = {
     
     return {
       
-      dialogText = 'test dialog'
+      dialogText = 'test dialog',
+      target = target
       
       
       }

@@ -125,7 +125,7 @@ void ScriptManager::init() {
 	registerFunction("save", "getInventoryAccessories", Save_getInventoryAccessories);
 	registerFunction("save", "swapEquip", Save_swapEquip);
 
-
+	registerFunction("engine", "quitGame", Game_quitGame);
 
 	registerFunction("engine", "renderTile",		Render_renderTile);
 	registerFunction("engine", "renderSprite",		Render_renderSprite);
@@ -404,11 +404,4 @@ int l_setEntityTile(lua_State* state)
 	//StageManager::manager->currStage->moveEntity(entityID, tileID);
 
 	return 0; /* number of results */
-}
-
-int luaQuitGame(lua_State* state) {
-
-	Game::game->quit();
-
-	return 0;
 }

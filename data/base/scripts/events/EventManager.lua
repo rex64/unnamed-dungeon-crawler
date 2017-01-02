@@ -32,10 +32,12 @@ function EventManager:update(input, dt)
       table.remove(self.events, 1)
     end
 
-
   end
 
-
 end
+
+--function EventManager:clear()
+--  self.events = {}
+--end
 
 return EventManager

@@ -7,6 +7,7 @@ local EnableInputEvent         = require('battle.events.EnableInputEvent')
 local HeroStatusWindow         = require('ui.heroStatusWindow')
 local ArbistraryFunctionEvent  = require('battle.events.ArbitraryFunctionEvent')
 local ShowDialogEvent          = require('ui.events.ShowDialogEvent')
+local QuitGameEvent            = require('system.events.QuitGameEvent')
 
 --************************
 --Battle
@@ -111,7 +112,6 @@ function Battle:init()
 
   --set new turn
   self.nextTurnChar = 0
-  --self:newTurn()
 
   --EVENTS
   --1 disable input
@@ -166,6 +166,22 @@ function Battle:endBattle()
 end
 
 function Battle:newTurn()
+
+  if self:youWin() then
+    
+    --self.eventManager:clear()
+    self.eventManager:addEvent(ShowDialogEvent.new('You Win!'))
+    self.eventManager:addEvent(ArbistraryFunctionEvent.new(function() self:endBattle() end, ''))
+    return
+    
+  elseif self:youLose() then
+    
+    --self.eventManager:clear()
+    self.eventManager:addEvent(ShowDialogEvent.new('Wiped...'))
+    self.eventManager:addEvent(QuitGameEvent.new())
+    return
+    
+  end
 
   local prevTurnChar = self:getTurnChar(0)
 
@@ -226,10 +242,6 @@ function Battle:newTurn()
 
   end
 
-  if self:youWin() then
-    self:endBattle()
-  end
-
 end
 
 function Battle:onPlayerTurn(turnChar)
@@ -268,6 +280,8 @@ function Battle:onPlayerTurn(turnChar)
                 self.eventManager:addEvent(funcEvent1)
                 self.eventManager:addEvent(funcEvent2)
                 self.eventManager:addEvent(ShowDialogEvent.new(skillResult.dialogText))
+                if turnChar.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(turnChar.name .. ' fainted')) end
+                if skillResult.target.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(skillResult.target.name .. ' disappeared')) end
                 self.eventManager:addEvent(funcEvent3)
                 
               end
@@ -361,6 +375,16 @@ function Battle:youWin()
   for i, enemy in ipairs(self.enemyChars) do
 
     if (enemy.hp > 0) then return false end
+  end
+  return true
+
+end
+
+function Battle:youLose()
+
+  for i, hero in ipairs(self.playerChars) do
+
+    if (hero.hp > 0) then return false end
   end
   return true
 
