@@ -167,47 +167,27 @@ end
 function Battle:newTurn()
 
   if self:youWin() then
-    
+
     --self.eventManager:clear()
     self.eventManager:addEvent(EnableInputEvent.new())
     self.eventManager:addEvent(ShowDialogEvent.new('You Win!'))
-    self.eventManager:addEvent(DisableInputEvent.new())
+--    self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(ArbistraryFunctionEvent.new(function() self:endBattle() end, ''))
     return
-    
+
   elseif self:youLose() then
-    
+
     --self.eventManager:clear()
     self.eventManager:addEvent(EnableInputEvent.new())
     self.eventManager:addEvent(ShowDialogEvent.new('Wiped...'))
     self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(QuitGameEvent.new())
     return
-    
-  end
-
-  local prevTurnChar = self:getTurnChar(0)
-
-  if self:isPlayer(prevTurnChar) then
-
-    local moveBackWin = MoveWindowEvent.new(
-      prevTurnChar.userData.statusWin, 
-      prevTurnChar.userData.statusWinInfo.regularX, 
-      prevTurnChar.userData.statusWinInfo.regularY, 
-      10
-    )
-
-    self.eventManager:addEvent(moveBackWin)
 
   end
 
-  self.nextTurnChar = self.nextTurnChar + 1 
-  if self.nextTurnChar > #self.battleChars then
-    self.nextTurnChar = 1
-  end
+  local turnChar = self:getTurnChar()
 
-  local turnChar = self:getTurnChar(0)
-  
   if turnChar.hp <= 0 then
     self.eventManager:addEvent(NewTurnEvent.new())
     return
@@ -256,8 +236,6 @@ end
 
 function Battle:onPlayerTurn(turnChar)
 
-  --local turnChar = self:getTurnChar(0)
-
   if self:isPlayer(turnChar) then
 
     local heroSkills = save.getHeroSkills(turnChar.id)
@@ -279,21 +257,21 @@ function Battle:onPlayerTurn(turnChar)
             local skillMenuItem2 = MenuItem.new(target.name .. ' ' .. target.hp .. '/' .. target.maxHp .. ' HP', 
 
               function() 
-                
+
                 local skillResult = data.skills[skillId].onSelect(turnChar, target)
-                
+
                 local funcEvent1 = ArbistraryFunctionEvent.new(function() data.skills[skillId].onSelect(turnChar, target) end, 'skill - onSelect')
                 local funcEvent2 = ArbistraryFunctionEvent.new(function() singleTargetWin:dismiss() end, 'single target win dismiss')
                 local funcEvent3 = ArbistraryFunctionEvent.new(function() self:newTurn() end, 'newTurn func')
-                
-                
+
+
                 self.eventManager:addEvent(funcEvent1)
                 self.eventManager:addEvent(funcEvent2)
                 self.eventManager:addEvent(ShowDialogEvent.new(skillResult.dialogText))
                 if turnChar.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(turnChar.name .. ' fainted')) end
                 if skillResult.target.hp <= 0 then self.eventManager:addEvent(ShowDialogEvent.new(skillResult.target.name .. ' disappeared')) end
                 self.eventManager:addEvent(funcEvent3)
-                
+
               end
 
             )
@@ -309,27 +287,46 @@ function Battle:onPlayerTurn(turnChar)
 
 end
 
-function Battle:getTurnChar(turnNo)
+function Battle:getTurnChar()
 
-  local index = self.nextTurnChar + turnNo
+  if self.turnList == nil then self.turnList = {} end
 
-  if index > #self.battleChars then
-    index = turnNo
+  if #self.turnList == 0 then
+
+    --copy array
+    for i, char in ipairs(self.battleChars) do
+
+      table.insert(self.turnList, char)
+
+    end
+
+    --sort by speed
+    table.sort(self.turnList, 
+      function(a,b) 
+        if a.spd > b.spd then return true end
+        if a.spd == b.spd then 
+          if self:isPlayer(a) and self:isEnemy(b) then 
+            return true 
+          end
+        end
+        return false
+      end
+    )
   end
 
-
-  return self.battleChars[index]
+  return table.remove(self.turnList, 1)
+  
 end
 
 function Battle:getRandomHeroAlive()
-  
+
   local rando = self.playerChars[math.random(#self.playerChars)]
-  
+
   while rando.hp <= 0 do
-  
+
     rando = self.playerChars[math.random(#self.playerChars)]
   end 
-  
+
   return rando
 end
 
