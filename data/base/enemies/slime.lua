@@ -9,7 +9,8 @@ data.enemies['base.enemies.slime'] = {
 
   return {
     
-    target = randoTarget
+    target = randoTarget,
+    dialogText = enemy.name .. ' attacks ' .. randoTarget.name .. ' ' .. randoTarget.hp .. '/' .. randoTarget.maxHp
     
     }
 

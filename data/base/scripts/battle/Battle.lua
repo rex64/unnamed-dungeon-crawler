@@ -1,10 +1,13 @@
-local BattleConsts      = require('battle.BattleConsts')
-local Dialog            = require('ui.Dialog')
-local DialogWindow      = require('ui.DialogWindow')
-local MenuItem          = require('ui.MenuItem')
-local ChoiceMenu        = require('ui.ChoiceMenu')
-local EnableInputEvent  = require('battle.events.EnableInputEvent')
-local HeroStatusWindow  = require('ui.heroStatusWindow')
+local BattleConsts             = require('battle.BattleConsts')
+local Dialog                   = require('ui.Dialog')
+local DialogWindow             = require('ui.DialogWindow')
+local MenuItem                 = require('ui.MenuItem')
+local ChoiceMenu               = require('ui.ChoiceMenu')
+local EnableInputEvent         = require('battle.events.EnableInputEvent')
+local HeroStatusWindow         = require('ui.heroStatusWindow')
+local ArbistraryFunctionEvent  = require('battle.events.ArbitraryFunctionEvent')
+local ShowDialogEvent          = require('ui.events.ShowDialogEvent')
+
 --************************
 --Battle
 --************************
@@ -203,9 +206,6 @@ function Battle:newTurn()
 
     self.eventManager:addEvent(enableInput)
 
-
-
-
   end
 
 -- se enemy attack
@@ -219,6 +219,9 @@ function Battle:newTurn()
     local newTurn = NewTurnEvent.new()
 
     self.eventManager:addEvent(winVibration)
+    self.eventManager:addEvent(EnableInputEvent.new())
+    self.eventManager:addEvent(ShowDialogEvent.new(res.dialogText))
+    self.eventManager:addEvent(DisableInputEvent.new())
     self.eventManager:addEvent(newTurn)
 
   end
@@ -239,9 +242,9 @@ function Battle:onPlayerTurn(turnChar)
 
     self.commandWindow.choiceMenu:resetMenu()
 
-    for i,v in ipairs(heroSkills) do
+    for i, skillId in ipairs(heroSkills) do
 
-      local skillName = save.getSkillName(v)
+      local skillName = save.getSkillName(skillId)
       local skillMenuItem = MenuItem.new(skillName, 
 
         function() 
@@ -254,9 +257,19 @@ function Battle:onPlayerTurn(turnChar)
             local skillMenuItem2 = MenuItem.new(target.name .. ' ' .. target.hp .. '/' .. target.maxHp .. ' HP', 
 
               function() 
-                data.skills[v].onSelect(turnChar, target)
-                singleTargetWin:dismiss()
-                self:newTurn()
+                
+                local skillResult = data.skills[skillId].onSelect(turnChar, target)
+                
+                local funcEvent1 = ArbistraryFunctionEvent.new(function() data.skills[skillId].onSelect(turnChar, target) end, 'skill - onSelect')
+                local funcEvent2 = ArbistraryFunctionEvent.new(function() singleTargetWin:dismiss() end, 'single target win dismiss')
+                local funcEvent3 = ArbistraryFunctionEvent.new(function() self:newTurn() end, 'newTurn func')
+                
+                
+                self.eventManager:addEvent(funcEvent1)
+                self.eventManager:addEvent(funcEvent2)
+                self.eventManager:addEvent(ShowDialogEvent.new(skillResult.dialogText))
+                self.eventManager:addEvent(funcEvent3)
+                
               end
 
             )

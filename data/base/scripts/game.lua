@@ -2,6 +2,10 @@ local Event           = require('events.Event')
 local CompositeEvent  = require('events.CompositeEvent')
 local EventManager    = require('events.EventManager')
 
+local Process         = require('processes.Process')
+local ProcessManager  = require('processes.ProcessManager')
+
+
 local OpenMainMenuEvent = require('game.events.OpenMainMenuEvent')
 local CloseMenuEvent    = require('game.events.CloseMainMenuEvent')
 
@@ -13,7 +17,7 @@ game = {}
 if(game ~= nil) then
 
   game.eventManager = EventManager.new()
-
+  game.processManager = ProcessManager.new()
 
   game.onInput = function(input)
 
@@ -42,7 +46,7 @@ if(game ~= nil) then
 
   game.update = function(dt)
 
-
+    game.processManager:update(nil, dt)
     ui.update(dt) 
     battle.update(dt) 
     field.update(dt)

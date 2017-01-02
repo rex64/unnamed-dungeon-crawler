@@ -14,6 +14,7 @@ function ShowDialogEvent.new(text)
   self.name = 'ShowDialogEvent'
   self.done = false;
   self.text = text
+  self.dialogWindow = nil 
 
   return self
 end
@@ -21,12 +22,17 @@ end
 function ShowDialogEvent:update(input, dt)
 
   print('event - ShowDialogEvent')
-  self.done = true;
+  --self.done = true;
 
   --print('Dialog :' .. type(Dialog))
 
-  local newWin = DialogWindow.new(0, 80, 31, 7, self.text)
-  ui.addWindow(newWin)
+  if self.dialogWindow == nil then 
+    self.dialogWindow = DialogWindow.new(0, 80, 31, 7, self.text)
+    ui.addWindow(self.dialogWindow)
+  elseif self.dialogWindow:wasDismissed() == true then
+    self.done = true;
+  end  
+  
 end
 
 return ShowDialogEvent

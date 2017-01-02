@@ -4,6 +4,13 @@ data.skills['base.skills.mega_hit'] = {
 
     target.hp = target.hp - 10
     print(turnChar.name .. ' attacks ' .. target.name .. ' hp:' .. target.hp .. '/100') 
+    
+    return {
+      
+      dialogText = 'test dialog'
+      
+      
+      }
 
   end
 

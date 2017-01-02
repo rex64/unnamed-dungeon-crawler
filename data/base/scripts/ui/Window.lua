@@ -18,12 +18,14 @@ function Window.new(x, y, w, h, dismissable)
   self.dismissable = dismissable
   if type(dismissable) ~= "boolean" then self.dismissable = false end
 
+  self.dismissed = false
+
   return self
 end
 
 function Window:onInput(input)
 
-  
+
 end
 
 function Window:update(dt)
@@ -66,11 +68,17 @@ function Window:dismiss()
     table.remove(ui.windows, winIndex)
   end
 
+  self.dismissed = true
+
 end
 
 
 function Window:isDismissable()
   return self.dismissable
+end
+
+function Window:wasDismissed()
+  return self.dismissed
 end
 
 function Window:setDismissable(dis)
