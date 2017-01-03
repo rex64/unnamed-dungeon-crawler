@@ -19,6 +19,7 @@ function Battle.new()
   local newBattle = {}
   setmetatable(newBattle, Battle)
 
+  newBattle.exp = 0
   newBattle.eventManager = EventManager.new()
 
   newBattle.commandWindow = nil

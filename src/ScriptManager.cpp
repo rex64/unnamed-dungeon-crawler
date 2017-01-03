@@ -114,7 +114,15 @@ void ScriptManager::init() {
 	registerFunction("save", "getPartyMemberEquip", Save_getPartyMemberEquip);
 	registerFunction("save", "getEquipName",		Save_getEquipName);
 	registerFunction("save", "getSkillName",		Save_getSkillName);
-	registerFunction("save", "partyMemberCurrentTotalExp",		Save_partyMemberCurrentTotalExp);
+	registerFunction("save", "partyMemberCurrentTotalExp", Save_getPartyMemberExp); //TODO: da cambiare il nome della funzione in lua
+
+	registerFunction("save", "getPartyMemberHp",	Save_getPartyMemberHp);
+	registerFunction("save", "setPartyMemberHp",	Save_setPartyMemberHp);
+	
+	registerFunction("save", "getPartyMemberExp",	Save_getPartyMemberExp);
+	registerFunction("save", "setPartyMemberExp",	Save_setPartyMemberExp);
+
+	registerFunction("save", "getPartyMemberLevel", Save_getPartyMemberLevel);
 
 	registerFunction("save", "addHero",				Save_addHero);
 	registerFunction("save", "heroEquip",			Save_heroEquip);
@@ -131,7 +139,6 @@ void ScriptManager::init() {
 	registerFunction("engine", "renderTile",		Render_renderTile);
 	registerFunction("engine", "renderSprite",		Render_renderSprite);
 	registerFunction("engine", "getEntitySpriteId",	Resource_getEntitySpriteId);
-
 
 	//Load libs
 	//luaL_requiref(m_L, "Window", &luaopen_Windowlib, 1);

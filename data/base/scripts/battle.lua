@@ -53,7 +53,9 @@ if battle ~= nil then
 
     ui.windows = {}
 
-    if battle.currentBattle.onBattleWon ~= nil then battle.currentBattle.onBattleWon() end
+    if battle.currentBattle.onBattleWon ~= nil then 
+      battle.currentBattle.onBattleWon(battle.currentBattle) 
+    end
 
     battle.currentBattle = nil
 

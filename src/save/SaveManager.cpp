@@ -214,16 +214,6 @@ int Save_getPartyMemberStats(lua_State *L) {
 	return 1;
 }
 
-int Save_partyMemberCurrentTotalExp(lua_State *L) {
-
-	std::string id = lua_tostring(L, 1);
-	HeroSave *heroSave = SaveManager::manager->heroMap[id];
-	
-	lua_pushinteger(L, heroSave->exp);
-
-	return 1;
-}
-
 int Save_getExpToLevel(lua_State *L) {
 
 	int level = lua_tointeger(L, 1);
@@ -546,3 +536,60 @@ int Save_swapEquip(lua_State *L) {
 
 }
 
+int Save_getPartyMemberHp(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	lua_pushinteger(L, heroSave->currentHp);
+
+	return 1;
+}
+
+int Save_setPartyMemberHp(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	int currentHp = lua_tointeger(L, 2);
+
+	//HeroData *heroData = ResourceManager::manager->getHeroData(id);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	heroSave->currentHp = currentHp;
+
+	return 0;
+}
+
+int Save_getPartyMemberExp(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	lua_pushinteger(L, heroSave->exp);
+
+	return 1;
+}
+
+int Save_setPartyMemberExp(lua_State *L) {
+
+	std::string id	= lua_tostring(L, 1);
+	int exp	= lua_tointeger(L, 2);
+
+	//HeroData *heroData = ResourceManager::manager->getHeroData(id);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	heroSave->exp = exp;
+
+	return 0;
+}
+
+int Save_getPartyMemberLevel(lua_State *L) {
+
+	std::string id = lua_tostring(L, 1);
+	HeroSave *heroSave = SaveManager::manager->heroMap[id];
+
+	unsigned int level = heroSave->getLevel(heroSave->exp);
+
+	lua_pushinteger(L, level);
+
+	return 1;
+}
