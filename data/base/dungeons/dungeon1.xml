@@ -1,5 +1,5 @@
 <dungeon>
-	<name>Dungeon1</name>
+	<name>My First Dungeon</name>
 	<file>dungeon1.lua</file>
 	<description>desc</description>
 	<difficulties>

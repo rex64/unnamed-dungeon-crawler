@@ -4,14 +4,9 @@ data.entities[RESOURCE_ID] = {
 
     print("enemy - onInteractZ")
 
-    local Battle     = require('battle.Battle')
-    local BattleChar = require('battle.BattleChar')
-
-    local newBattle = Battle.new()
-
-    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
-    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
-    newBattle:addEnemyChar(BattleChar.newEnemyFromId('base.enemies.slime'))
+    local encounterId = entity:getValue('base.encounterId') 
+    print(encounterId)
+    local newBattle = data.encounters[encounterId].onEncounter()
     
     newBattle.onBattleWon = function() 
 

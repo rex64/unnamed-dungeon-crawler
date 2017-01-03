@@ -94,6 +94,7 @@ void ScriptManager::init() {
 	registerEmptyObject("data", "dungeons");
 	registerEmptyObject("data", "skills");
 	registerEmptyObject("data", "enemies");
+	registerEmptyObject("data", "encounters");
 
 	//save - getCurrentPartySize
 	lua_getglobal(m_L, "data");

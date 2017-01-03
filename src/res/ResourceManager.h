@@ -126,8 +126,6 @@ struct EnemyData {
 	int lck;
 };
 
-
-
 class ResourceManager
 {
 public:
@@ -169,10 +167,8 @@ public:
 	void loadEnemies(std::string basePath);
 	void loadSpritesheets(std::string basePath);
 	void loadTiles(std::string basePath);
-
-
-
-
+	void loadEncounters(std::string basePath);
+	
 	static ResourceManager *manager;	
 
 	std::unordered_map<std::string, EntityData*> entityDatas;

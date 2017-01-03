@@ -771,6 +771,45 @@ void ResourceManager::loadTiles(std::string basePath) {
 
 }
 
+void ResourceManager::loadEncounters(std::string basePath) {
+
+	const char *dataPath = basePath.append("encounters/").c_str();
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, dataPath);
+
+	for (i = 0; i < dir.n_files; i++) {
+
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		if (strcmp(file.extension, "xml") == 0) {
+
+			tinyxml2::XMLDocument doc;
+			doc.LoadFile(file.path);
+
+			if (doc.FirstChildElement("encounter")) {
+
+				std::string resId = resIdFromPath(file.path);
+				std::string filePath = removeFilenameFromPath(file.name, file.path);
+
+				const char* name = doc.FirstChildElement("encounter")->FirstChildElement("name")->GetText();
+				const char* file = doc.FirstChildElement("encounter")->FirstChildElement("file")->GetText();
+
+				ScriptManager::manager->injectResourceIdGlobal(resId);
+				ScriptManager::manager->doFile(filePath.append(file).c_str());
+				ScriptManager::manager->removeResourceIdGlobal();
+			}
+			else {
+				Game::game->showMsgBox("unrecognized xml");
+				Game::game->showMsgBox(file.path);
+
+			}
+		}
+	}
+
+}
+
 void ResourceManager::loadDataFolder() {
 
 	std::string basePath(SDL_GetBasePath());
@@ -792,6 +831,7 @@ void ResourceManager::loadDataFolder() {
 	loadEnemies(basePath);
 	loadSpritesheets(basePath);
 	loadTiles(basePath);
+	loadEncounters(basePath);
 
 }
 
