@@ -16,10 +16,21 @@ game = {}
 
 if(game ~= nil) then
 
+  game.paused = false
+
   game.eventManager = EventManager.new()
   game.processManager = ProcessManager.new()
 
+
   game.onInput = function(input)
+
+    if input.pause == true then   
+      game.paused = not game.paused
+    end
+    
+    if game.paused then   
+      return;
+    end
 
     if input.menu == true then
       if ui.isMainMenuOpen() ~= true then
@@ -46,6 +57,10 @@ if(game ~= nil) then
 
   game.update = function(dt)
 
+    if game.paused then   
+      return;
+    end
+
     game.processManager:update(nil, dt)
     ui.update(dt) 
     battle.update(dt) 
@@ -55,10 +70,15 @@ if(game ~= nil) then
   end
 
   game.render = function()
+
     field.render()
     battle.render()
     ui.render()
 
+    if game.paused then
+      engine.renderWindow(0, 0, 8, 3)
+      engine.renderTextLine('PAUSE', 16, 16);
+    end
     --engine.renderTextLine('11110123456789abcdefghijklmnopqrstuvwxyz', 0, 0);
   end
 

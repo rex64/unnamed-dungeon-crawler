@@ -32,6 +32,8 @@ struct Buttons {
 	bool cancel;
 
 	bool menu;
+	bool pause;
+
 };
 
 class Game

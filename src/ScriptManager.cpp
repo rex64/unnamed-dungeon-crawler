@@ -252,12 +252,17 @@ void ScriptManager::onInputGame(Buttons input, Buttons prevFrameInput) {
 
 	//CANCEL
 	lua_pushstring(m_L, "cancel");
-	lua_pushboolean(m_L, input.cancel);
+	lua_pushboolean(m_L, prevFrameInput.cancel == false && input.cancel == true ? true : false);
 	lua_settable(m_L, -3);
 
 	//MENU
 	lua_pushstring(m_L, "menu");
-	lua_pushboolean(m_L, input.menu);
+	lua_pushboolean(m_L, prevFrameInput.menu == false && input.menu == true ? true : false);
+	lua_settable(m_L, -3);
+
+	//PAUSE
+	lua_pushstring(m_L, "pause");
+	lua_pushboolean(m_L, prevFrameInput.pause == false && input.pause == true ? true : false);
 	lua_settable(m_L, -3);
 
 	if (lua_pcall(m_L, 1, 0, 0) != 0) {

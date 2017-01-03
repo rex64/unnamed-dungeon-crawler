@@ -73,9 +73,6 @@ void Game::init() {
 	StageManager *stageManager = new StageManager();
 	stageManager->init();
 
-	/*InputManager *inputManger = new InputManager();
-	inputManger->init();*/
-
 	RenderManager *renderManager = new RenderManager();
 	renderManager->init();
 
@@ -86,16 +83,6 @@ void Game::init() {
 	saveManager->init();
 
 	resManager->loadDataFolder();
-
-	/*inputManger->registerInput(menuManager);
-	inputManger->registerInput(console);
-	inputManger->registerInput(stageManager);
-	inputManger->registerInput(stageManager);
-	inputManger->registerInput(scriptManager);*/
-
-	//Register input handlers
-
-	//Register renderer
 
 	inputEnabled = true;
 }
@@ -132,44 +119,8 @@ void Game::run() {
 
 	ScriptManager::manager->runMain();
 
-	//fake setup -------- start
-	/*StageManager::manager->currStage = new Stage();
-	StageManager::manager->currStage->load("base.dungeons.dungeon1", 0);*/
-
-	/*Equip *sword = new Equip();
-	sword->addSkill("base.skills.skilltest1");
-	sword->addSkill("base.skills.sword_attack");
-	Hero *tank = new Hero("base.heroes.tank");
-	tank->addEquip(sword);
-
-	Equip *staff = new Equip();
-	staff->addSkill("base.skills.skilltest1");
-	staff->addSkill("base.skills.magic_blast");
-	Hero *heals = new Hero("base.heroes.heals");
-	heals->addEquip(staff);
-
-	Equip *knife = new Equip();
-	knife->addSkill("base.skills.skilltest1");
-	knife->addSkill("base.skills.mega_hit");
-	Hero *melee = new Hero("base.heroes.melee");
-	melee->addEquip(sword);
-
-	Equip *bow = new Equip();
-	bow->addSkill("base.skills.skilltest1");
-	bow->addSkill("base.skills.magic_arrow");
-	Hero *ranged = new Hero("base.heroes.ranged");
-	ranged->addEquip(bow);
-
-	DataManager::manager->manager->addHero(tank);
-	DataManager::manager->manager->addHero(heals);
-	DataManager::manager->manager->addHero(melee);
-	DataManager::manager->manager->addHero(ranged);*/
-
-	//fake setup -------- end
-
 	SDL_AddTimer(260, my_callbackfunc, 0);
 
-	//MenuManager::manager->addSelectWindow();
 	Buttons b_lastFrame = { false };
 
 	SDL_Scancode UP		= SDL_SCANCODE_UP;
@@ -179,6 +130,7 @@ void Game::run() {
 	SDL_Scancode OK		= SDL_SCANCODE_X;
 	SDL_Scancode CANCEL = SDL_SCANCODE_Z;
 	SDL_Scancode MENU	= SDL_SCANCODE_TAB;
+	SDL_Scancode PAUSE  = SDL_SCANCODE_RETURN;
 
 	while (!m_bQuit)
 	{
@@ -192,6 +144,7 @@ void Game::run() {
 		buttons.ok = state[OK];
 		buttons.cancel = state[CANCEL];
 		buttons.menu = state[MENU];
+		buttons.pause = state[PAUSE];
 
 		while (SDL_PollEvent(&e) != 0)
 		{
@@ -206,10 +159,10 @@ void Game::run() {
 			buttons.ok = state[OK];
 			buttons.cancel = state[CANCEL];
 			buttons.menu = state[MENU];
+			buttons.pause = state[PAUSE];
 
 			if (e.type == SDL_KEYDOWN) {
 
-				
 				if (inputEnabled) {
 					ScriptManager::manager->onInputGame(buttons, b_lastFrame);
 				}
@@ -241,8 +194,6 @@ void Game::run() {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Quitting..");
 
 	ScriptManager::manager->onQuit();
-
-
 
 	//SDL_FreeSurface(testSurface);
 	SDL_DestroyWindow(window);
