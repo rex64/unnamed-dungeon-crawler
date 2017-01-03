@@ -196,14 +196,15 @@ void RenderManager::renderWindow(SDL_Rect rect) {
 
 }
 
-void RenderManager::renderTextLine(std::string str, int x, int y, bool inverted) {
+void RenderManager::renderTextLine(std::string str, int x, int y, bool inverted, int border) {
 
 	renderTextLine1(
 		str, 
 		x, y, 
 		ResourceManager::manager->getFont("base.fonts.standard_font"), 
 		RenderManager::manager->uiSurface, 
-		inverted
+		inverted,
+		border
 	);
 
 }
@@ -266,10 +267,47 @@ void RenderManager::render()
 	SDL_RenderPresent(renderer);
 }
 
-void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted) {
+void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted, int border) {
 
-	int i = 0;
+	int char_count = 0;
+	int length = 0;
+
+	for (char& c : str) {
+	
+		CharData *charData = fontData->chars[std::string(1, c)];
+
+		if (charData == nullptr) {
+			Game::game->showMsgBox((std::string("character not found: ") + c).c_str());
+			throw std::exception(":(");
+		}
+
+
+		length = length + charData->width + 1;
+	
+		
+	}
+
+	int border_x = x;
+	int border_y = y;
+	int border_w = length - 1;
+	int border_h = 5;
+
+
+	if (border >= 1) {
+		border_x = border_x - 1;
+		border_y = border_y - 1;
+
+		border_w = border_w + 2;
+		border_h = border_h + 2;
+	}
+
+	SDL_Rect rect = { border_x, border_y, border_w, border_h };
+
+	SDL_FillRect(surf, &rect, SDL_MapRGB(surf->format, 246, 245, 149));
+
+	//int i = 0;
 	int cursor = 0;
+
 	for (char& c : str) {
 
 		CharData *charData = fontData->chars[std::string(1, c)];
@@ -287,9 +325,12 @@ void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surf
 
 		cursor = cursor + charData->width + 1;
 
+		/*colors[4].r = (Uint8)15;
+		colors[4].g = (Uint8)56;
+		colors[4].b = (Uint8)15;*/
 		
 		SDL_BlitSurface(charSurf, &src, surf, &dst);
-		++i;
+		//++i;
 	}
 }
 

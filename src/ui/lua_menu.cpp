@@ -64,9 +64,12 @@ int Menu_renderTextLine(lua_State *L) {
 	int x = lua_tointeger(L, 2);
 	int y = lua_tointeger(L, 3);
 	bool inverted = false;
+	int border = 0;
 	if (lua_isboolean(L, 4)) inverted = lua_toboolean(L, 4);
+	if (lua_isinteger(L, 5)) border = lua_tointeger(L, 5);
 
-	RenderManager::manager->renderTextLine(text, x, y, inverted);
+
+	RenderManager::manager->renderTextLine(text, x, y, inverted, border);
 
 	return 0;
 }

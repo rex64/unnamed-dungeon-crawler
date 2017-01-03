@@ -9,6 +9,7 @@ local ProcessManager  = require('processes.ProcessManager')
 local OpenMainMenuEvent = require('game.events.OpenMainMenuEvent')
 local CloseMenuEvent    = require('game.events.CloseMainMenuEvent')
 
+local MessageLog        = require('game.MessageLog')
 
 --GAME stuff
 
@@ -21,13 +22,14 @@ if(game ~= nil) then
   game.eventManager = EventManager.new()
   game.processManager = ProcessManager.new()
 
+  game.messageLog = MessageLog.new()
 
   game.onInput = function(input)
 
     if input.pause == true then   
       game.paused = not game.paused
     end
-    
+
     if game.paused then   
       return;
     end
@@ -65,6 +67,8 @@ if(game ~= nil) then
     ui.update(dt) 
     battle.update(dt) 
     field.update(dt)
+    game.messageLog:update(dt)
+
     game.eventManager:update(nil, dt)
 
   end
@@ -72,6 +76,7 @@ if(game ~= nil) then
   game.render = function()
 
     field.render()
+    game.messageLog:render()
     battle.render()
     ui.render()
 

@@ -46,7 +46,7 @@ public:
 	SDL_Surface* convertRGBtoIndexed(std::string, SDL_Surface*);
 	void render();
 	void renderWindow(SDL_Rect rect);
-	void renderTextLine(std::string str, int x, int y, bool inverted);
+	void renderTextLine(std::string str, int x, int y, bool inverted, int border);
 	void renderSprite(std::string str, int x, int y);
 	static RenderManager *manager;
 
@@ -58,7 +58,7 @@ public:
 
 extern "C" {
 	
-	void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted);
+	void renderTextLine1(std::string str, int x, int y, FontData* fontData, SDL_Surface* surf, bool inverted, int border);
 
 	int Render_renderTile(lua_State *L);
 	int Render_renderSpriteSheet(lua_State *L);
