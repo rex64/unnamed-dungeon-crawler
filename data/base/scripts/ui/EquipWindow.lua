@@ -25,8 +25,17 @@ end
 
 function EquipWindow:onInput(input)
 
+  if self.pickerChoiceMenu ~= nil then
+    self.pickerChoiceMenu:onInput(input)
+    return
+  end
 
-  if input.right == true and self.pickerChoiceMenu == nil then
+  if input.up or input.down or input.ok then
+    self.equipsChoiceMenu:onInput(input)
+    return
+  end
+
+  if input.right == true then
 
     self.currHeroIndex = self.currHeroIndex + 1
 
@@ -34,7 +43,7 @@ function EquipWindow:onInput(input)
 
     self:setHero(self.currHeroIndex)
 
-  elseif input.left == true and self.pickerChoiceMenu == nil then
+  elseif input.left == true then
 
     self.currHeroIndex = self.currHeroIndex - 1
 
@@ -42,16 +51,11 @@ function EquipWindow:onInput(input)
 
     self:setHero(self.currHeroIndex)
 
-  else
-
-    if self.pickerChoiceMenu ~= nil then
-      self.pickerChoiceMenu:onInput(input)
-    else
-      self.equipsChoiceMenu:onInput(input)
-    end
-
   end
 
+  if input.cancel then
+    self:dismiss()
+  end
 
 end
 

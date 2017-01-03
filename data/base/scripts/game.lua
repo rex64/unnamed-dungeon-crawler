@@ -35,8 +35,8 @@ if(game ~= nil) then
     if input.menu == true then
       if ui.isMainMenuOpen() ~= true then
         game.eventManager:addEvent(OpenMainMenuEvent.new())
-      else
-        game.eventManager:addEvent(CloseMainMenuEvent.new())
+--      else
+--        game.eventManager:addEvent(CloseMainMenuEvent.new())
 
       end
 

@@ -15,35 +15,9 @@ function StatusWindow.new(x, y, w, h)
   self = setmetatable(self, StatusWindow)
 
   self.name = 'StatusWindow'
-
-  --[[
-  --HERO NAME & LEVEL
-  self.heroName = '-1'
-  self.heroLevel = '-1'
-  
-  --HERO STATS
-  self.heroHp = '-1'
-  self.heroMp = '-1'
-  self.heroAtk = '-1'
-  self.heroDef = '-1'
-  self.heroMatk = '-1'
-  self.heroMdef = '-1'
-  self.heroMnd = '-1'
-  self.heroSpd = '-1'
-  self.heroLck = '-1'
-  
-  --HERO SKILLS
-  self.heroEquips = {
-    weapon    = '-1',
-    head      = '-1',
-    body      = '-1',
-    accessory = '-1',
-  }
-  ]]--
-  --self.heroSkills = {}
-
   self.currHeroIndex = 1
   self:setHero(self.currHeroIndex)
+  --self:setDismissable(true)
 
   return self
 end
@@ -52,24 +26,30 @@ function StatusWindow:onInput(input)
 
 
   if input.right == true then
-  
+
     self.currHeroIndex = self.currHeroIndex + 1
-    
+
     if self.currHeroIndex > 4 then self.currHeroIndex = 1 end
-    
+
     self:setHero(self.currHeroIndex)
-  
+
   elseif input.left == true then
-  
+
     self.currHeroIndex = self.currHeroIndex - 1
-    
+
     if self.currHeroIndex < 1 then self.currHeroIndex = 4 end
-    
+
     self:setHero(self.currHeroIndex)
-  
+
+  elseif input.cancel == true then
+    self:dismiss()
+
+
   end
-  
-  
+
+
+
+
 end
 
 function StatusWindow:render()
