@@ -259,3 +259,4 @@ lua/
 external/tinydir.h
 external/tinyxml2.cpp
 external/tinyxml2.h
+cloc.xml

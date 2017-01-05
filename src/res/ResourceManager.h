@@ -16,115 +16,16 @@ extern "C" {
 
 struct SDL_Surface;
 
-struct FieldEntityData {
-
-	std::string spritesheet;
-};
-
-struct EntityData {
-	std::string id;
-	std::string fileName;
-	std::string name;
-	FieldEntityData *data;
-};
-
-struct DungeonData {
-	std::string id;
-	std::string fileName;
-	std::string name;
-};
-
-struct CharData {
-
-	std::string charz;
-	std::string fileName;
-	int width;
-	SDL_Surface *surfNormal;
-	SDL_Surface *surfInverted;
-
-};
-
-struct FontData {
-	std::string id;
-	std::string fileName;
-	std::string filePath;
-	std::string name;
-	
-	int height;
-
-	int hSpacing;
-	int vSpacing;
-
-	std::unordered_map<std::string, CharData*> chars;
-};
-
-struct Stats {
-	int levelNo;
-	int hp;
-	int mp;
-	int atk;
-	int def;
-	int matk;
-	int mdef;
-	int mnd;
-	int spd;
-	int lck;
-};
-
-struct HeroData {
-	std::string id;
-	std::string fileName;
-	std::string filePath;
-	std::string name;
-
-	std::vector<std::string> skillsIds;
-	std::vector<Stats> stats;
-};
-
-enum EquipType{
-
-	WEAPON = 0, 
-	HEAD,
-	BODY,
-	ACCESSORY
-
-};
-
-struct EquipData {
-
-	std::string id;
-	std::string fileName;
-	std::string filePath;
-	std::string name;
-	EquipType type;
-
-	std::vector<std::string> skillsIds;
-};
-
-struct SkillData {
-	std::string id;
-	std::string fileName;
-	std::string filePath;
-	std::string name;
-	std::string script;
-};
-
-struct EnemyData {
-	std::string id;
-	std::string fileName;
-	std::string filePath;
-	std::string name;
-	std::string script;
-	int level;
-	int hp;
-	int atk;
-	int def;
-	int matk;
-	int mdef;
-	int mnd;
-	int spd;
-	int lck;
-};
+#include "FieldEntityData.h"
+#include "EntityData.h"
+#include "DungeonData.h"
+#include "CharData.h"
+#include "FontData.h"
+#include "Stats.h"
+#include "HeroData.h"
+#include "EquipData.h"
+#include "SkillData.h"
+#include "EnemyData.h"
 
 class ResourceManager
 {
@@ -135,13 +36,10 @@ public:
 	void init();
 
 	void loadDataFolder();
-	//void walk(std::string);
 
 	void loadSprite(std::string resId, std::string filePath, bool);
-	/*void loadTile(std::string f);
-	void loadFont(std::string f);
-	void loadBorder(std::string f);*/
 
+	EntityData* getEntityData(std::string id);
 	SDL_Surface* getSprite(std::string id);
 	SDL_Surface* getTile(std::string id);
 	FontData* getFont(std::string id);
@@ -150,9 +48,6 @@ public:
 	EquipData* getEquipData(std::string id);
 	SkillData* getSkillData(std::string id);
 	EnemyData* getEnemyData(std::string id);
-
-	std::string resIdFromPath(std::string path);
-	std::string removeFilenameFromPath(std::string filename, std::string path);
 	
 	void loadBorders(std::string basePath);
 	void loadDungeons(std::string basePath);
@@ -169,7 +64,9 @@ public:
 	void loadTiles(std::string basePath);
 	void loadEncounters(std::string basePath);
 	
-	static ResourceManager *manager;	
+	static ResourceManager *manager;
+
+private:
 
 	std::unordered_map<std::string, EntityData*> entityDatas;
 	std::unordered_map<std::string, DungeonData*> dungeonDatas;
@@ -179,10 +76,9 @@ public:
 	std::unordered_map<std::string, SkillData*> skillDatas;
 	std::unordered_map<std::string, EnemyData*> enemyDatas;
 
-private:
-
 	std::unordered_map<std::string, SDL_Surface*> spritesheets;
-	
+	std::string resIdFromPath(std::string path);
+	std::string removeFilenameFromPath(std::string filename, std::string path);
 
 	SDL_Surface* spriteDefault;
 	SDL_Surface* tileDefault;

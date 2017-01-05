@@ -1,8 +1,3 @@
-#include "SaveManager.h"
-#include "../Game.h"
-#include "../stage/StageManager.h"
-#include "../ui/lua_menu.h"
-
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
 #elif _WIN32
@@ -10,6 +5,12 @@
 #endif
 
 #include "../stage/Stage.h"
+#include "../Game.h"
+#include "../stage/StageManager.h"
+#include "../ui/lua_menu.h"
+#include "../res/ResourceManager.h"
+
+#include "SaveManager.h"
 
 SaveManager* SaveManager::manager;
 

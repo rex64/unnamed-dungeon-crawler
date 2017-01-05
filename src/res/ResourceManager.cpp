@@ -80,6 +80,10 @@ void ResourceManager::loadSprite(std::string resId, std::string filePath, bool c
 
 }
 
+EntityData* ResourceManager::getEntityData(std::string id) {
+	return entityDatas[id];
+}
+
 SDL_Surface* ResourceManager::getSprite(std::string id) { 
 	
 	SDL_Surface* ret = spritesheets[id];
@@ -839,7 +843,7 @@ int Resource_getEntitySpriteId(lua_State *L) {
 
 	std::string entityID = lua_tostring(L, 1);
 	
-	std::string spriteID = ResourceManager::manager->entityDatas[entityID]->data->spritesheet;
+	std::string spriteID = ResourceManager::manager->getEntityData(entityID)->data->spritesheet;
 
 	lua_pushstring(L, spriteID.c_str());
 

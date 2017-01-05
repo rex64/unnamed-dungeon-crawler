@@ -14,6 +14,16 @@ set( project_sources
    src/stage/Stage.cpp
    src/res/ResourceManager.h
    src/res/ResourceManager.cpp
+   src/res/CharData.h
+   src/res/DungeonData.h
+   src/res/EnemyData.h
+   src/res/EntityData.h
+   src/res/EquipData.h
+   src/res/FieldEntityData.h
+   src/res/FontData.h
+   src/res/HeroData.h
+   src/res/SkillData.h
+   src/res/Stats.h
    src/res/default_sprite.c
    src/Console.h
    src/Console.cpp
